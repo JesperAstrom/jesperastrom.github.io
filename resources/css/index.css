@@ -1,0 +1,62 @@
+*{
+    font-family: Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Fonts & Sizing Start */
+body {
+    font-size: 14px;
+    line-height: 1.8em;
+    color: #333;
+ }
+
+.montserrat {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: thin;
+    font-style: normal;
+}
+
+h1{
+    font-size: 2.4rem;
+}
+
+h2{
+    font-size: 1.8rem;
+}
+
+h3{
+    font-size: 1.2rem;
+    font-family: "Montserrat", Arial;
+    font-weight: normal;
+}
+
+/* Fonts & Sizing End */
+
+/* Navigation Start */
+nav {
+    width: 100%;
+}
+
+nav ul {
+    margin: 0 0;
+    padding: 0 0;
+    display: flex;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 auto;
+    width: 140px;
+    border: 1px solid #333;
+    font-size: 10px;
+    text-align: center;
+}
+/* Navigation End */
+
+/* Links & Buttons Start */
+a{
+    text-decoration: none;
+    color: #FF9900;
+}
+/* Links & Buttons End */
