@@ -40,8 +40,10 @@
             <!--Hero Section End-->
             <!--Who is Section Start-->
                 <section class="content">
-                    <h3>What is the dataLayer?</h3>
+                    <h2>What is the dataLayer?</h2>
                     <p>The dataLayer is another word for "a place to record and store things people do on your website".</p>
+                    <h3>Sample of what it looks like when accessed through the browser</h3>
+                    <img src="../resources/images/lyko-datalayer.png" />
                     <p>These things are stored in the dataLayer that exist in your browser before collected and sent to places like analytics, facebook or elsewhere.</p>
                     <h3>Why the chunky L?</h3>
                     <p>
@@ -52,7 +54,7 @@
                             <li>addEventListener</li>
                         </ul>
                     </p>
-                    <h3>Events = everything people do</h3>
+                    <h2>Events = everything people do</h2>
                     <p>Everything users do on your website are registered as events.</p>
                     <p>Imagine the user landing on your website. This generates a page_view event. They click a button which generates a click event. They add a product to their cart which activates the add_to_cart event.</p>
                     <p>IF and only IF you have added code to your website that tells it to register those events.</p>
@@ -64,65 +66,9 @@
                     <p>If you use Google Tag Manager (or similar alternatives), they make it really easy to add these kinds of tags.</p>
                     <p>In fact, the dataLayer is a brain-child of the people at Google and something that GTM standardised. Which is nice.</p>
                     <p>Just remember that it is one place to store things in the browser. But there are several other I'm going to go through on this site.</p>
-                    <h3>The event object</h3>
-                    <p>Every event contains information about the action or the user.</p>
-                    <p>This group of information is called an "event object".</p>
-                    <p>An event object explain characteristics (properties) about the event in something "key value pairs". It is called "key value pairs" because they are a pair of a "key" and a "value".</p>
-                    <p>An event can have several characteristics - key value pairs - properties - to describe it and so you can add more of them and separate them with a comma.</p>
-                    <h3>Sample event object</h3>
-                    <pre><code class="language-javascript">
-// Page View Event Object
-{
-event: "page_view",
-timestamp: "2025-03-16T10:15:30.123Z",
-page: {
-    url: "https://example.com/page",
-    title: "Example Page",
-    referrer: "https://google.com/search",
-    path: "/page"
-},
-user_data: {
-    id: "user_123",
-    anonymous_id: "anon_456"
-},
-session_id: "sess_789",
-device: {
-    type: "desktop",
-    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
-}
-}
-
-// Click Event Object
-{
-event: "click", //You see the key "event" then the value "click" then a comma
-timestamp: "2025-03-16T10:15:45.678Z", //key = "timestamp" and value = ""2025-03-16T10:15:45.678Z"" then a comma
-element: { // here you se value that in itself is an object
-    id: "submit-btn", // key value pair within the element object
-    class: "btn btn-primary",
-    text: "Submit",
-    tag: "button",
-    path: "html > body > div.container > form > button"
-},
-page: {
-    url: "https://example.com/page",
-    title: "Example Page",
-    path: "/page"
-},
-user_data: {
-    id: "user_123",
-    anonymous_id: "anon_456"
-},
-session_id: "sess_789",
-device: {
-    type: "desktop",
-    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
-}
-}
-                    </code></pre>
-                    <p>The value of a key does not have to be a fixed value. It can actually be many different things such as a <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Variables">variable</a>, another <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>, an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a> and even a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a>. For those of you having edited characters in Minecraft the last things should be familiar.</p>
-                    <h3>next</h3>
+                    <h3>What to read next</h3>
                     <p>
-                    
+                        <ul><li><a href="event-object.html">Event object</a></li></ul>
                     </p>
                 </section>
             <!--Who is Section End-->
