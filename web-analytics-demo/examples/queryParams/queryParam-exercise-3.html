@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <!--CSS Instructions-->
+        <link href="https://jesperastrom.github.io/resources/css/index.css" type="text/css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <title>Exercise 3: Form with Query Parameters</title>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -34,8 +40,18 @@
     </script>
 </head>
 <body>
+    <header>
+        <nav>
+            <!--Breadcrumbs Start-->
+            <ul class="breadcrumb">
+                <li><a href="https://jesperastrom.github.io/">Home</a></li>
+                <li><a href="https://jesperastrom.github.io/web-analytics-demo/">Web Analytics Demo</a></li>
+                <li><a href="https://jesperastrom.github.io/web-analytics-demo/examples/">Examples</a></li>
+            </ul>
+            <!--Breadcrumbs End-->
+        </nav>
+    </header>
     <h1 id="campaign-heading">Campaign Landing Page</h1>
-    
     <form id="source-form">
         <label for="source-input">Enter campaign source:</label>
         <input type="text" id="source-input" placeholder="e.g., email, social, ads">
