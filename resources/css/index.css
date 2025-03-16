@@ -85,4 +85,9 @@ a{
 main {
     margin: 0px 10%;
 }
-/* Links & Buttons End */
+/* Section Styles start */
+.content {
+    max-width: 600px;
+}
+
+/* Section Styles end */
