@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--CSS Instructions-->
+    <link href="../resources/css/index.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!--Search Engine Meta Data-->
+    <title>Access the dataLayer - useful examples</title>
+    <meta name="description" content="Useful article about how to find the dataLayer.">
+
+    <!--Code box styles-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+</head>
+    <body>
+        <header>
+            <nav>
+                <!--Breadcrumbs Start-->
+                <ul class="breadcrumb">
+                    <li><a href="https://jesperastrom.github.io/">Home</a></li>
+                    <li><a href="https://jesperastrom.github.io/datalayer/">dataLayer</a></li>
+                    <li><a href="https://jesperastrom.github.io/datalayer/access-datalayer.html">Access the dataLayer</a></li>
+                </ul>
+                <!--Breadcrumbs End-->
+            </nav>
+        </header>
+        <main>
+            <!--Hero Section Start-->
+                <section id="top">
+                    <h1>Access the dataLayer</h1>
+                    <h2></h2>
+                    <p></p>
+                </section>
+            <!--Hero Section End-->
+            <!--Who is Section Start-->
+                <section class="content">
+                    <p>As mentioned, the dataLayer exist in your browser. This means that every website that you visit that makes use of the dataLayer stores information, temporarily, in your browser.</p>
+                    <h2>How to access the dataLayer</h2>
+                    <p>The easiest way to see what a website stores in the dataLayer is to use Chrome browser.</p>
+                    <p>Chrome has a feature called Developer Tools. You can find them by:
+                        <ol>
+                            <li>Open a Chrome browser</li>
+                            <li>In the top navigation - click View</li>
+                            <li>In the bottom of the menu you should have Developer - hover that option</li>
+                            <li>Select JavaScript Console</li>
+                            <li>Your window will split and you will see a panel</li>
+                        </ol>
+                    </p>
+                    <h3>If you have never done this before it likely opens in the bottom of the screen</h3>
+                    <img src="../resources/images/bottom-console.png" alt="Image of the console in the bottom of the browser window" />
+                    <h3>I have mine on the right side</h3>
+                    <img src="../resources/images/right-hand-console.png" alt="Image of the console in the right hand side of the browser window" />
+                    <p>You can change the location of the console window by clicking those three little vertical dots in the Developer Tools window.</p>
+                    <img src="../resources/images/change-placement-of-console.png" alt="Change location of your console" />
+                    <h2>Show contents of dataLayer</h2>
+                    <p>If there has been some code that push events to the dataLayer you will be able to see these events by:
+                        <ol>
+                            <li>Make sure that Console is the selected tab</li>
+                            <li>Other tabs are Elements, Network, Sources, Performance, Memory, Applications etc.</li>
+                            <li>Click in the window of the Console</li>
+                            <li>Now type "dataLayer" (without the "")</li>
+                            <li>Press enter</li>
+                            <li>If any events exist on the page they should show up</li>
+                        </ol>
+                    </p>
+                    <h3>dataLayer does not exist</h3>
+                    <p>If the dataLayer doesn't exist or if there are no events pushed to the dataLayer it will look something like this once you've hit enter.</p>
+                    <img src="../resources/images/datalayer-does-not-exist.png" alt="dataLayer does not exist" />
+                    <h3>dataLayer exist</h3>
+                    <p>If the dataLayer exist and some events have been pushed to it. It will look like this when you press enter:</p>
+                    <img src="../resources/images/datalayer-exist.png" alt="dataLayer exists" />
+                    <p>In order to see the events in the dataLayer you have to click the little object that just appeared beneath your dataLayer-keyword.</p>
+                    <p>You should now see an expanded view with all the events that have currently been pushed to the dataLayer. If you want to see all the parameters/characteristics/key value pairs associated with a single event - you simply click it.</p>
+                    <img src="../resources/images/datalayer-exist-events-expanded.png" alt="dataLayer expanded with event visible" />
+                    <h3>What to read next</h3>
+                    <p>
+                        <ul><li><a href="add-event-to-datalayer.html">How do I add an event to the dataLayer?</a></li></ul>
+                    </p>
+                </section>
+            <!--Who is Section End-->
+            <!--Template Section End-->
+                <section>
+                    <h3></h3>
+                    <p></p>
+                </section>
+            <!--Template Section End-->
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+</html>

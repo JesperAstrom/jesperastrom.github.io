@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--CSS Instructions-->
+    <link href="../resources/css/index.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!--Search Engine Meta Data-->
+    <title>Add / push events to dataLayer - JavaScript code examples</title>
+    <meta name="description" content="Useful examples and code about using and adding events to your dataLayer.">
+
+    <!--Code box styles-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+</head>
+    <body>
+        <header>
+            <nav>
+                <!--Breadcrumbs Start-->
+                <ul class="breadcrumb">
+                    <li><a href="https://jesperastrom.github.io/">Home</a></li>
+                    <li><a href="https://jesperastrom.github.io/datalayer/">dataLayer</a></li>
+                    <li><a href="https://jesperastrom.github.io/datalayer/add-event-to-datalayer.html">Add events to dataLayer</a></li>
+                </ul>
+                <!--Breadcrumbs End-->
+            </nav>
+        </header>
+        <main>
+            <!--Hero Section Start-->
+                <section id="top">
+                    <h1>Add events to the dataLayer</h1>
+                    <h2></h2>
+                    <p></p>
+                </section>
+            <!--Hero Section End-->
+            <!--Who is Section Start-->
+                <section class="content">
+                    <p>When you want to measure something a user does on your website through events in the dataLayer you need to add code to your website.</p>
+                    <p>The code is written in JavaScript and the method you use is called "push". That's why people say "push to the dataLayer" rather than say "add the stuff in the browser with the other events" - which would be a more proper way to say it.</p>
+                    <h2>Basic event push to dataLayer</h2>
+                    <p>Below you will find a sample code for a page_view event.</p>
+                    <p>Now that you see it you might thing "holy s*, that's a lot of code for just one event". Or, that's what I thought the first time I saw it at least. And yeah. It is a lot of code and since we're always trying to reduce code on the website it is important to plan what to measure so that you only put enough code to measure what you need on your website.</p>
+                    <pre><code class="language-javascript">
+&lt;script&gt;
+// Initialize dataLayer if it doesn't exist
+window.dataLayer = window.dataLayer || [];
+
+// Push page_view event to dataLayer
+window.dataLayer.push({
+    'event': 'page_view',
+    'page': {
+    'title': document.title,
+    'location': window.location.href,
+    'path': window.location.pathname,
+    'referrer': document.referrer,
+    'language': navigator.language || navigator.userLanguage
+    },
+    'user': {
+    'clientId': getCookieValue('_ga') || 'unknown', // Example of getting GA client ID
+    'isLoggedIn': isUserLoggedIn() // Placeholder function - replace with your authentication check
+    },
+    'timestamp': new Date().toISOString()
+});
+
+// Helper function to get cookie value
+function getCookieValue(cookieName) {
+    const match = document.cookie.match('(^|;)\\s*' + cookieName + '\\s*=\\s*([^;]+)');
+    return match ? match.pop() : '';
+}
+
+// Placeholder function - replace with your actual authentication check
+function isUserLoggedIn() {
+    // Replace with your actual logic to determine if user is logged in
+    return false;
+}
+&lt;/script&gt;
+                    </code></pre>
+                    <h3>Where to put the code?</h3>
+                    <p>For optimal performance, you should place your dataLayer push JavaScript code in the head-section of your HTML document, before the Google Tag Manager (GTM) container snippet. This ensures that your dataLayer is defined and populated before GTM starts looking for events in it.</p>
+                    <h2>Examining the code and what it means</h2>
+                    <p>The part of the script below needs to be put at the very top of your head-section to make sure that JavaScript that attempts to push events to the dataLayer happens after.</p>
+                    <p>Ie. you need to initiate/create the dataLayer before you put events in it.</p>
+                    <pre><code class="language-javascript">
+&lt;script&gt;
+// Initialize dataLayer if it doesn't exist
+window.dataLayer = window.dataLayer || [];
+&lt;/script&gt;
+                    </code></pre>
+                    <p>Now. You can add all of the event pushes in external files such as the function.php for Wordpress or specific .js- of .ts-files for JavaScript based CMS systems.</p>
+                    <p>Just make sure that those files are placed in an order so that they happen after the dataLayer has been initialized.</p>
+                    <p>I will create specific texts about different CMS:s and CRM:s as they all have their perks.</p>
+                    <h3>Push an event</h3>
+                    <p>Now that we initialized the dataLayer - ie built the bucket where to put the events, we need to start putting events into it.</p>
+                    <pre><code class="language-javascript">
+&lt;script&gt;
+// Push page_view event to dataLayer
+window.dataLayer.push({
+    'event': 'page_view',
+    'page': {
+    'title': document.title,
+    'location': window.location.href,
+    'path': window.location.pathname,
+    'referrer': document.referrer,
+    'language': navigator.language || navigator.userLanguage
+    },
+});
+&lt;/script&gt;
+                    </code></pre>
+                    <p>As you can see, this pushes the event "page_view" to the dataLayer. Ie. if this code exist on a page an event called "page_view" will show up in the dataLayer.</p>
+                    <p>The event has two keys:</p>
+                    <ul>
+                        <li>event</li>
+                        <li>page</li>
+                    </ul>
+                    <p><i>"But Jesper, what about the other stuff..."</i></p>
+                    <p>Calm down... I'll get to that... remember - the value of a key can be an object... and that's what the other stuff is... but first...</p>
+                    <p>event has the value "page_view" because the events name is "page_view". You could give it the name "bananaramadrama" and make that represent the event that happens when people view a page on your website.</p>
+                    <p>The only problem is that most analytics tools such as Google Analytics and Piwik PRO recognize the keyword page_view and thus there are some properties associated with it automatically. So. Stick to page_view for these events.</p>
+                    <p>As you'll learn in future articles, sometimes it is extremely important to use the proper keyword (such as user_data) when naming your events. Other times you can be more creative.</p>
+                    <h3>The value of page</h3>
+                    <p>Now we get to the other stuff.</p>
+                    <pre><code class="language-javascript">
+    <b>'page': {
+    'title': document.title,
+    'location': window.location.href,
+    'path': window.location.pathname,
+    'referrer': document.referrer,
+    'language': navigator.language || navigator.userLanguage
+    },</b>
+                    </code></pre>
+                    <p>Well just as you see the intial event and page wrapped in { } so are the key value pairs inside of the page-value.</p>
+                    <p>Bah... this is when the words aren't very clear... without using the proper language.</p>
+                    <p>Here's the thing.</p>
+                    <p>The value of page is a new object. You don't have to know more about it if you're just going to use GTM to access the values within this object... well... more than perhaps that these values are nested.</p>
+                    <p>This will all be clear eventually. But to reach the value title you will have to write page.title in your data layer variables in GTM. But we'll get to that.</p>
+                    <p>For now. Just know that it can look like above and there's nothing wrong with that.</p>
+                    <p>Once we get to using these values in our tags, I will explain further how to access them when they are nested like this.</p>
+                    <h3>The value of title and location</h3>
+                    <pre><code class="language-javascript">
+<b>
+'title': document.title,
+'location': window.location.href,
+</b>
+                    </code></pre>
+                    <p>As you can see there are some weird values to the key title and the key location.</p>
+                    <p>Those values are taken from objects that don't exist in the dataLayer but that are global to any website and browser (if they haven't been disabled).</p>
+                    <p><strong>document</strong> and <strong>window</strong> are two such global objects.</p>
+                    <p>So really what you are seeing is another case of "page".</p>
+                    <p>document actually looks something like:</p>
+                    <pre><code class="language-javascript">
+<b>
+document = {
+    title: "This page's title",
+    URL: "https://example.com/page",
+    domain: "example.com",
+    referrer: "https://google.com",
+    cookie: "name=value; name2=value2",
+}
+</b>
+                    </code></pre>
+                    <p>And so to fetch the value title within the object document we need to use that nested skill we just acquired - document.title.</p>
+                    <p>If you want to you can read more about the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document">document object here</a>.</p>
+                    <p><strong>Getting back to the main plot!</strong></p>
+                    <p>Those values do not need more definition and can be added as in the example above.</p>
+                    <p>Most other variables need to be clearly defined in order to show up as a value.</p>
+                    <h3>Value of user.clientId and user.isLoggedIn</h3>
+                    Such is the value of the keys inside the user-object below (see now I'm starting to talk wa wa... please reach out if that was incomprehensible...)
+                    <pre><code class="language-javascript">
+&lt;script&gt;
+    'user': {
+    'clientId': getCookieValue('_ga') || 'unknown', // Example of getting GA client ID
+    'isLoggedIn': isUserLoggedIn() // Placeholder function - replace with your authentication check
+    },
+
+// The helper function that produces the value for clientId
+function getCookieValue(cookieName) {
+    const match = document.cookie.match('(^|;)\\s*' + cookieName + '\\s*=\\s*([^;]+)');
+    return match ? match.pop() : '';
+}
+
+// Placeholder function - replace with your actual authentication check
+function isUserLoggedIn() {
+    // Replace with your actual logic to determine if user is logged in
+    return false;
+}
+&lt;/script&gt;
+                    </code></pre>
+                    <p>The value of user.clientId is a function that is defined further down in the script.</p>
+                    <p>getCookieValue(_ga) gets the _ga-cookie and returns its edited value as the clientId.</p>
+                    <p>This is done because Google sets a cookie in your browser _ga so that they will recognize you when you visit other websites. If I, for example, want to tell Google who did certain things on my website, it is awesome if I can send them the clientId because then they know who it is and can associate it with the ad that user clicked to get to my website.</p>
+                    <p>In turn, your advertising and tracking is improved.</p>
+                    <p>The isUserLoggedIn is a function could work if I had logged in users and could provide a value to check for with the function.</p>
+                    <p>What these two functions do is that they create values to the keys inside the object user.</p>
+                    <p>These values can later be used when we create our marketing tags or tracking tags.</p>
+                    <p>So this is how you add/push an event to the dataLayer</p>
+                    <h3>See a live example here:</h3>
+                    <p>
+                        <ul><li><a href="https://jesperastrom.github.io/web-analytics-demo/second-session/">Example of dataLayer in action</a></li></ul>
+                    </p>
+                </section>
+            <!--Who is Section End-->
+            <!--Template Section End-->
+                <section>
+                    <h3></h3>
+                    <p></p>
+                </section>
+            <!--Template Section End-->
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+</html>
