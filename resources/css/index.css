@@ -90,4 +90,9 @@ main {
     max-width: 600px;
 }
 
-/* Section Styles end */
+/* Image Styles start */
+img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
