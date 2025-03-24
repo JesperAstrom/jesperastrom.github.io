@@ -1,0 +1,122 @@
+[
+    {
+        "name": "ABBA The Museum",
+        "description": "An interactive museum celebrating the music and legacy of the Swedish pop group ABBA.",
+        "website": "https://abbathemuseum.com"
+    },
+    {
+        "name": "ArkDes (Swedish Centre for Architecture and Design)",
+        "description": "Explores contemporary and historical architecture and design in Sweden.",
+        "website": "https://arkdes.se"
+    },
+    {
+        "name": "Fotografiska",
+        "description": "A renowned museum showcasing cutting-edge photography from around the world.",
+        "website": "https://www.fotografiska.com"
+    },
+    {
+        "name": "Hallwyl Museum",
+        "description": "A historic house museum displaying the opulent home of the Hallwyl family from the early 20th century.",
+        "website": "https://hallwylskamuseet.se"
+    },
+    {
+        "name": "Historiska Museet (The Swedish History Museum)",
+        "description": "Covers Swedish history from the Stone Age to the present with extensive archaeological exhibits.",
+        "website": "https://historiska.se"
+    },
+    {
+        "name": "Liljevalchs",
+        "description": "An art gallery featuring contemporary and classic Swedish art exhibitions.",
+        "website": "https://liljevalchs.se"
+    },
+    {
+        "name": "Moderna Museet",
+        "description": "Houses a world-class collection of modern and contemporary art, including works by Picasso and Dalí.",
+        "website": "https://www.modernamuseet.se"
+    },
+    {
+        "name": "Nationalmuseum",
+        "description": "Sweden’s premier museum of art and design, with collections spanning centuries.",
+        "website": "https://www.nationalmuseum.se"
+    },
+    {
+        "name": "Nobel Prize Museum",
+        "description": "Celebrates the achievements of Nobel laureates and the history of the Nobel Prize.",
+        "website": "https://nobelprizemuseum.se"
+    },
+    {
+        "name": "Nordiska Museet",
+        "description": "Showcases Swedish cultural history, traditions, and everyday life from the 16th century onward.",
+        "website": "https://www.nordiskamuseet.se"
+    },
+    {
+        "name": "Royal Armoury (Livrustkammaren)",
+        "description": "Displays royal artifacts, costumes, and weapons from Swedish history.",
+        "website": "https://livrustkammaren.se"
+    },
+    {
+        "name": "Skansen",
+        "description": "The world’s first open-air museum, featuring historic buildings and a zoo with Nordic animals.",
+        "website": "https://www.skansen.se"
+    },
+    {
+        "name": "Spritmuseum (Museum of Spirits)",
+        "description": "Explores the history and culture of alcoholic beverages in Sweden.",
+        "website": "https://spritmuseum.se"
+    },
+    {
+        "name": "Stadsmuseet (Stockholm City Museum)",
+        "description": "Chronicles the history and development of Stockholm through interactive exhibits.",
+        "website": "https://stadsmuseet.stockholm"
+    },
+    {
+        "name": "Tekniska Museet (National Museum of Science and Technology)",
+        "description": "Offers hands-on exhibits on science, technology, and innovation.",
+        "website": "https://www.tekniskamuseet.se"
+    },
+    {
+        "name": "The Swedish Holocaust Museum",
+        "description": "Dedicated to the memory of Holocaust victims and Sweden’s role during WWII.",
+        "website": "https://sverigesmuseumomforintelsen.se"
+    },
+    {
+        "name": "The Viking Museum (Vikingaliv)",
+        "description": "An immersive experience of Viking life with historical artifacts and reconstructions.",
+        "website": "https://www.thevikingmuseum.com"
+    },
+    {
+        "name": "Vasa Museum",
+        "description": "Home to the preserved 17th-century warship Vasa, a marvel of maritime history.",
+        "website": "https://www.vasamuseet.se"
+    },
+    {
+        "name": "Bonniers Konsthall",
+        "description": "A contemporary art space showcasing innovative works by Swedish and international artists.",
+        "website": "https://www.bonnierskonsthall.se"
+    },
+    {
+        "name": "Judiska Museet (The Jewish Museum)",
+        "description": "Documents the history and culture of Jewish life in Sweden.",
+        "website": "https://judiskamuseet.se"
+    },
+    {
+        "name": "Medeltidsmuseet (Medieval Museum)",
+        "description": "Explores Stockholm’s medieval past with artifacts and reconstructions beneath the city.",
+        "website": "https://medeltidsmuseet.stockholm"
+    },
+    {
+        "name": "Naturhistoriska Riksmuseet (Swedish Museum of Natural History)",
+        "description": "Features extensive natural history exhibits, including dinosaurs and geological displays.",
+        "website": "https://www.nrm.se"
+    },
+    {
+        "name": "Skokloster Castle",
+        "description": "A Baroque castle with a museum of historic interiors, weapons, and art near Stockholm.",
+        "website": "https://skoklostersslott.se"
+    },
+    {
+        "name": "Tensta Konsthall",
+        "description": "A community-focused gallery presenting contemporary art in Stockholm’s suburbs.",
+        "website": "https://www.tenstakonsthall.se"
+    }
+]
