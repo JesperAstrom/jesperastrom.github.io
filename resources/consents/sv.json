@@ -13,11 +13,11 @@
     "settings_modal_reject_all_btn": "Acceptera nödvändiga",
     "settings_modal_close_btn_label": "Stäng",
 
-    "settings_modal_before_consent_title": "Cookie usage",
-    "settings_modal_before_consent_description": "We use cookies to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt-in/out whenever you want.",
+    "settings_modal_before_consent_title": "Användning av cookies",
+    "settings_modal_before_consent_description": "När du besöker en webbplats kan den lagra eller hämta information i din webbläsare, främst i form av cookies. Den här informationen kan vara om dig, dina preferenser, eller din enhet och används mestadels för att webbplatsen ska fungerar som du förväntar dig. Informationen identifierar dig vanligtvis inte direkt, men den kan ge dig en mer personlig webbupplevelse. Eftersom vi respekterar din rätt till integritet, kan du välja att inte tillåta vissa typer av cookies. Klicka på de olika kategorierna för att läsa mer och ändra våra standardinställningar. Att blockera vissa typer av cookies kan dock påverka din upplevelse av webbplatsen och de tjänster som vi kan erbjuda.",
 
-    "settings_modal_after_consent_title": "More information",
-    "settings_modal_after_consent_description": "For any queries in relation to our policy on cookies and your choices, please contact us.",
+    "settings_modal_after_consent_title": "Mer information",
+    "settings_modal_after_consent_description": "Vill du ha mer information går det bra att ta kontakt med oss direkt. Kontaktuppgifter hittar du under kontakt.",
 
     "functionality_storage_title": "Functionality cookies",
     "functionality_storage_description": "These cookies are necessary for the proper functioning of our website. Without these cookies, the website might not be working properly.",
