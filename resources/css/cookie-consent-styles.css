@@ -19,7 +19,6 @@
 
 #s-bns{
   display:flex;
-  flex-direction: column-reverse;
   align-items: start;
   justify-content: left;
   width: 100%;
