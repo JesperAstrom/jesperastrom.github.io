@@ -1,8 +1,12 @@
+:root{
+  --cc-overlay-opacity: 0.4;
+}
 #cookie-icon{
   max-width: 20px;
   display: inline-block;
   margin-right: 15px;
 }
+
 #c-p-bn, #s-all-bn {
   line-height: 1.2;
   text-align: center;
