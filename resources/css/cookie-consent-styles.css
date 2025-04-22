@@ -1,7 +1,7 @@
 /* Main container */
 #cc_div {
   font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   color: #222;
 }
 
@@ -40,7 +40,7 @@
 /* General button styling */
 #c-bns .c-bn {
   font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.2;
   text-align: center;
