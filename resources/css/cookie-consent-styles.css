@@ -1,0 +1,81 @@
+/* General widget container for context */
+.cookie-consent-widget {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
+  font-size: 16px;
+  color: #222;
+}
+
+/* Styling the text */
+.cookie-consent-widget p {
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+/* Link styling for the "Cookie Policy" */
+.cookie-consent-widget a {
+  color: #ff4d4f;
+  text-decoration: none;
+}
+
+.cookie-consent-widget a:hover {
+  text-decoration: underline;
+}
+
+/* Button container for layout */
+.cookie-consent-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* General button styling (merging original properties with image design) */
+.cookie-consent-widget button {
+  font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+  position: relative;
+  border-radius: 99px !important;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  max-width: 200px; /* Adjusted to match image proportions */
+  padding: 1rem 2rem;
+  color: white;
+  -webkit-appearance: none; /* Override user agent styles */
+  appearance: none;
+  background-color: transparent; /* Reset to allow gradient */
+  transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out, background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+/* "Anpassa" button (outline style) */
+.cookie-consent-widget button.customize {
+  background-color: transparent;
+  border: 2px solid #ff4d4f;
+  color: #ff4d4f;
+}
+
+.cookie-consent-widget button.customize:hover {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* "Acceptera alla" button (filled style with gradient) */
+.cookie-consent-widget button.accept {
+  background: linear-gradient(90deg, #ff4d4f 2.62%, #d946ef 96.65%); /* Gradient from image */
+  color: white;
+}
+
+.cookie-consent-widget button.accept:hover {
+  background: linear-gradient(90deg, #e04345 2.62%, #c03ed6 96.65%); /* Slightly darker gradient */
+  transform: scale(1.05);
+}
