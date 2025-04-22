@@ -17,7 +17,7 @@
   width: 100%;
   border-radius: 99px!important;
   padding: 1rem 2rem;
-  font-size: 16px;
+  font-size: 14px;
   background: linear-gradient(113.69deg, #e43127 2.62%, #d701be 96.65%) !important;
   color: white;
 }
@@ -42,7 +42,7 @@
   display: block;
   border-radius: 99px!important;
   padding: 1rem 2rem;
-  font-size: 16px;
+  font-size: 14px;
   background: linear-gradient(113.69deg, #e43127 2.62%, #d701be 96.65%) !important;
   color: white;
 }
@@ -60,7 +60,7 @@
   display: block;
   border-radius: 99px!important;
   padding: 1rem 2rem;
-  font-size: 16px;
+  font-size: 14px;
   background: linear-gradient(113.69deg, #ccc 2.62%, #333 96.65%) !important;
   color: white;
 }
