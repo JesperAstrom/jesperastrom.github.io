@@ -47,12 +47,13 @@
 }
 
 @media screen and (min-width: 688px) {
-  #s-bns{
+  .bns-t #s-bns{
     display:flex;
     flex-direction: row-reverse;
     align-items: start;
     justify-content: left;
     width: 100%;
+    height: 11.5em;
   }
   
   #s-rall-bn, #s-sv-bn, #c-s-bn {
