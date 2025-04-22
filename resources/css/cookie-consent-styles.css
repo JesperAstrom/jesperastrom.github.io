@@ -1,46 +1,40 @@
 /* General button styling for all buttons */
-#cc_div .c-bn {
-  font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
+.c-p-bn {
   line-height: 1.2;
   text-align: center;
+  font-weight: 400;
   position: relative;
-  border-radius: 99px !important;
+  border-radius: 5px;
   border: 1px solid transparent;
   cursor: pointer;
+  -webkit-transition: all 0.4s ease-in-out,-webkit-transform 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out,transform 0.4s ease-in-out;
   display: block;
   width: 100%;
-  max-width: 150px;
-  padding: 0.75rem 1.5rem;
-  color: white;
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out, background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
-}
-
-/* "Anpassa" button (outline style) */
-#c-bns .c-bn.c_link {
-  background-color: transparent;
-  border: 2px solid #ff4d4f;
-  color: #ff4d4f;
-}
-
-#c-bns .c-bn.c_link:hover {
-  background-color: #ff4d4f;
-  border-color: #ff4d4f;
-  color: #fff;
-  transform: scale(1.05);
-}
-
-/* "Jag samtycker" button (filled style with gradient) */
-#c-bns .c-bn:not(.c_link) {
-  background: linear-gradient(90deg, #ff4d4f 2.62%, #d946ef 96.65%);
+  border-radius: 99px!important;
+  padding: 1rem 2rem;
+  font-size: 16px;
+  background: linear-gradient(113.69deg, #e43127 2.62%, #d701be 96.65%);
   color: white;
 }
 
-#c-bns .c-bn:not(.c_link):hover {
-  background: linear-gradient(90deg, #e04345 2.62%, #c03ed6 96.65%);
-  transform: scale(1.05);
+button{
+  appearance: auto;
+  text-rendering: auto;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  cursor: default;
+  box-sizing: border-box;
+  margin: 0em;
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-width: 2px;
+  border-style: outset;
+  border-image: initial;
 }
