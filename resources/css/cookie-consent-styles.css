@@ -12,8 +12,10 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 20px;
   text-align: center;
-  max-width: 400px; /* Adjusted to match typical popup width */
+  max-width: 400px;
   margin: 0 auto;
+  position: relative; /* Ensure it can be positioned above the overlay */
+  z-index: 1000; /* Higher than the overlay */
 }
 
 /* Overlay for the consent modal */
@@ -24,7 +26,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 999; /* Below the modal */
 }
 
 /* Styling the title */
@@ -112,7 +114,7 @@
   width: 100%;
   height: 100%;
   background-color: #fff;
-  z-index: 1000;
+  z-index: 1000; /* Same as #cm, above the overlay */
   overflow-y: auto;
   padding: 20px;
 }
@@ -125,7 +127,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 999; /* Below the settings modal */
 }
 
 /* Settings modal inner content */
@@ -135,6 +137,8 @@
   background-color: #fff;
   border-radius: 12px;
   padding: 20px;
+  position: relative; /* Ensure it can be positioned above the overlay */
+  z-index: 1001; /* Slightly higher to ensure it’s above other elements */
 }
 
 /* Settings modal header */
