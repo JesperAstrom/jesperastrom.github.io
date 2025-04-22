@@ -2,7 +2,7 @@
     "modal_trigger_title": "Cookie settings",
 
     "consent_modal_title": "Vi använder cookies!",
-    "consent_modal_description": "Vi använder cookies på vår webbplats. Vissa är nödvändiga, andra hjälper oss att förbättra denna webbplats och din användarupplevelse. trallalalala",
+    "consent_modal_description": "Genom att klicka på acceptera alla cookies samtycker du till lagring av cookies på din enhet för att förbättra navigeringen på webbplatsen, analysera webbplatsens användning och bistå i våra marknadsföringsinsatser såsom personanpassade annonser. Din användardata kan även komma att delas med våra partners som kan komma att kombinera den med annan data de samlat in hos sig. For more information on how Google processes your data, see their Google's Privacy Policy. <a href='link.se'>Cookiepolicy</a>",
     "consent_modal_primary_btn": "I agree",
     "consent_modal_secondary_btn_settings": "Customize",
     "consent_modal_secondary_btn_accept_necessary": "Accept necessary",
