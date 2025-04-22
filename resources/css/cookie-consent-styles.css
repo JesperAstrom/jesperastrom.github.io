@@ -24,7 +24,7 @@
   width: 100%;
 }
 
-#s-rall-bn, #s-sv-bn {
+#s-rall-bn, #s-sv-bn, #c-s-bn {
   cursor: pointer;
   -webkit-transition: all 0.4s ease-in-out,-webkit-transform 0.4s ease-in-out;
   transition: all 0.4s ease-in-out,transform 0.4s ease-in-out;
