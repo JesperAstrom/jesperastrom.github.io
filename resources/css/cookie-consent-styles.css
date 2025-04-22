@@ -29,6 +29,7 @@
   -webkit-transition: all 0.4s ease-in-out,-webkit-transform 0.4s ease-in-out;
   transition: all 0.4s ease-in-out,transform 0.4s ease-in-out;
   display: block;
+  font-weight: 400;
   border-radius: 99px!important;
   padding: 1rem 2rem;
   font-size: 14px;
