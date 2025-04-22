@@ -35,3 +35,11 @@
   color: #333;
 }
 
+#c-s-in {
+  height: 100%;
+  height: calc(100% - 2.5em);
+  max-height: 39.5em;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
