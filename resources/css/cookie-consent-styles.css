@@ -21,3 +21,22 @@
   background: linear-gradient(113.69deg, #e43127 2.62%, #d701be 96.65%) !important;
   color: white;
 }
+
+#s-all-bn {
+  line-height: 1.2;
+  text-align: center;
+  font-weight: 400;
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  -webkit-transition: all 0.4s ease-in-out,-webkit-transform 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out,transform 0.4s ease-in-out;
+  display: block;
+  width: 100%;
+  border-radius: 99px!important;
+  padding: 1rem 2rem;
+  font-size: 16px;
+  background: linear-gradient(113.69deg, #e43127 2.62%, #d701be 96.65%) !important;
+  color: white;
+}
