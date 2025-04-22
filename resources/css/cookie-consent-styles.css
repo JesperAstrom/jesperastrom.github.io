@@ -49,7 +49,7 @@
 @media screen and (max-width: 688px) {
   .bns-t #s-bns{
     display:flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
     align-items: start;
     justify-content: left;
     width: 100%;
