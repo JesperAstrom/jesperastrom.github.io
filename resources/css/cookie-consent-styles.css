@@ -46,7 +46,7 @@
   transform: translateY(-50%);
 }
 
-@media screen and (min-width: 688px) {
+@media screen and (max-width: 688px) {
   .bns-t #s-bns{
     display:flex;
     flex-direction: row-reverse;
