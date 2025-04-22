@@ -1,7 +1,7 @@
 /* Main container */
 #cc_div {
   font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   color: #222;
 }
 
@@ -10,7 +10,7 @@
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
   text-align: center;
 }
 
