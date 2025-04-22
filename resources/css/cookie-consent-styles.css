@@ -1,3 +1,7 @@
+#cookie-icon{
+  max-width: 25px;
+  display: inline-block;
+}
 #c-p-bn, #s-all-bn {
   line-height: 1.2;
   text-align: center;
