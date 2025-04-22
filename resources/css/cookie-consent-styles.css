@@ -30,7 +30,7 @@
   transition: all 0.4s ease-in-out,transform 0.4s ease-in-out;
   display: block;
   font-weight: 600;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   font-size: 14px;
   color: #333;
 }
