@@ -22,6 +22,12 @@
   color: white;
 }
 
+#s-bns{
+  display:flex;
+  align-items: start;
+  justify-content: left;
+}
+
 #s-all-bn {
   line-height: 1.2;
   text-align: center;
