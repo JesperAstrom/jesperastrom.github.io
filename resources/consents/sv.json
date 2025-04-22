@@ -19,35 +19,35 @@
     "settings_modal_after_consent_title": "Mer information",
     "settings_modal_after_consent_description": "Vill du ha mer information går det bra att ta kontakt med oss direkt. Kontaktuppgifter hittar du under kontakt.",
 
-    "functionality_storage_title": "Functionality cookies",
-    "functionality_storage_description": "These cookies are necessary for the proper functioning of our website. Without these cookies, the website might not be working properly.",
+    "functionality_storage_title": "Funktionella cookies",
+    "functionality_storage_description": "Dessa cookies gör det möjligt för webbplatsen att tillhandahålla förbättrad funktionalitet och personlig anpassning. De kan fastställas av oss eller av tredjepartsleverantörer vars tjänster vi har lagt till på våra sidor. Om du inte tillåter dessa cookies kanske vissa eller alla av dessa tjänster inte fungerar som de ska.",
 
-    "personalization_storage_title": "Personalization cookies",
-    "personalization_storage_description": "Personalisation cookies may use third party cookies to help them personalise content and track users across different websites and devices.",
+    "personalization_storage_title": "Personaliserings-cookies",
+    "personalization_storage_description": "Personaliserings-cookies kan använda tredjepartskakor för att hjälpa dem att personalisera innehåll och spåra användare över olika webbplatser och enheter.",
 
-    "security_storage_title": "Security cookies",
-    "security_storage_description": "Security cookies allows storage of security-related information, such as authentication, fraud protection, and other means to protect the user.",
+    "security_storage_title": "Säkerhets-cookies",
+    "security_storage_description": "Säkerhets-cookies möjliggör lagring av säkerhetsrelaterad information, såsom autentisering, bedrägeri-skydd och andra metoder för att skydda användaren.",
 
-    "ad_storage_title": "Ad cookies",
-    "ad_storage_description": "Advertising cookies are used by us or our partners to show you relevant content or advertisements both on our site and on third party sites. This enables us to create profiles based on your interests, so-called pseudonymised profiles. Based on this information, it is generally not possible to directly identify you as a person, as only pseudonymised data is used. Unless you express your consent, you will not receive content and advertisements tailored to your interests.",
+    "ad_storage_title": "Annonserings-cookies",
+    "ad_storage_description": "Annonserings-cookies används av oss eller våra partners för att visa dig relevant innehåll eller annonser både på vår webbplats och på tredjepartswebbplatser. Detta gör det möjligt för oss att skapa profiler baserade på dina intressen, så kallade pseudonymiserade profiler. Baserat på denna information är det i allmänhet inte möjligt att direkt identifiera dig som person, eftersom endast pseudonymiserade data används. Om du inte uttrycker ditt samtycke kommer du inte att få innehåll och annonser anpassade efter dina intressen.",
 
-    "ad_user_data_title": "Ad user data",
-    "ad_user_data_description": "",
+    "ad_user_data_title": "Användardata för annonsering",
+    "ad_user_data_description": "Cookies för användardata inom annonsering lagrar information om ditt surfbeteende och demografiska uppgifter för att skapa en anonym användarprofil. Denna information används för att kategorisera användare i intressegrupper för att erbjuda mer målinriktad annonsering. Ingen personligt identifierbar information lagras i dessa cookies och all data behandlas i pseudonymiserad form.RetryClaude can make mistakes. Please double-check responses.",
 
-    "ad_personalization_title": "Ad personalization",
-    "ad_personalization_description": "",
+    "ad_personalization_title": "Annonspersonalisering",
+    "ad_personalization_description": "Annonspersonaliserings-cookies hjälper oss att leverera annonser som är mer relevanta för dig baserat på dina intressen och tidigare aktiviteter online. Dessa cookies samlar information om dina besök på vår och andra webbplatser, vilket gör att vi kan visa annonser som bättre matchar dina preferenser.",
 
-    "analytics_storage_title": "Analytics cookies",
-    "analytics_storage_description": "Analytics cookies allow us to measure the performance of our website and our advertising campaigns. We use them to determine the number of visits and sources of visits to our website. We process the data obtained through these cookies in aggregate, without using identifiers that point to specific users of our website. If you disable the use of analytics cookies in relation to your visit, we lose the ability to analyse performance and optimise our measures.",
+    "analytics_storage_title": "Analys-cookies",
+    "analytics_storage_description": "Analys-cookies tillåter oss att mäta prestandan för vår webbplats och våra annonskampanjer. Vi använder dem för att fastställa antalet besök och besökskällor till vår webbplats. Vi behandlar data som erhålls genom dessa cookies i aggregerad form, utan att använda identifierare som pekar på specifika användare av vår webbplats. Om du inaktiverar användningen av analys-cookies i samband med ditt besök, förlorar vi möjligheten att analysera prestanda och optimera våra åtgärder.",
 
-    "cookie_table_col_name": "Name",
-    "cookie_table_col_purpose": "Description",
-    "cookie_table_col_processing_time": "Expiration",
-    "cookie_table_col_provider": "Provider",
-    "cookie_table_col_type": "Type",
-    "cookie_table_col_link": "Link",
-    "cookie_table_col_link_find_out_more": "Link",
-    "cookie_table_col_category": "Category",
+    "cookie_table_col_name": "Namn",
+    "cookie_table_col_purpose": "Beskrivning",
+    "cookie_table_col_processing_time": "Går ut",
+    "cookie_table_col_provider": "Avsändare",
+    "cookie_table_col_type": "Typ",
+    "cookie_table_col_link": "Länk",
+    "cookie_table_col_link_find_out_more": "Läs mer",
+    "cookie_table_col_category": "Kategori",
 
     "processing_time_session": "Session",
     "processing_time_persistent": "Persistent",
@@ -55,5 +55,5 @@
     "cookie_type_1st_party": "1st party",
     "cookie_type_3rd_party": "3rd party",
 
-    "find_out_more": "find out more"
+    "find_out_more": "Lär dig mer"
 }
