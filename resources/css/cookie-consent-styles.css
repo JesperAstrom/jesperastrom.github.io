@@ -1,4 +1,8 @@
 /* Main container */
+#cc--main {
+  z-index: 10000 !important; /* High z-index to ensure it’s above page overlays */
+}
+
 #cc_div {
   font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
   font-size: 16px;
@@ -14,8 +18,8 @@
   text-align: center;
   max-width: 400px;
   margin: 0 auto;
-  position: relative; /* Ensure it can be positioned above the overlay */
-  z-index: 1000; /* Higher than the overlay */
+  position: relative;
+  z-index: 10001; /* Higher than page overlays */
 }
 
 /* Overlay for the consent modal */
@@ -26,7 +30,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999; /* Below the modal */
+  z-index: 10000; /* Below the modal */
 }
 
 /* Styling the title */
@@ -113,10 +117,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff;
-  z-index: 1000; /* Same as #cm, above the overlay */
+  background-color: transparent; /* Remove the solid background */
+  z-index: 10001; /* Higher than page overlays */
   overflow-y: auto;
   padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Overlay for the settings modal */
@@ -127,7 +134,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999; /* Below the settings modal */
+  z-index: 10000; /* Below the settings modal */
 }
 
 /* Settings modal inner content */
@@ -137,8 +144,9 @@
   background-color: #fff;
   border-radius: 12px;
   padding: 20px;
-  position: relative; /* Ensure it can be positioned above the overlay */
-  z-index: 1001; /* Slightly higher to ensure it’s above other elements */
+  position: relative;
+  z-index: 10002; /* Slightly higher to ensure it’s above other elements */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Settings modal header */
@@ -161,17 +169,35 @@
   cursor: pointer;
   font-size: 24px;
   color: #222;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#s-c-bn:hover {
+  background-color: #f0f0f0;
 }
 
 /* Settings modal sections */
 #s-bl .c-bl {
   margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
 }
 
 #s-bl .title {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #s-bl .desc .p {
@@ -216,7 +242,7 @@
 }
 
 .c-tgl:checked + .c-tg {
-  background-color: #ff4d4f;
+  background: linear-gradient(90deg, #ff4d4f, #d946ef); /* Match the button gradient */
 }
 
 .c-tgl:checked + .c-tg .off-i {
@@ -231,6 +257,19 @@
   font-weight: 500;
   cursor: pointer;
   color: #222;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.b-tl.exp::after {
+  content: "▼";
+  font-size: 12px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.b-tl.exp[aria-expanded="true"]::after {
+  transform: rotate(180deg);
 }
 
 .b-acc {
@@ -251,7 +290,7 @@
   max-width: 200px;
 }
 
-/* "Godkänn alla cookies" button */
+/* "Godkänn alla cookies" button (same as "Jag samtycker") */
 #s-all-bn {
   background: linear-gradient(90deg, #ff4d4f 2.62%, #d946ef 96.65%);
   color: white;
