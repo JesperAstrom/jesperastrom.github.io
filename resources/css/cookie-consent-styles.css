@@ -43,3 +43,8 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+#s-inr{
+  padding-bottom: 6.75em I !important;
+  padding-top: 4.75em;
+}
