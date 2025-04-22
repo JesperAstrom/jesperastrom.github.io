@@ -1,40 +1,44 @@
-/* General widget container for context */
-.cookie-consent-widget {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
+/* Main container */
+#cc_div {
   font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
   font-size: 16px;
   color: #222;
 }
 
+/* Consent modal */
+#cm {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+
 /* Styling the text */
-.cookie-consent-widget p {
+#cm #c-txt {
   margin: 0 0 20px;
   line-height: 1.5;
 }
 
-/* Link styling for the "Cookie Policy" */
-.cookie-consent-widget a {
+/* Link styling for any links (e.g., "Cookie Policy") */
+#cm a {
   color: #ff4d4f;
   text-decoration: none;
 }
 
-.cookie-consent-widget a:hover {
+#cm a:hover {
   text-decoration: underline;
 }
 
-/* Button container for layout */
-.cookie-consent-buttons {
+/* Button container */
+#c-bns {
   display: flex;
   justify-content: center;
   gap: 15px;
 }
 
-/* General button styling (merging original properties with image design) */
-.cookie-consent-widget button {
+/* General button styling */
+#c-bns .c-bn {
   font-family: "beausiteClassic", "beausiteClassic Fallback", sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -46,36 +50,36 @@
   cursor: pointer;
   display: block;
   width: 100%;
-  max-width: 200px; /* Adjusted to match image proportions */
+  max-width: 200px;
   padding: 1rem 2rem;
   color: white;
-  -webkit-appearance: none; /* Override user agent styles */
+  -webkit-appearance: none;
   appearance: none;
-  background-color: transparent; /* Reset to allow gradient */
+  background-color: transparent;
   transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out, background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
 /* "Anpassa" button (outline style) */
-.cookie-consent-widget button.customize {
+#c-bns .c-bn.c_link {
   background-color: transparent;
   border: 2px solid #ff4d4f;
   color: #ff4d4f;
 }
 
-.cookie-consent-widget button.customize:hover {
+#c-bns .c-bn.c_link:hover {
   background-color: #ff4d4f;
   border-color: #ff4d4f;
   color: #fff;
   transform: scale(1.05);
 }
 
-/* "Acceptera alla" button (filled style with gradient) */
-.cookie-consent-widget button.accept {
-  background: linear-gradient(90deg, #ff4d4f 2.62%, #d946ef 96.65%); /* Gradient from image */
+/* "Jag samtycker" button (filled style with gradient) */
+#c-bns .c-bn:not(.c_link) {
+  background: linear-gradient(90deg, #ff4d4f 2.62%, #d946ef 96.65%);
   color: white;
 }
 
-.cookie-consent-widget button.accept:hover {
-  background: linear-gradient(90deg, #e04345 2.62%, #c03ed6 96.65%); /* Slightly darker gradient */
+#c-bns .c-bn:not(.c_link):hover {
+  background: linear-gradient(90deg, #e04345 2.62%, #c03ed6 96.65%);
   transform: scale(1.05);
 }
