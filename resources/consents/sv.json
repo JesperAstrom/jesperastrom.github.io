@@ -2,7 +2,7 @@
     "modal_trigger_title": "Cookie settings",
 
     "consent_modal_title": "<img src='https://jesperastrom.github.io/resources/images/cookie-icon.svg' id='cookie-icon'>Även solen kräver sina kakor",
-    "consent_modal_description": "Genom att klicka på acceptera alla cookies samtycker du till lagring av cookies på din enhet för att förbättra navigeringen på webbplatsen, analysera webbplatsens användning och bistå i våra marknadsföringsinsatser såsom personanpassade annonser. Din användardata kan även komma att delas med våra partners som kan komma att kombinera den med annan data de samlat in hos sig.<br><br> En sådan partner är Google vars <a href='https://policies.google.com/privacy'>Privacy Policy kan läsas genom att klicka på den här länken</a>. <br><br><a href='https://policies.google.com/privacy'>Vill du läsa vår cookie-policy kan du klicka här.</a>",
+    "consent_modal_description": "Genom att klicka på acceptera alla cookies samtycker du till lagring av cookies på din enhet för att förbättra navigeringen på webbplatsen, analysera webbplatsens användning och bistå i våra marknadsföringsinsatser såsom personanpassade annonser. Din användardata kan även komma att delas med våra partners som kan komma att kombinera den med annan data de samlat in hos sig.<br><br> En sådan partner är Google vars <a href='https://policies.google.com/privacy'>Privacy Policy kan läsas genom att klicka på den här länken</a>. <br><br><a href='https://sveasolar.se/sv-se/cookiepolicy'>Vill du läsa vår cookie-policy kan du klicka här.</a>",
     "consent_modal_primary_btn": "Jag accepterar",
     "consent_modal_secondary_btn_settings": "Anpassa val",
     "consent_modal_secondary_btn_accept_necessary": "Nej, bara nödvändiga",
