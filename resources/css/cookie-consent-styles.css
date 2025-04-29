@@ -1,10 +1,18 @@
 :root{
   --cc-overlay-opacity: 0.4;
 }
+
+#cm{
+  max-width: 50em !important;
+}
 #cookie-icon{
   max-width: 20px;
   display: inline-block;
   margin-right: 15px;
+}
+
+.cc_div .c-bn{
+  font-size: 14px !important;
 }
 
 #c-p-bn, #s-all-bn {
