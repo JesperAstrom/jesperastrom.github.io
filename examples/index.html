@@ -8,6 +8,15 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
     <!-- End Google Tag Manager -->
+     <script>
+                // Track CTA button clicks
+                document.getElementById('ghost').addEventListener('click', function() {
+                    pushToDataLayer('navigationsklick', {
+                        button_id: 'cta-button',
+                        button_text: this.textContent
+                    });
+                });
+     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--CSS Instructions-->
@@ -49,7 +58,7 @@
         </section>
         <nav>
             <ul>
-                <li><a href="#" id="home-link">Home</a></li>
+                <li><a href="#" id="ghost">Home</a></li>
                 <li><a href="#" id="products-link">Products</a></li>
                 <li><a href="#" id="about-link">About</a></li>
                 <li><a href="#" id="contact-link">Contact</a></li>
