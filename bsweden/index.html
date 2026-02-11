@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        (function() {
+            const password = "SwedenBusiness"; // Warning: visible in source code
+            const storageKey = "folder_access_granted";
+
+            if (localStorage.getItem(storageKey) !== "true") {
+            const userInput = prompt("Please enter the password to view this folder:");
+            
+            if (userInput === password) {
+                localStorage.setItem(storageKey, "true");
+            } else {
+                alert("Incorrect password.");
+                window.location.href = "https://business-sweden.com"; // Boot them out
+            }
+            }
+        })();
+        </script>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Business Sweden | Digital Audit & Refresh Proposal 2026</title>
