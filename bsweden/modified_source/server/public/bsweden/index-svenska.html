@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Business Sweden | Digital Audit & Förnyelseförslag 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#002B49',
+                            700: '#1C3B58',
+                            800: '#002B49',
+                            900: '#001A2C',
+                        },
+                        yellow: {
+                            DEFAULT: '#FDC12A',
+                        },
+                        'action-green': {
+                            DEFAULT: '#28A745',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .tab-active { border-left: 4px solid #FDC12A; background-color: #1C3B58; }
+    </style>
+</head>
+<body class="bg-gray-50 flex min-h-screen font-sans text-slate-900" x-data="{ activeTab: 'executive' }">
+
+    <aside class="w-72 bg-navy-800 text-white flex flex-col shadow-xl sticky top-0 h-screen">
+        <div class="p-6 bg-navy-900">
+            <div class="text-xs uppercase tracking-widest text-yellow mb-1 font-bold">Audit-rapport 2026</div>
+            <div class="text-xl font-bold italic">Business Sweden</div>
+        </div>
+        
+        <nav class="flex-1 mt-4 px-2 space-y-1">
+            <button @click="activeTab = 'executive'" :class="activeTab === 'executive' ? 'tab-active' : ''" class="w-full flex items-center px-4 py-3 text-sm hover:bg-navy-700 transition rounded text-left">
+                Sammanfattning
+            </button>
+            <button @click="activeTab = 'data'" :class="activeTab === 'data' ? 'tab-active' : ''" class="w-full flex items-center px-4 py-3 text-sm hover:bg-navy-700 transition rounded text-left">
+                Data & Bevis (GA4)
+            </button>
+            <button @click="activeTab = 'ia'" :class="activeTab === 'ia' ? 'tab-active' : ''" class="w-full flex items-center px-4 py-3 text-sm hover:bg-navy-700 transition rounded text-left">
+                Föreslagen IA (Sitemap)
+            </button>
+            <button @click="activeTab = 'tech'" :class="activeTab === 'tech' ? 'tab-active' : ''" class="w-full flex items-center px-4 py-3 text-sm hover:bg-navy-700 transition rounded text-left">
+                Teknisk Audit
+            </button>
+        </nav>
+
+        <div class="p-4 bg-navy-900 text-xs text-navy-300">
+            Leveransplattform v1.0
+        </div>
+    </aside>
+
+    <main class="flex-1 p-12 overflow-y-auto">
+        
+        <section x-show="activeTab === 'executive'" x-cloak>
+            <header class="mb-10">
+                <h1 class="text-4xl font-bold text-navy-800">Sammanfattning (Executive Summary)</h1>
+                <p class="text-xl text-slate-500 mt-2">Överbrygga gapet från "innehållsfetma" till avsiktsdriven UX.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-navy-800 mb-4 border-b pb-2 uppercase tracking-wide">Huvudutmaning</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Nuvarande data bekräftar <strong>"Content Obesity"</strong> (innehållsfetma). Webbplatsen har vuxit organiskt utan gallring, vilket resulterat i dolda tjänster och höga avvisningsfrekvenser. Användare som letar efter specifika resultat (t.ex. "NATO-upphandlingar") går vilse i geografiska silon.
+                    </p>
+                </div>
+                <div class="bg-navy-800 p-8 rounded-xl shadow-sm text-white">
+                    <h3 class="text-lg font-bold text-yellow mb-4 border-b border-navy-700 pb-2 uppercase tracking-wide">Strategiskt Skifte</h3>
+                    <p class="leading-relaxed">
+                        Skifta fokus från <strong>"Vilka vi är"</strong> (geografi/interna avdelningar) till <strong>"Vad du behöver"</strong> (Jobs-to-be-Done). Vi föreslår en struktur med tre huvudpelare: 1. Väx Globalt, 2. Investera i Sverige, 3. Marknadsinsikter.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-12 overflow-hidden bg-white rounded-xl shadow-sm border border-slate-200">
+                <div class="bg-slate-50 p-4 border-b border-slate-200">
+                    <h3 class="font-bold text-navy-800 uppercase text-xs tracking-widest">Transformationskarta</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-x divide-slate-200">
+                    <div class="p-6 bg-slate-50/50">
+                        <div class="flex items-center text-red-600 mb-6">
+                            <h4 class="font-black uppercase tracking-tight text-lg">Nuläge (Gapet)</h4>
+                        </div>
+                        <ul class="space-y-6">
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Geografisk navigering</span>
+                                <p class="text-slate-500 text-sm">Innehåll begravt under "Region > Land > Kontor". Svårt att hitta globala tjänster.</p>
+                            </li>
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Intern jargon</span>
+                                <p class="text-slate-500 text-sm">Användning av termer som "B2G", "SME Catalyst" eller "FDI" som exkluderar nya användare.</p>
+                            </li>
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Passivt PDF-bibliotek</span>
+                                <p class="text-slate-500 text-sm">En "rapportkyrkogård" med 100+ statiska filer. Skapar beslutsångest hos användaren.</p>
+                            </li>
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Osynliga verktyg</span>
+                                <p class="text-slate-500 text-sm">Värdefulla kalkylatorer och sökfält är dolda bakom ikoner eller undermenyer.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 bg-white">
+                        <div class="flex items-center text-action-green mb-6">
+                            <h4 class="font-black uppercase tracking-tight text-lg">Framtida läge (Målet)</h4>
+                        </div>
+                        <ul class="space-y-6">
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Navigering efter avsikt</span>
+                                <p class="text-slate-600 text-sm font-medium">Organiserat efter: "Jag vill sälja", "Jag vill investera" eller "Jag behöver efterleva regler".</p>
+                            </li>
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Användarcentrerat språk</span>
+                                <p class="text-slate-600 text-sm font-medium">Resultatorienterade uttryck som "Vinna offentliga upphandlingar" eller "Stöd för tillväxtbolag".</p>
+                            </li>
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Dynamisk kunskapshub</span>
+                                <p class="text-slate-600 text-sm font-medium">Sökbar, filtrerbar databas med insikter och tydliga "Nästa steg" för besökaren.</p>
+                            </li>
+                            <li>
+                                <span class="block font-bold text-navy-800 text-sm">Handlingsorienterad UX</span>
+                                <p class="text-slate-600 text-sm font-medium">Synliga öppna sökfält, diagnostiska quiz och interaktiva handelsverktyg.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-navy-800 mb-6">Topp 10 prioriterade åtgärder</h3>
+            <div class="space-y-4">
+                <template x-for="(rec, index) in [
+                    {title: 'Implementera öppet sökfält', desc: 'Åtgärda söknyttjandet på 0,04 % genom att gå från ikon till öppet textfält.'},
+                    {title: 'Aktivera SME-tratten', desc: 'Bygg om /sme från en lista till ett diagnostiskt readiness-quiz.'},
+                    {title: 'Städa rapportkyrkogården', desc: 'Arkivera rapporter äldre än 2023; flytta till en filtrerbar kunskapshub.'},
+                    {title: 'Skrota hamburgermenyn', desc: 'Exponera de 3 kärnpelarna via en permanent megameny.'},
+                    {title: 'Avsiktsbaserad namngivning', desc: 'Ändra intern jargon som B2G till Vinna offentliga upphandlingar.'},
+                    {title: 'Teknisk DOM-optimering', desc: 'Minska HTML-nästling för att stödja den 41-procentiga mobiltrafiken.'},
+                    {title: 'Hubbar för strategiska pelare', desc: 'Ge NATO och Ukraina hög synlighet med kortbaserade landningssidor.'},
+                    {title: 'Interaktiva etableringskartor', desc: 'Konvertera statisk text till interaktiva verktyg för investerare.'},
+                    {title: 'Kontextuella kontakter', desc: 'Ta bort den generiska kontaktsidan; placera experter direkt på relevanta marknadssidor.'},
+                    {title: 'Gallringspolicy för innehåll', desc: 'Inför en 6-månadersregel för att arkivera artiklar med lågt engagemang.'}
+                ]">
+                    <div class="flex items-start bg-white p-4 rounded shadow-sm border-l-4 border-yellow">
+                        <span class="font-bold text-navy-800 mr-4" x-text="index + 1 + '.'"></span>
+                        <div>
+                            <strong class="text-navy-800" x-text="rec.title"></strong>
+                            <p class="text-sm text-slate-500" x-text="rec.desc"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <section x-show="activeTab === 'data'" x-cloak>
+            <h1 class="text-4xl font-bold text-navy-800 mb-10">Data & Bevis</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded shadow-sm border">
+                    <h4 class="font-bold text-navy-800 mb-2">Sökfunktionens misslyckande</h4>
+                    <div class="text-4xl font-black text-red-500 mb-2">0.04%</div>
+                    <p class="text-sm text-slate-500">Användningen av den interna sökfunktionen är nära noll. Användare hittar inte ikonen eller ignorerar den då den saknar prediktiv hjälp.</p>
+                </div>
+                <div class="bg-white p-6 rounded shadow-sm border">
+                    <h4 class="font-bold text-navy-800 mb-2">Mobiltrafik</h4>
+                    <div class="text-4xl font-black text-navy-800 mb-2">41%</div>
+                    <p class="text-sm text-slate-500">Nästan hälften av alla användare är mobila, men DOM-storlek och tunga element leder till långsamma laddtider.</p>
+                </div>
+            </div>
+
+            <div style="height:30px;"></div>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-4">GA4 Konverteringsgap</h3>
+                <div class="h-64 bg-slate-100 rounded flex items-center justify-center border-dashed border-2 border-slate-300">
+                    <p class="text-slate-400 italic">[CLI Target: Visualisera GA4 Bounce Rates för /SME vs branschindex]</p>
+                </div>
+                <p class="mt-4 text-slate-600 italic text-sm">Resonemang: 1 750 exits på SME-sidan indikerar brist på omedelbart värde vid landning.</p>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-navy-800 mb-6 uppercase tracking-wide">Gap i innehållsaktivitet</h3>
+                    <div style="height:350px; width:100%;">
+                        <canvas id="actionChart"></canvas>
+                    </div>
+                    <div class="mt-6 p-4 bg-red-50 rounded-lg border border-red-100">
+                        <p class="text-sm text-red-800">
+                            <strong>Upptäckt:</strong> 31 232 sidvisningar triggade <strong>noll nyckelhändelser</strong>. 
+                            Detta inkluderar <span class="font-bold">2 948 sidor helt utan besökare</span>, vilket bidrar till "innehållsfetma" och teknisk skuld.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-navy-800 mb-6 uppercase tracking-wide">Rapporters sökbarhet</h3>
+                    <div style="height:350px; width:100%;">
+                        <canvas id="reportChart"></canvas>
+                    </div>
+                    <div class="mt-6 p-4 bg-navy-50 rounded-lg border border-navy-100">
+                        <p class="text-sm text-navy-800">
+                            <strong>Upptäckt:</strong> Över <strong>54 %</strong> av de strategiska rapporterna (323 stycken) är i praktiken osynliga och har aldrig laddats ner.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const actionCtx = document.getElementById('actionChart').getContext('2d');
+                new Chart(actionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Sidor med nyckelhändelser', 'Sidor utan nyckelhändelser'],
+                        datasets: [{
+                            data: [32334, 31232], 
+                            backgroundColor: ['#28A745', '#EF4444'],
+                            hoverOffset: 20,
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label === 'Sidor utan nyckelhändelser') {
+                                            return label + ': 31 232 (Inkl. 2 948 utan besök)';
+                                        }
+                                        return label + ': ' + context.raw.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+
+                const reportCtx = document.getElementById('reportChart').getContext('2d');
+                new Chart(reportCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Nedladdade rapporter', 'Ej nedladdade rapporter'],
+                        datasets: [{
+                            data: [274, 323],
+                            backgroundColor: ['#002B49', '#FDC12A'],
+                            borderColor: '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+            });
+            </script>
+        </section>
+
+        <section x-show="activeTab === 'ia'" x-cloak>
+            <header class="mb-10">
+                <h1 class="text-4xl font-bold text-navy-800">Föreslagen informationsarkitektur</h1>
+                <p class="text-xl text-slate-500 mt-2">Skifte från organisatoriska silon till ett Jobs-to-be-Done (JTBD) ramverk.</p>
+            </header>
+
+            <div class="mt-12 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-navy-900 text-white p-6">
+                    <h3 class="text-xl font-bold italic text-yellow">Struktur för huvudnavigering</h3>
+                    <p class="text-navy-300 text-sm mt-1">Organisering efter användarens avsikt för att lösa gapet på SME-sidan.</p>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th class="p-4 text-xs font-black uppercase tracking-tighter text-navy-800">Nivå 1: Avsikt (Huvudmeny)</th>
+                                <th class="p-4 text-xs font-black uppercase tracking-tighter text-navy-800">Nivå 2: Behov (Underrubrik)</th>
+                                <th class="p-4 text-xs font-black uppercase tracking-tighter text-navy-800">Nivå 3: Resultat (Landningssidor)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="align-top hover:bg-slate-50/50 transition">
+                                <td class="p-4 bg-navy-50/30 font-bold">1. Väx Globalt</td>
+                                <td class="p-4 space-y-4">
+                                    <div class="font-bold text-navy-800 text-sm">Marknadsinträde & Regler</div>
+                                    <div class="font-bold text-navy-800 text-sm">Strategiska Program</div>
+                                    <div class="font-bold text-navy-800 text-sm">Tjänster efter mognad</div>
+                                </td>
+                                <td class="p-4 space-y-4 text-sm text-slate-600">
+                                    <div>Exportguiden, handelsregler (EU/US/Asien), ATA-carnet.</div>
+                                    <div class="text-navy-900 font-medium italic">NATO & Försvar, återuppbyggnad av Ukraina, Global Green Deal.</div>
+                                    <div>Catalyst (Startups), marknadsinträde för SME, myndighetsrelationer (MNC).</div>
+                                </td>
+                            </tr>
+                            <tr class="align-top hover:bg-slate-50/50 transition">
+                                <td class="p-4 bg-navy-50/30 font-bold">2. Investera i Sverige</td>
+                                <td class="p-4 space-y-4">
+                                    <div class="font-bold text-navy-800 text-sm">Det svenska värdeerbjudandet</div>
+                                    <div class="font-bold text-navy-800 text-sm">Industriella kluster</div>
+                                    <div class="font-bold text-navy-800 text-sm">Etablering & Site Selection</div>
+                                </td>
+                                <td class="p-4 space-y-4 text-sm text-slate-600">
+                                    <div>Hållbarhet, innovation och stabilitetsdata.</div>
+                                    <div class="text-navy-900 font-medium italic">Batteribältet, Life Science, Tech & AI, fossilfritt stål.</div>
+                                    <div>Mark & tillstånd, energikartor, företagsskatt, arbetsrätt.</div>
+                                </td>
+                            </tr>
+                            <tr class="align-top hover:bg-slate-50/50 transition">
+                                <td class="p-4 bg-navy-50/30 font-bold">3. Marknadsinsikter</td>
+                                <td class="p-4 space-y-4">
+                                    <div class="font-bold text-navy-800 text-sm">Insikter & Data</div>
+                                    <div class="font-bold text-navy-800 text-sm">Globala trender</div>
+                                    <div class="font-bold text-navy-800 text-sm">Beslutsverktyg</div>
+                                </td>
+                                <td class="p-4 space-y-4 text-sm text-slate-600">
+                                    <div>Business Climate Surveys, Exportchefsindex.</div>
+                                    <div>Skiften i USA:s handelspolitik, geopolitisk risk, Green Deal.</div>
+                                    <div class="text-navy-900 font-medium italic">Tullkalkylator, Export Readiness Quiz.</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <section x-data="{ 
+                step: 1, 
+                results: false,
+                score: 0,
+                get resultText() {
+                    if (this.score <= 1) return 'Marknadsutforskare: Fokusera på marknadsinsikter och data.';
+                    if (this.score === 2) return 'Redo för pilot: Vi rekommenderar programmet för marknadsinträde.';
+                    return 'Global Scaler: Du är redo för tillväxt. Ansök till Catalyst-programmet.';
+                }
+            }" class="mt-12 bg-white p-8 rounded-xl shadow-sm border-2 border-yellow">
+               
+                <div class="mb-6">
+                    <span class="bg-yellow text-navy-900 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Logik-prototyp</span>
+                    <h3 class="text-2xl font-bold text-navy-800 mt-2">SME Export Readiness Diagnostic</h3>
+                    <p class="text-slate-500">Föreslagen lösning för att minska avhoppen på SME-sidan.</p>
+                </div>
+
+                <div class="bg-navy-50 p-10 rounded-lg border border-navy-100 text-center">
+                    <div x-show="step === 1">
+                        <h4 class="text-lg font-bold text-navy-900 mb-6">1. Har ni en etablerad försäljning i Sverige?</h4>
+                        <button @click="step = 2; score++" class="bg-navy-800 text-white px-6 py-2 rounded-full m-2 hover:bg-navy-700 transition">Ja</button>
+                        <button @click="step = 2" class="bg-white border border-navy-800 text-navy-800 px-6 py-2 rounded-full m-2">Nej</button>
+                    </div>
+
+                    <div x-show="step === 2" x-cloak>
+                        <h4 class="text-lg font-bold text-navy-900 mb-6">2. Har ni identifierat en specifik målmarknad?</h4>
+                        <button @click="step = 3; score++" class="bg-navy-800 text-white px-6 py-2 rounded-full m-2 hover:bg-navy-700 transition">Ja</button>
+                        <button @click="step = 3" class="bg-white border border-navy-800 text-navy-800 px-6 py-2 rounded-full m-2">Nej</button>
+                    </div>
+
+                    <div x-show="step === 3" x-cloak>
+                        <h4 class="text-lg font-bold text-navy-900 mb-6">3. Är er produkt/tjänst digitalt skalerbar?</h4>
+                        <button @click="results = true; step = 0; score++" class="bg-navy-800 text-white px-6 py-2 rounded-full m-2 hover:bg-navy-700 transition">Ja</button>
+                        <button @click="results = true; step = 0" class="bg-white border border-navy-800 text-navy-800 px-6 py-2 rounded-full m-2">Nej</button>
+                    </div>
+
+                    <div x-show="results" x-cloak>
+                        <h4 class="text-2xl font-black text-navy-900 mb-4" x-text="resultText"></h4>
+                        <button @click="step = 1; results = false; score = 0" class="text-navy-600 underline text-sm">Återställ testet</button>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section x-show="activeTab === 'tech'" x-cloak>
+            <h1 class="text-4xl font-bold text-navy-800 mb-10">Tekniska fynd & rekommendationer</h1>
+            <div class="bg-red-50 p-6 rounded-xl border border-red-100 mb-8">
+                <h4 class="text-red-800 font-bold mb-2 uppercase text-xs tracking-widest">Kritisk teknisk skuld</h4>
+                <ul class="list-disc ml-5 text-red-700 space-y-1 text-sm">
+                    <li>Överdriven DOM-storlek (nästlade HTML-element) som saktar ner mobilrendering.</li>
+                    <li>Tunga skript blockerar renderingen vid initial laddning.</li>
+                    <li>Dold sökfunktion hindrar konvertering för användare med hög köpavsikt.</li>
+                </ul>
+            </div>
+            
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 h-64 flex items-center justify-center italic text-slate-400">
+                [CLI Target: Visualisera användarresan från startsida till NATO-upphandlingar för att påvisa friktion]
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

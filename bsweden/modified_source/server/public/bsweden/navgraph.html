@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Sweden: Interactive Audit</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; display: flex; height: 100vh; background: #111; color: white; overflow: hidden; }
+        
+        /* Sidebar for controls and data */
+        #sidebar { width: 350px; background: #1a1a1a; border-right: 1px solid #333; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; z-index: 10; }
+        
+        /* Main graph area */
+        #cy { flex-grow: 1; background: #0b0b0b; position: relative; }
+
+        .section { margin-bottom: 25px; }
+        h3 { border-bottom: 1px solid #333; padding-bottom: 10px; color: #0074D9; margin-top: 0; }
+        
+        button { background: #333; color: #ccc; border: 1px solid #444; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin: 2px; transition: 0.3s; }
+        button.active { background: #0074D9; color: white; border-color: #00aaff; }
+        
+        /* Info Box */
+        #details-box { background: #222; padding: 15px; border-radius: 6px; border-left: 4px solid #0074D9; word-break: break-all; min-height: 100px; font-size: 13px; }
+        .stat { color: #888; font-size: 11px; margin-top: 10px; }
+        .url-link { color: #00aaff; text-decoration: none; display: block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <div class="section">
+            <h3>Complexity Layers</h3>
+            <div id="layer-controls">
+                <button onclick="toggleLayer(1)" id="btn-1" class="active">Depth 1</button>
+                <button onclick="toggleLayer(2)" id="btn-2">Depth 2</button>
+                <button onclick="toggleLayer(3)" id="btn-3">Depth 3</button>
+                <button onclick="toggleLayer(4)" id="btn-4">Depth 4</button>
+                <button onclick="toggleLayer(5)" id="btn-5">Depth 5+</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Node Intelligence</h3>
+            <div id="details-box">Click a node to inspect...</div>
+        </div>
+
+        <div class="stat" id="stats">Nodes: 0 | Edges: 0</div>
+    </div>
+
+    <div id="cy"></div>
+
+    <script>
+        let cy;
+        let allElements = [];
+        let activeLayers = new Set([1]);
+
+        // 1. Fetch data from your actual file
+        fetch('data_nav.json').then(res => res.json()).then(data => {
+            data.nodes.forEach(node => {
+                const url = node.data.id;
+                const path = new URL(url).pathname.replace(/\/$/, "");
+                const depth = path.split('/').filter(p => p.length > 0).length || 1;
+                node.data.depth = depth;
+            });
+
+            allElements = [...data.nodes, ...data.edges];
+            initGraph();
+        });
+
+        function initGraph() {
+            cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: getFilteredElements(),
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'width': 'mapData(depth, 1, 5, 25, 8)',
+                            'height': 'mapData(depth, 1, 5, 25, 8)',
+                            'background-color': '#0074D9',
+                            'border-width': 2,
+                            'border-color': '#00aaff',
+                            'transition-property': 'background-color, border-width',
+                            'transition-duration': '0.2s'
+                        }
+                    },
+                    {
+                        selector: 'node:selected',
+                        style: { 'background-color': '#FF851B', 'border-color': '#fff', 'border-width': 4 }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': 1,
+                            'line-color': '#444',
+                            'opacity': 0.2,
+                            'curve-style': 'haystack',
+                            'target-arrow-shape': 'none'
+                        }
+                    },
+                    {
+                        selector: '.highlighted',
+                        style: { 'opacity': 1, 'line-color': '#00aaff', 'width': 2 }
+                    },
+                    {
+                        selector: '.faded',
+                        style: { 'opacity': 0.1 }
+                    }
+                ]
+            });
+
+            // Tap Event
+            cy.on('tap', 'node', function(evt){
+                const node = evt.target;
+                const data = node.data();
+                
+                // Update Sidebar
+                document.getElementById('details-box').innerHTML = `
+                    <strong>URL:</strong><br>${data.id}<br><br>
+                    <strong>Site Depth:</strong> ${data.depth}<br>
+                    <strong>Connections:</strong> ${node.connectedEdges().length}<br>
+                    <a href="${data.id}" target="_blank" class="url-link">Open Page &#x2197;</a>
+                `;
+
+                // Visual Focus Effect
+                cy.elements().addClass('faded');
+                node.removeClass('faded').neighborhood().removeClass('faded');
+                node.connectedEdges().addClass('highlighted');
+            });
+
+            // Tap Background to Reset
+            cy.on('tap', function(evt){
+                if(evt.target === cy){
+                    cy.elements().removeClass('faded').removeClass('highlighted');
+                    document.getElementById('details-box').innerHTML = 'Click a node to inspect...';
+                }
+            });
+
+            runLayout();
+        }
+
+        function getFilteredElements() {
+            const filteredNodes = allElements.filter(el => el.data.depth && activeLayers.has(el.data.depth));
+            const nodeIds = new Set(filteredNodes.map(n => n.data.id));
+            const filteredEdges = allElements.filter(el => el.data.source && nodeIds.has(el.data.source) && nodeIds.has(el.data.target));
+            
+            document.getElementById('stats').innerText = `Nodes: ${filteredNodes.length} | Edges: ${filteredEdges.length}`;
+            return { nodes: filteredNodes, edges: filteredEdges };
+        }
+
+        function toggleLayer(depth) {
+            if (activeLayers.has(depth)) {
+                if(activeLayers.size === 1) return; // Keep at least one
+                activeLayers.delete(depth);
+                document.getElementById(`btn-${depth}`).classList.remove('active');
+            } else {
+                activeLayers.add(depth);
+                document.getElementById(`btn-${depth}`).classList.add('active');
+            }
+            
+            cy.json({ elements: getFilteredElements() });
+            runLayout();
+        }
+
+        function runLayout() {
+            cy.layout({
+                name: 'concentric',
+                concentric: function(n) { return 10 - n.data('depth'); },
+                levelWidth: function() { return 1; },
+                animate: true,
+                animationDuration: 500
+            }).run();
+        }
+    </script>
+</body>
+</html>

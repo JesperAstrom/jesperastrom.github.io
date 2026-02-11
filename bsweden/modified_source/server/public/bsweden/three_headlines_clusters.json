@@ -1,0 +1,354 @@
+{
+    "summary": [
+        {
+            "category": "Grow Global",
+            "sessions": 447,
+            "term_count": 179
+        },
+        {
+            "category": "Invest in Sweden",
+            "sessions": 120,
+            "term_count": 66
+        },
+        {
+            "category": "Market Intelligence",
+            "sessions": 116,
+            "term_count": 38
+        },
+        {
+            "category": "Other/General",
+            "sessions": 978,
+            "term_count": 771
+        }
+    ],
+    "clusters": {
+        "Grow Global": [
+            {
+                "Search term": "leverantörsdeklaration",
+                "Sessions": 27
+            },
+            {
+                "Search term": "japan",
+                "Sessions": 22
+            },
+            {
+                "Search term": "taiwan",
+                "Sessions": 21
+            },
+            {
+                "Search term": "affärskultur",
+                "Sessions": 19
+            },
+            {
+                "Search term": "kina",
+                "Sessions": 16
+            },
+            {
+                "Search term": "affärskulturer",
+                "Sessions": 14
+            },
+            {
+                "Search term": "frihandl",
+                "Sessions": 13
+            },
+            {
+                "Search term": "tyskland",
+                "Sessions": 12
+            },
+            {
+                "Search term": "colombia",
+                "Sessions": 11
+            },
+            {
+                "Search term": "brasilien",
+                "Sessions": 9
+            },
+            {
+                "Search term": "e-handelsguiden",
+                "Sessions": 8
+            },
+            {
+                "Search term": "USA",
+                "Sessions": 7
+            },
+            {
+                "Search term": "china",
+                "Sessions": 7
+            },
+            {
+                "Search term": "frankrike",
+                "Sessions": 6
+            },
+            {
+                "Search term": "indien",
+                "Sessions": 6
+            },
+            {
+                "Search term": "kenya",
+                "Sessions": 6
+            },
+            {
+                "Search term": "nigeria",
+                "Sessions": 6
+            },
+            {
+                "Search term": "usa",
+                "Sessions": 6
+            },
+            {
+                "Search term": "vietnam",
+                "Sessions": 6
+            },
+            {
+                "Search term": "mexico",
+                "Sessions": 5
+            }
+        ],
+        "Invest in Sweden": [
+            {
+                "Search term": "kärnkraft",
+                "Sessions": 11
+            },
+            {
+                "Search term": "powering",
+                "Sessions": 11
+            },
+            {
+                "Search term": "summit",
+                "Sessions": 5
+            },
+            {
+                "Search term": "testmarknad",
+                "Sessions": 5
+            },
+            {
+                "Search term": "volvo",
+                "Sessions": 5
+            },
+            {
+                "Search term": "join sweden summit 2025",
+                "Sessions": 4
+            },
+            {
+                "Search term": "Siemens",
+                "Sessions": 4
+            },
+            {
+                "Search term": "datacenter",
+                "Sessions": 4
+            },
+            {
+                "Search term": "sweden",
+                "Sessions": 4
+            },
+            {
+                "Search term": "northvolt",
+                "Sessions": 3
+            },
+            {
+                "Search term": "investment",
+                "Sessions": 2
+            },
+            {
+                "Search term": "team sweden",
+                "Sessions": 2
+            },
+            {
+                "Search term": "join sweden summit",
+                "Sessions": 2
+            },
+            {
+                "Search term": "business sweden",
+                "Sessions": 2
+            },
+            {
+                "Search term": "Volvo",
+                "Sessions": 2
+            },
+            {
+                "Search term": "Sweden",
+                "Sessions": 2
+            },
+            {
+                "Search term": "Sveriges realkapital",
+                "Sessions": 2
+            },
+            {
+                "Search term": "Scania",
+                "Sessions": 2
+            },
+            {
+                "Search term": "jan ytterberg volvo",
+                "Sessions": 1
+            },
+            {
+                "Search term": "global assets invest new report 2016",
+                "Sessions": 1
+            }
+        ],
+        "Market Intelligence": [
+            {
+                "Search term": "jonas thulin",
+                "Sessions": 46
+            },
+            {
+                "Search term": "lena sellgren",
+                "Sessions": 8
+            },
+            {
+                "Search term": "anna hammarberg",
+                "Sessions": 6
+            },
+            {
+                "Search term": "Lena Sellgren",
+                "Sessions": 5
+            },
+            {
+                "Search term": "emma modeer wiking",
+                "Sessions": 5
+            },
+            {
+                "Search term": "klas ericson",
+                "Sessions": 4
+            },
+            {
+                "Search term": "robin petterson",
+                "Sessions": 3
+            },
+            {
+                "Search term": "marie claire maxwell",
+                "Sessions": 3
+            },
+            {
+                "Search term": "joakim abeleen",
+                "Sessions": 3
+            },
+            {
+                "Search term": "helen rönnholm",
+                "Sessions": 3
+            },
+            {
+                "Search term": "Marie Claire Maxwell",
+                "Sessions": 2
+            },
+            {
+                "Search term": "business climate survey 2025",
+                "Sessions": 2
+            },
+            {
+                "Search term": "lena sellgren kontakt",
+                "Sessions": 1
+            },
+            {
+                "Search term": "finland business climate survey 2025",
+                "Sessions": 1
+            },
+            {
+                "Search term": "global business climate survey 2025",
+                "Sessions": 1
+            },
+            {
+                "Search term": "global business climate survey storbritannien",
+                "Sessions": 1
+            },
+            {
+                "Search term": "global business survey 2024",
+                "Sessions": 1
+            },
+            {
+                "Search term": "sustainability rapport",
+                "Sessions": 1
+            },
+            {
+                "Search term": "morocco business climate survey 2025",
+                "Sessions": 1
+            },
+            {
+                "Search term": "scenario analysis",
+                "Sessions": 1
+            }
+        ],
+        "Other/General": [
+            {
+                "Search term": "try swedish",
+                "Sessions": 8
+            },
+            {
+                "Search term": "fashion",
+                "Sessions": 6
+            },
+            {
+                "Search term": "35",
+                "Sessions": 5
+            },
+            {
+                "Search term": "cop30",
+                "Sessions": 5
+            },
+            {
+                "Search term": "lediga tjänster",
+                "Sessions": 4
+            },
+            {
+                "Search term": "wireless",
+                "Sessions": 4
+            },
+            {
+                "Search term": "partners",
+                "Sessions": 4
+            },
+            {
+                "Search term": "mikael",
+                "Sessions": 4
+            },
+            {
+                "Search term": "10x group consulting",
+                "Sessions": 4
+            },
+            {
+                "Search term": "distribute",
+                "Sessions": 4
+            },
+            {
+                "Search term": "catalyst",
+                "Sessions": 4
+            },
+            {
+                "Search term": "pharma",
+                "Sessions": 3
+            },
+            {
+                "Search term": "enablers",
+                "Sessions": 3
+            },
+            {
+                "Search term": "förenade arabemiraten",
+                "Sessions": 3
+            },
+            {
+                "Search term": "handelskammare",
+                "Sessions": 3
+            },
+            {
+                "Search term": "island",
+                "Sessions": 3
+            },
+            {
+                "Search term": "lediga jobb",
+                "Sessions": 3
+            },
+            {
+                "Search term": "Australia",
+                "Sessions": 3
+            },
+            {
+                "Search term": "portugal",
+                "Sessions": 3
+            },
+            {
+                "Search term": "region stockholm",
+                "Sessions": 3
+            }
+        ]
+    }
+}

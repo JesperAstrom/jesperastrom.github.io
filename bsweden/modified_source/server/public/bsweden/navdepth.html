@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigation Audit</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        #error-log { color: red; background: #fee; padding: 15px; border: 1px solid red; display: none; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #001f3f; color: white; text-align: left; padding: 10px; }
+        td { padding: 8px; border-bottom: 1px solid #eee; font-size: 12px; }
+        .depth-label { font-weight: bold; padding: 10px; background: #ddd; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>Business Sweden: Navigation Audit</h1>
+    
+    <div id="error-log"></div>
+
+    <div class="card">
+        <canvas id="depthChart" height="100"></canvas>
+    </div>
+
+    <div id="table-container"></div>
+
+    <script>
+        const errorLog = document.getElementById('error-log');
+        
+        // 1. ATTEMPT TO FETCH THE DATA
+        fetch('data_nav.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`Could not find data_nav.json. Status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                // 2. CHECK DATA STRUCTURE
+                if (!data.nodes || !Array.isArray(data.nodes)) {
+                    throw new Error("data_nav.json is loaded but doesn't contain a 'nodes' array.");
+                }
+
+                const distribution = {};
+                const depthBuckets = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+
+                // 3. CALCULATE DEPTH FROM REAL URLs
+                data.nodes.forEach(node => {
+                    try {
+                        const urlStr = node.data.id;
+                        const urlObj = new URL(urlStr);
+                        const pathParts = urlObj.pathname.split('/').filter(p => p.length > 0);
+                        const depth = pathParts.length;
+
+                        distribution[depth] = (distribution[depth] || 0) + 1;
+                        if (depth <= 5) depthBuckets[depth].push(urlStr);
+                    } catch(e) { /* skip invalid URLs */ }
+                });
+
+                // 4. RENDER CHART
+                new Chart(document.getElementById('depthChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(distribution).map(d => `Depth ${d}`),
+                        datasets: [{
+                            label: 'Pages at this Depth',
+                            data: Object.values(distribution),
+                            backgroundColor: '#0074D9'
+                        }]
+                    }
+                });
+
+                // 5. RENDER TABLES
+                const container = document.getElementById('table-container');
+                [1, 2, 3, 4, 5].forEach(d => {
+                    const sample = depthBuckets[d].slice(0, 10);
+                    if (sample.length === 0) return;
+
+                    let tableHtml = `
+                        <div class="depth-label">Depth ${d} (Examples)</div>
+                        <table class="card">
+                            <thead><tr><th>Actual Page URL</th></tr></thead>
+                            <tbody>
+                                ${sample.map(url => `<tr><td>${url}</td></tr>`).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                    container.innerHTML += tableHtml;
+                });
+
+            })
+            .catch(err => {
+                errorLog.style.display = 'block';
+                errorLog.innerHTML = `<strong>Error:</strong> ${err.message}<br><small>Make sure you are running this through a local server (npx serve or python -m http.server).</small>`;
+            });
+    </script>
+</body>
+</html>
