@@ -22,6 +22,28 @@
     <meta name="description" content="A place where you can find scripts and examples to improve your analytics and website tracking.">
 
     <!--Social Meta Data-->
+    <script>
+    // 1. Target the element by its ID
+    const testClickElement = document.getElementById('testklick');
+
+    // 2. Add the click event listener
+    testClickElement.addEventListener('click', function(event) {
+        
+        // Ensure dataLayer exists
+        window.dataLayer = window.dataLayer || [];
+
+        // 3. Push the data
+        window.dataLayer.push({
+        'event': 'test_click_event',       // The trigger name for GTM
+        'link_text': 'What is the dataLayer?', 
+        'section': 'Who is Section',
+        'click_timestamp': new Date().getTime()
+        });
+
+        // Optional: Log to console so you can verify it worked instantly
+        console.log('dataLayer Push Successful:', window.dataLayer);
+    });
+    </script>
 
 </head>
     <body>
@@ -57,7 +79,7 @@
                 <section class="content">
                     <h3>The dataLayer</h3>
                     <ul>
-                        <li><a href="/datalayer/">What is the dataLayer?</a></li>
+                        <li id="testklick"><a href="/datalayer/">What is the dataLayer?</a></li>
                         <li><a href="/datalayer/event-object.html">Event Objects</a></li>
                         <li><a href="/datalayer/access-datalayer.html">How do I access the dataLayer?</a></li>
                         <li><a href="/datalayer/add-event-to-datalayer.html">How do I add events to the dataLayer?</a></li>
