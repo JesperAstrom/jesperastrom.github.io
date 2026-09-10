@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web scraping med Node – Growth Toolbox</title>
+<meta name="description" content="Föreläsning och övning i web scraping med JavaScript, Node och cheerio. En sak per slide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Web scraping – slide deck
+   Concept: "source and surface". The rendered page is what students see;
+   the HTML source is what the scraper sees. The one bold element is the
+   DevTools-style inspect highlight (blue wash + tooltip) that marks the
+   thing we are about to grab. Everything else is quiet paper.
+   ========================================================================== */
+:root {
+  --ground: #E9EDF2;
+  --stage:  #F7F8FA;
+  --panel:  #0E1726;
+  --panel-ink: #E8EEF8;
+  --ink:    #0B1F3A;
+  --ink-2:  #4A5B71;
+  --ink-3:  #7C8A9E;
+  --rule:   #CBD4DF;
+  --accent: #2E6BFF;
+  --accent-wash: rgba(46,107,255,.16);
+  --ok:     #178A5E;
+  --ok-wash:#E1F3EB;
+  --warn:   #B45309;
+  --warn-wash:#FCEFDD;
+  --sans: "Space Grotesk", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+/* Stage: a 1600×900 canvas scaled to fit the viewport ------------------- */
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;background:var(--stage);box-shadow:0 30px 80px rgba(11,31,58,.18);overflow:hidden}
+.slide{position:absolute;inset:0;padding:96px 120px 120px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide:focus{outline:none}
+
+/* Typography ------------------------------------------------------------ */
+h1{font-size:76px;line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 28px;max-width:22ch}
+h2{font-size:56px;line-height:1.08;letter-spacing:-.02em;font-weight:700;margin:0 0 32px;max-width:24ch}
+p,li{font-size:32px;line-height:1.4;margin:0}
+p+p{margin-top:18px}
+.lede{font-size:38px;color:var(--ink-2);max-width:32ch}
+.small{font-size:24px;color:var(--ink-2)}
+.muted{color:var(--ink-3)}
+ul,ol{margin:0;padding-left:1.1em}
+li+li{margin-top:16px}
+li::marker{color:var(--accent);font-weight:600}
+code{font-family:var(--mono);font-size:.86em;background:#FFFFFF;border:1px solid var(--rule);padding:.05em .35em;border-radius:6px;white-space:nowrap}
+a{color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent-wash)}
+kbd{font-family:var(--mono);font-size:.8em;background:#fff;border:1px solid var(--rule);border-bottom-width:3px;border-radius:6px;padding:.05em .4em}
+b{font-weight:600}
+
+/* Structural pieces ----------------------------------------------------- */
+.step{font-family:var(--mono);font-size:24px;color:var(--ink-3);margin:0 0 22px;display:flex;align-items:center;gap:18px}
+.step .part{color:var(--accent);font-weight:700}
+.step .part::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rule);margin:0 0 4px 18px;vertical-align:middle}
+.body{flex:1;display:grid;grid-template-columns:1fr;gap:40px;align-content:start;margin-bottom:24px}
+.body.two{grid-template-columns:1fr 1fr}
+.body.split{grid-template-columns:1.1fr .9fr}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.card h3{font-size:30px;margin:0 0 12px}
+.card code{white-space:normal;word-break:break-all}
+.card p,.card li{font-size:26px;line-height:1.38}
+.outcome{margin-top:auto;background:var(--ok-wash);border-left:8px solid var(--ok);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.outcome b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:8px solid var(--warn);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.warn b{color:var(--warn)}
+
+/* Code panel ------------------------------------------------------------ */
+pre{margin:0;background:var(--panel);color:var(--panel-ink);font-family:var(--mono);font-size:26px;line-height:1.5;padding:28px 34px;border-radius:12px;white-space:pre-wrap;word-break:break-word;overflow:hidden}
+pre .c{color:#7E8CA5}
+pre .k{color:#8EC5FF}
+pre .s{color:#B9E39C}
+.prompt{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:30px 36px 84px;font-size:25px;line-height:1.45;white-space:pre-wrap;position:relative;font-family:var(--sans)}
+.prompt .ph{background:var(--accent-wash);color:var(--accent);font-weight:600;padding:0 .3em;border-radius:4px}
+.copy{position:absolute;bottom:18px;right:18px;font:600 20px var(--sans);color:var(--accent);background:#fff;border:2px solid var(--accent);border-radius:8px;padding:8px 16px;cursor:pointer}
+.copy:hover,.copy:focus-visible{background:var(--accent);color:#fff;outline:none}
+
+/* The inspect highlight (the one bold element) -------------------------- */
+.inspect{position:relative;display:inline-block;background:var(--accent-wash);outline:2px solid var(--accent);border-radius:2px;padding:.05em .2em}
+.inspect .tip{position:absolute;left:0;top:calc(100% + 12px);white-space:nowrap;background:var(--panel);color:#fff;font:400 20px var(--mono);padding:8px 14px;border-radius:6px}
+.inspect .tip b{color:#8EC5FF;font-weight:400}
+.inspect .tip i{color:#9AA6B8;font-style:normal;margin-left:10px}
+
+/* Title slide ----------------------------------------------------------- */
+.title{justify-content:center;padding-left:140px}
+.title .tag{font-family:var(--mono);font-size:44px;color:var(--ink-3);font-weight:400;display:block;line-height:1.1}
+.title h1{font-size:150px;margin:6px 0 6px;max-width:none;letter-spacing:-.04em}
+.title .meta{margin-top:56px;font-size:28px;color:var(--ink-2)}
+.title .meta span{display:inline-block;margin-right:48px}
+
+/* Section divider ------------------------------------------------------- */
+.divider{justify-content:center;background:var(--panel);color:#fff}
+.divider .step{color:#8EC5FF}
+.divider h1{color:#fff;font-size:110px;max-width:none;letter-spacing:-.035em}
+.divider p{color:#B8C4D6;font-size:36px;max-width:30ch}
+
+/* Table ----------------------------------------------------------------- */
+table{border-collapse:collapse;width:100%;font-size:25px;line-height:1.35}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:22px}
+table.dense{font-size:22px}
+table.dense td,table.dense th{padding:11px 16px}
+td code{font-size:.82em}
+
+/* Chrome: counter, progress, help --------------------------------------- */
+#progress{position:absolute;left:0;bottom:0;height:8px;background:var(--accent);width:0;transition:width .25s}
+#counter{position:absolute;right:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+#deckname{position:absolute;left:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+.divider #counter,.divider #deckname{color:#7E8CA5}
+#help{position:fixed;left:16px;top:16px;font:400 13px var(--mono);color:var(--ink-3);background:rgba(255,255,255,.7);padding:6px 10px;border-radius:6px;opacity:.9}
+#notes{position:fixed;right:0;top:0;bottom:0;width:min(420px,40vw);background:#fff;border-left:1px solid var(--rule);padding:24px;overflow:auto;font-size:16px;line-height:1.5;display:none}
+#notes.on{display:block}
+#notes h4{margin:0 0 12px;font-size:13px;color:var(--ink-3);font-weight:600}
+.notes{display:none}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;box-shadow:none;page-break-after:always;margin:0 auto}
+  .slide{position:relative;display:flex!important;height:900px;page-break-after:always}
+  #help,#notes,#progress,#counter,#deckname{display:none}
+}
+@media (prefers-reduced-motion:reduce){#progress{transition:none}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="help">← → byter slide · N visar anteckningar · F helskärm</div>
+<aside id="notes"><h4>Anteckningar till läraren</h4><div id="notes-body"></div></aside>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- ====================================================================== -->
+<!-- DEL 0 · INTRO                                                          -->
+<!-- ====================================================================== -->
+
+<section class="slide title">
+  <span class="tag">&lt;h1&gt;</span>
+  <h1>Web scraping</h1>
+  <span class="tag">&lt;/h1&gt;</span>
+  <p class="meta"><span>Growth Toolbox</span><span>JavaScript + Node + cheerio</span><span>Jesper Åström</span></p>
+  <div class="notes">Titeln står mellan h1-taggar med flit: det är exakt så en scraper ser sidan. Poängen med hela dagen: det ni ser i webbläsaren är en rendering av text, och text kan ett program läsa.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Vad är web scraping?</p>
+  <h2>Ett program som läser en webbsida och plockar ut det du vill ha</h2>
+  <div class="body two">
+    <div>
+      <p class="lede">I stället för att kopiera 15&nbsp;868 företagsnamn för hand skriver du ett program som gör det på en minut.</p>
+    </div>
+    <div>
+      <ul>
+        <li><b>Hämta</b> sidan, precis som webbläsaren gör.</li>
+        <li><b>Hitta</b> rätt bitar i HTML-koden.</li>
+        <li><b>Spara</b> dem i en fil du kan jobba vidare med, till exempel CSV.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Definitionen i tre verb: hämta, hitta, spara. Alla verktyg vi ser idag gör ett av de tre. Siffran 15 868 är antalet träffar på "Arkitekter" på allabolag.se.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Det du redan gör varje dag</p>
+  <h2>Webbläsaren är en scraper som ritar upp resultatet</h2>
+  <div class="body two">
+    <div class="card">
+      <h3>Webbläsaren</h3>
+      <ol>
+        <li>Skickar en förfrågan (request) till servern.</li>
+        <li>Får tillbaka HTML, CSS och JavaScript.</li>
+        <li>Ritar upp sidan så att du kan läsa den.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Din scraper</h3>
+      <ol>
+        <li>Skickar samma förfrågan, fast från ett program.</li>
+        <li>Får tillbaka samma HTML.</li>
+        <li>Läser texten i koden i stället för att rita upp den.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="notes">Från tutorialen: "when you enter a website a basic GET request is sent... with request you do the same thing but you write that action yourself in Node instead of the browser handling everything". Visa gärna högerklick → Visa sidkälla (View page source) live: det är exakt det scrapern får.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Var finns datan?</p>
+  <h2>Tre ställen. Kolla vilket innan du börjar koda.</h2>
+  <div class="cols3">
+    <div class="card">
+      <h3>1. Direkt i HTML-koden</h3>
+      <p>Högerklick → Visa sidkälla. Om du hittar texten där är det enklaste fallet.</p>
+      <p class="muted">allabolag.se är så här.</p>
+    </div>
+    <div class="card">
+      <h3>2. Laddas in efteråt</h3>
+      <p>Sidan är tom i källkoden och fylls på av JavaScript. Titta i DevTools → Network → Fetch/XHR, där finns ofta ett API som svarar med JSON.</p>
+      <p class="muted">Instagram, Facebook, många webbshoppar.</p>
+    </div>
+    <div class="card">
+      <h3>3. Gömd som JSON i ett script</h3>
+      <p>Datan ligger i en <code>&lt;script&gt;</code>-tagg i källkoden. Klipp ut, kör igenom en JSON-validator, läs in.</p>
+      <p class="muted">Vanligt på Next.js- och React-sajter.</p>
+    </div>
+  </div>
+  <div class="notes">Tutorialen (video 4 och 15) gör exakt den här utredningen på IMDB och Instagram: först View page source, sedan Network-fliken filtrerad på XHR, sedan letar de efter JSON i källkoden. allabolag.se är byggd i Next.js och skickar faktiskt datan både som synlig HTML (fall 1) och som JSON i ett script-block (fall 3). Vi använder fall 1 idag.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Två verktygslådor</p>
+  <h2>Hämta och tolka, eller styra en riktig webbläsare</h2>
+  <div class="body two">
+    <div class="card">
+      <h3>fetch + cheerio</h3>
+      <p><b>Hämta</b> HTML med Node:s inbyggda <code>fetch</code>. <b>Tolka</b> den med cheerio, som låter dig söka i koden med CSS-selektorer.</p>
+      <p>Snabbt, enkelt, få rörliga delar. Funkar när datan finns i HTML-koden.</p>
+      <p class="muted">Det vi använder idag.</p>
+    </div>
+    <div class="card">
+      <h3>Puppeteer</h3>
+      <p>Startar en osynlig Chrome som Node fjärrstyr. Kan klicka, scrolla, logga in och vänta på att JavaScript laddat klart.</p>
+      <p>Långsammare och tyngre. Behövs när sidan byggs upp först efter att den laddats.</p>
+      <p class="muted">Nästa steg när ni vill skrapa dynamiska sajter.</p>
+    </div>
+  </div>
+  <div class="notes">Tutorialen använder request-promise + cheerio. Biblioteket request är nedlagt sedan 2020, så vi använder fetch som är inbyggt i Node 18+. Allt annat i tutorialen gäller fortfarande: selektorer, headers, gzip, loopar, CSV. Puppeteer sköts av Googles Chrome-team.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Så pekar du på rätt sak</p>
+  <h2>CSS-selektorer är adressen till ett element</h2>
+  <div class="body split">
+    <div>
+      <pre><span class="c">&lt;div class="card"&gt;</span>
+  <span class="k">&lt;h2&gt;</span>TOL Arkitekter AB<span class="k">&lt;/h2&gt;</span>
+  <span class="c">&lt;span&gt;Org.nr 556710-7759&lt;/span&gt;</span>
+<span class="c">&lt;/div&gt;</span></pre>
+    </div>
+    <div>
+      <p style="margin-bottom:40px">Selektorn <code>.card h2</code> betyder: <span class="inspect">alla h2 som ligger inuti något med klassen card<span class="tip"><b>h2</b> <i>1032 × 40</i></span></span></p>
+      <p class="small" style="margin-top:56px">Samma syntax som i CSS och jQuery. Behöver du en selektor du inte kan utantill: googla "css selectors w3schools".</p>
+    </div>
+  </div>
+  <div class="notes">Tutorialen (video 7): "I personally only remember basic selectors that I use on a daily basis... this is why you have the documentation available at all times." Testa selektorer i DevTools-konsolen med document.querySelectorAll('.card h2') innan de går in i koden.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Bra och dåliga selektorer</p>
+  <h2>Kort och unik överlever. Lång och exakt går sönder.</h2>
+  <div class="body two">
+    <div class="card">
+      <h3>Skriv själv: 2–3 led</h3>
+      <p><code>.SearchResultCard-card h2 a</code></p>
+      <p>Utgå från ett klassnamn eller id som bara finns på det du vill åt. Går det inte, ta närmaste förälder som är unik.</p>
+    </div>
+    <div class="card">
+      <h3>Högerklick → Copy selector: 7 led</h3>
+      <p><code>#__next &gt; div &gt; main &gt; div:nth-child(3) &gt; div &gt; div:nth-child(2) &gt; h2</code></p>
+      <p>Snabbt när du har bråttom. Men om ett enda led ändras på sajten slutar allt fungera.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Tumregel</b> Ju färre led i selektorn, desto större chans att scrapern fungerar nästa vecka också.</div>
+  <div class="notes">Video 10 i tutorialen. Chrome bygger en selektor med sju led; handskriven har två eller tre. "The less the better." Notera att allabolag.se har MUI-klasser som mui-1qd50v8 som genereras automatiskt och kan bytas ut vid nästa release, medan SearchResultCard-card är ett namn en människa valt. Välj det senare.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>När sidan säger nej</p>
+  <h2>Se ut som en webbläsare</h2>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>403 Forbidden</b> betyder oftast: servern ser att du inte är en webbläsare. Skicka med en <code>User-Agent</code>-header som en riktig Chrome har.</li>
+        <li><b>Obegripliga tecken</b> i svaret: sidan är gzip-komprimerad. <code>fetch</code> löser det automatiskt, äldre bibliotek behöver <code>gzip: true</code>.</li>
+        <li><b>Statuskod 300 och uppåt</b> ska fångas med <code>try/catch</code> så att programmet inte dör mitt i.</li>
+      </ul>
+    </div>
+    <div>
+      <pre><span class="c">// allabolag.se svarar 403 utan detta</span>
+<span class="k">const</span> res = <span class="k">await</span> fetch(url, {
+  headers: {
+    <span class="s">"User-Agent"</span>: <span class="s">"Mozilla/5.0 (Macintosh; …) Chrome/128.0"</span>
+  }
+});</pre>
+    </div>
+  </div>
+  <div class="notes">Video 5, 6 och 13 i tutorialen. Vi testade inför lektionen: allabolag.se ger 403 utan User-Agent och 200 med. Var hittar man headers? DevTools → Network → första requesten (Document) → Request Headers. Kopiera User-Agent därifrån, eller googla "chrome user agent string".</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Uppför dig</p>
+  <h2>En scraper som är för snabb blir avstängd</h2>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>Vänta</b> mellan varje sida. En halv sekund räcker långt.</li>
+        <li><b>Fånga fel</b> och fortsätt med nästa sida i stället för att krascha.</li>
+        <li><b>Logga</b> i Terminalen vad som händer: vilken sida, hur många träffar.</li>
+        <li><b>Proxy</b> byter din IP-adress. Behövs sällan som nybörjare. Använd det bara om projektet kräver det.</li>
+      </ul>
+    </div>
+    <div>
+      <pre><span class="k">for</span> (<span class="k">const</span> url <span class="k">of</span> urls) {
+  <span class="k">try</span> {
+    <span class="k">const</span> rows = <span class="k">await</span> scrapePage(url);
+    console.log(url, rows.length);
+  } <span class="k">catch</span> (err) {
+    console.log(<span class="s">"Fel på"</span>, url, err.message);
+  }
+  <span class="k">await</span> sleep(<span class="s">500</span>);
+}</pre>
+    </div>
+  </div>
+  <div class="notes">Video 12: "if you are just getting started I would highly suggest not to use proxy servers unless your project demands this." Video 13 och 17: try/catch och att vänta på att saker blir klara innan nästa varv. Väntetiden i den gamla uppgiften stod som 0,5 ms; det ska vara 500 ms.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Får man?</p>
+  <h2>Öppen data är inte samma sak som fri data</h2>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>Läs sajtens villkor</b> och <code>robots.txt</code>. Många sajter förbjuder automatisk hämtning.</li>
+        <li><b>Personuppgifter</b> omfattas av GDPR. Ett företagsnamn är inte en personuppgift, men en VD:s namn är det.</li>
+        <li><b>Belasta inte</b> servern. Vänta mellan anrop och skrapa bara det du behöver.</li>
+        <li><b>Använd datan</b> internt, för analys och prospektering. Publicera den inte vidare.</li>
+      </ul>
+    </div>
+    <div class="warn"><b>Idag</b> skrapar vi ett fåtal sidor på allabolag.se i utbildningssyfte, med väntetid mellan anropen, och sparar bara företagsdata.</div>
+  </div>
+  <div class="notes">Ta den här slajden på allvar men snabbt. Bra övningssajt utan begränsningar när man vill leka: toscrape.com (nämns i tutorialen video 14).</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Så jobbar vi idag</p>
+  <h2>Du skriver prompten. Chatboten skriver koden. Du kör den.</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Kopiera prompten från sliden.</li>
+        <li>Klistra in i ChatGPT, Claude eller Cursor.</li>
+        <li>Gör exakt det den säger, ett kommando i taget.</li>
+        <li>Får du ett fel: kopiera hela feltexten och klistra in i chatten. Säg "jag fick det här felet".</li>
+        <li>Fungerar det: öppna CSV-filen och kontrollera.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Dagens fem delar</h3>
+      <ol>
+        <li>Förbered datorn</li>
+        <li>Skrapa rubrikerna på en sida</li>
+        <li>Skrapa fyra fält per företag</li>
+        <li>Skrapa flera sidor</li>
+        <li>Din egen bransch</li>
+      </ol>
+    </div>
+  </div>
+  <div class="notes">Loopen på vänster sida är den viktigaste färdigheten idag. Uppmana studenterna att klistra in felmeddelanden ordagrant, inte beskriva dem med egna ord.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- DEL 1 · FÖRBERED                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Del 1 av 5</p>
+  <h1>Förbered datorn</h1>
+  <p>En mapp, Node, en editor och en terminal. Fem steg.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 1</span>Steg 1 av 16</p>
+  <h2>Skapa mappen scraping</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Öppna din Berghs-mapp i Finder (Mac) eller Utforskaren (Windows).</li>
+        <li>Skapa en ny mapp i den.</li>
+        <li>Döp den till <code>scraping</code>, med små bokstäver och utan mellanslag.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Varför små bokstäver?</h3>
+      <p>Terminalen skiljer på stora och små bokstäver, och mellanslag i sökvägar ställer till det. Vänj dig vid korta namn.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> du har en tom mapp som heter scraping i din Berghs-mapp.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 1</span>Steg 2 av 16</p>
+  <h2>Installera Node</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Gå till <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/en/download</a>.</li>
+        <li>Välj ditt operativsystem och klicka på den gröna knappen för att ladda ner installationsfilen.</li>
+        <li>Öppna filen och klicka Fortsätt/Next hela vägen igenom.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Vad är Node?</h3>
+      <p>Node kör JavaScript på din dator i stället för i webbläsaren. Med Node följer <b>npm</b>, som installerar färdiga bibliotek åt dig, till exempel cheerio.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> installationsprogrammet säger att installationen lyckades. Har du redan Node: hoppa vidare.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 1</span>Steg 3 av 16</p>
+  <h2>Öppna mappen i VS Code eller Cursor</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Starta VS Code eller Cursor.</li>
+        <li>Välj <b>File → Open Folder</b> i toppmenyn.</li>
+        <li>Leta upp mappen <code>scraping</code> och klicka Open.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Har du ingen editor?</h3>
+      <p>VS Code är gratis: <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>. Cursor är samma sak med en chatbot inbyggd: <a href="https://cursor.com" target="_blank" rel="noopener">cursor.com</a>.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> mappnamnet SCRAPING syns i vänsterspalten i editorn.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 1</span>Steg 4 av 16</p>
+  <h2>Öppna en Terminal i editorn</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Klicka på <b>Terminal</b> i toppmenyn.</li>
+        <li>Välj <b>New Terminal</b>.</li>
+        <li>Ett fönster öppnas längst ner. Det står redan i din scraping-mapp.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Vad är Terminalen?</h3>
+      <p>Ett textfönster där du ger datorn kommandon. Du skriver ett kommando, trycker <kbd>Enter</kbd> och får ett svar. Alla kommandon idag skriver du här.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> det finns ett terminalfönster längst ner i editorn där du kan skriva.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 1</span>Steg 5 av 16</p>
+  <h2>Kontrollera att Node fungerar</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Skriv <code>node -v</code> i Terminalen och tryck <kbd>Enter</kbd>.</li>
+        <li>Skriv <code>npm -v</code> och tryck <kbd>Enter</kbd>.</li>
+      </ol>
+      <p class="small" style="margin-top:32px">Står det "command not found": stäng editorn helt, öppna den igen och testa på nytt. Hjälper inte det: installera om Node.</p>
+    </div>
+    <div>
+      <pre>$ node -v
+v22.14.0
+
+$ npm -v
+10.9.2</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> node svarar med v22 eller senare och npm svarar med 10 eller senare. Exakta siffror efter punkten spelar ingen roll.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- DEL 2 · RUBRIKER                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Del 2 av 5</p>
+  <h1>Skrapa rubrikerna</h1>
+  <p>En sida, en sorts data, en CSV-fil med ett företagsnamn per rad.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 2</span>Steg 6 av 16</p>
+  <h2>Titta på sidan du ska skrapa</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Öppna i Chrome: <a href="https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter" target="_blank" rel="noopener">allabolag.se/bransch-sök?q=Arkitekter</a></li>
+        <li>Högerklicka på ett företagsnamn och välj <b>Inspektera</b> (Inspect).</li>
+        <li>Se vilken tagg namnet ligger i. Det är en <code>&lt;h2&gt;</code> med en länk i.</li>
+      </ol>
+    </div>
+    <div>
+      <p style="margin-bottom:60px"><span class="inspect">TOL Arkitekter AB<span class="tip"><b>h2</b>.MuiTypography-h2 <i>1032 × 40</i></span></span></p>
+      <p class="small" style="margin-top:70px">Den blå markeringen i Chrome visar exakt vilket element du pekar på. Det är den vi ska be scrapern hämta, 25 gånger per sida.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> du sett att företagsnamnen ligger i h2-taggar och att det finns 25 stycken på sidan.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 2</span>Steg 7 av 16</p>
+  <h2>Prompt 1: rubriker till CSV</h2>
+  <div class="body">
+    <div class="prompt" id="p1"><button class="copy" data-copy="p1">Kopiera</button>Jag vill skrapa alla företagsnamn (rubrikerna) på den här webbsidan: https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter
+
+Jag vill använda JavaScript och Node (version 22) med biblioteket cheerio och Node:s inbyggda fetch. Jag har en tom mapp öppen i VS Code med Terminalen igång, och jag är nybörjare.
+
+Ge mig instruktioner från början till slut: alla kommandon jag ska skriva i Terminalen för att installera det som behövs, hela koden till en fil som heter scraper.js, och kommandot för att köra den.
+
+Skicka med en User-Agent-header som ser ut som en vanlig webbläsare, annars svarar sidan 403.
+
+Resultatet ska sparas som filen rubriker.csv med ett företagsnamn per rad.</div>
+  </div>
+  <div class="notes">Skillnader mot gamla prompten: nämner cheerio + fetch (så att chatboten inte väljer det nedlagda request-biblioteket eller Puppeteer), nämner User-Agent i förväg (annars 403 och en onödig felsökningsrunda), namnger filerna så alla i klassen har samma filnamn.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 2</span>Steg 8 av 16</p>
+  <h2>Ett kommando i taget</h2>
+  <div class="body two">
+    <div>
+      <p>Svaret brukar se ut så här. Vänta tills ett kommando är klart innan du tar nästa.</p>
+      <ol style="margin-top:28px">
+        <li><code>npm init -y</code> skapar ett projekt.</li>
+        <li><code>npm install cheerio</code> hämtar biblioteket.</li>
+        <li>Skapa filen <code>scraper.js</code> och klistra in koden.</li>
+        <li><code>node scraper.js</code> kör programmet.</li>
+      </ol>
+    </div>
+    <div>
+      <pre>$ npm init -y
+$ npm install cheerio
+
+<span class="c"># skapa scraper.js, klistra in koden, spara</span>
+
+$ node scraper.js
+Sparade 25 rader till rubriker.csv</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> filen rubriker.csv dyker upp i vänsterspalten i editorn.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 2</span>Steg 9 av 16</p>
+  <h2>Kontrollera och felsök</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Klicka på <code>rubriker.csv</code> i editorn.</li>
+        <li>Räkna raderna. Det ska vara 25 företagsnamn, samma som på webbsidan.</li>
+      </ol>
+      <p class="small" style="margin-top:32px">Fungerade det inte: kopiera hela texten från Terminalen, klistra in i chatten och skriv "Jag fick det här felet när jag körde node scraper.js".</p>
+    </div>
+    <div>
+      <table>
+        <tr><th>Terminalen säger</th><th>Det betyder</th></tr>
+        <tr><td><code>403</code></td><td>Sidan ser att du inte är en webbläsare. Be om en User-Agent-header.</td></tr>
+        <tr><td><code>Cannot find module</code></td><td>Kör <code>npm install cheerio</code> igen.</td></tr>
+        <tr><td>0 rader</td><td>Selektorn hittar inget. Be chatboten välja h2 inuti sökresultatet.</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> rubriker.csv innehåller 25 företagsnamn. Då är din första scraper klar.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- DEL 3 · FLERA FÄLT                                                     -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Del 3 av 5</p>
+  <h1>Fyra fält per företag</h1>
+  <p>Namn, organisationsnummer, telefon och adress. En rad per företag, ett fält per kolumn.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 3</span>Steg 10 av 16</p>
+  <h2>Kopiera koden för ett helt objekt</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Högerklicka på ett företagsnamn på sidan och välj <b>Inspektera</b>.</li>
+        <li>I fliken <b>Elements</b>: håll musen över raderna ovanför h2:an och gå uppåt tills hela företagskortet blir blått på sidan.</li>
+        <li>Högerklicka på den raden → <b>Copy → Copy outerHTML</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre><span class="c">&lt;div class="… <span class="k">SearchResultCard-card</span> …"&gt;</span>
+  &lt;h2&gt;…TOL Arkitekter AB…&lt;/h2&gt;
+  &lt;span&gt;Org.nr 556710-7759&lt;/span&gt;
+  &lt;span&gt;Telefon 08-642 20 25&lt;/span&gt;
+  &lt;span&gt;Virkesvägen 24, 120 30 Stockholm&lt;/span&gt;
+  …
+<span class="c">&lt;/div&gt;</span></pre>
+      <p class="small" style="margin-top:20px">Du letar efter raden som innehåller <b>alla fyra</b> uppgifterna, men bara för ett företag.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> du har HTML-koden för ett företagskort i urklipp. Den är lång, det är normalt.</div>
+  <div class="notes">Kortets container har klassen SearchResultCard-card. Namnet i h2 a, org.nr och adress i span.CardHeader-propertyList, telefon i span.CardHeader-phone. Facit finns i scraping/facit/scraper.js. Om urklippet blir för långt för chatboten: be dem klistra in bara från öppnande div till slutet av adressen.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 3</span>Steg 11 av 16</p>
+  <h2>Prompt 2: fyra fält per objekt</h2>
+  <div class="body">
+    <div class="prompt" id="p2"><button class="copy" data-copy="p2">Kopiera</button>På samma sida finns en lista med många liknande objekt, ett per företag. Ur varje objekt vill jag hämta fyra saker: företagsnamn, organisationsnummer, telefonnummer och adress.
+
+Här är HTML-koden för ett helt objekt:
+<span class="ph">[KLISTRA IN KODEN DU KOPIERADE HÄR]</span>
+
+Uppdatera min scraper.js så att den går igenom alla objekt på sidan och hämtar de fyra fälten ur varje objekt. Använd korta selektorer som bygger på klassnamn som en människa har valt, inte automatiskt genererade klasser. Ge mig hela den nya koden och instruktioner för hur jag kör den.
+
+Resultatet ska sparas som foretag.csv med en rubrikrad, ett objekt per rad och ett fält per kolumn. Saknas ett fält för ett företag ska cellen vara tom.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 3</span>Steg 12 av 16</p>
+  <h2>Kör och öppna foretag.csv</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Byt ut koden i <code>scraper.js</code> mot den nya. Spara.</li>
+        <li>Kör <code>node scraper.js</code> i Terminalen.</li>
+        <li>Öppna <code>foretag.csv</code> i editorn, eller dra in den i Google Sheets, Numbers eller Excel.</li>
+      </ol>
+    </div>
+    <div>
+      <pre>name,orgnr,phone,address
+"QPG AB","556243-0933","031-303 44 00","Geijersg. 1B, 411 34 Göteborg"
+"TOL Arkitekter AB","556710-7759","08-642 20 25","Virkesvägen 24, 120 30 Stockholm"
+"Nyréns Arkitektkontor Aktiebolag","556221-6613","08-698 43 00","Magnus Ladulåsgatan 63, 118 27 Stockholm"</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> foretag.csv har 25 rader plus rubrikrad, och kolumnerna har rätt innehåll. Tomma kolumner: skicka koden för ett kort till chatboten igen och säg vilken kolumn som är tom.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- DEL 4 · FLERA SIDOR                                                    -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Del 4 av 5</p>
+  <h1>Flera sidor</h1>
+  <p>Samma scraper, en lista med adresser, en väntetid mellan varje.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 4</span>Steg 13 av 16</p>
+  <h2>Hitta mönstret i sidnumreringen</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Scrolla längst ner på sökresultatet och klicka på sida <b>2</b>.</li>
+        <li>Titta i adressfältet. Adressen har fått <code>&amp;page=2</code> på slutet.</li>
+        <li>Skriv en lista med de fem första sidorna. Sida 1 är adressen utan page.</li>
+      </ol>
+    </div>
+    <div>
+      <pre>https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&amp;page=2
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&amp;page=3
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&amp;page=4
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&amp;page=5</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> du har fem adresser i en lista och förstår att bara siffran skiljer dem åt. Sökningen har 400 sidor, vi tar fem.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 4</span>Steg 14 av 16</p>
+  <h2 style="max-width:none">Prompt 3: alla sidor i listan</h2>
+  <div class="body">
+    <div class="prompt" id="p3" style="font-size:21px;line-height:1.38;padding:22px 30px 70px"><button class="copy" data-copy="p3">Kopiera</button>Sökresultatet är uppdelat på flera sidor. Här är listan med sidor jag vill skrapa:
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&page=2
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&page=3
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&page=4
+https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter&page=5
+
+Uppdatera min scraper.js så att den besöker alla sidor i listan, en i taget, och samlar objekten från alla sidor i samma fil foretag.csv. Samma fyra fält som förut. Krav: vänta 500 millisekunder mellan varje sida. Hämta alltid en färsk kopia av sidan, ingen cache. Skriv ut i Terminalen vilken sida som hämtas och hur många objekt den gav. Om en sida ger fel: skriv ut felet och fortsätt med nästa sida. Gör det enkelt att lägga in en proxy senare om det skulle behövas, men använd ingen proxy nu. Ge mig hela den nya koden.</div>
+  </div>
+  <div class="notes">Gamla prompten sa "0.5ms wait", vilket är 0,0005 sekunder. Här står 500 millisekunder. Proxy-kravet är nedtonat till "förbered för", eftersom ingen i klassen har en proxy att lägga in.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 4</span>Steg 15 av 16</p>
+  <h2>Kör och räkna raderna</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Byt ut koden i <code>scraper.js</code>. Spara.</li>
+        <li>Kör <code>node scraper.js</code>. Det tar några sekunder eftersom scrapern väntar mellan sidorna.</li>
+        <li>Följ utskriften i Terminalen: en rad per sida.</li>
+      </ol>
+    </div>
+    <div>
+      <pre>$ node scraper.js
+…?q=Arkitekter -> 25 objekt
+…?q=Arkitekter&amp;page=2 -> 25 objekt
+…?q=Arkitekter&amp;page=3 -> 25 objekt
+…?q=Arkitekter&amp;page=4 -> 25 objekt
+…?q=Arkitekter&amp;page=5 -> 25 objekt
+Sparade 125 rader till foretag.csv</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> foretag.csv har 125 rader plus rubrikrad. Fem sidor gånger 25 företag.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- DEL 5 · DIN EGEN BRANSCH                                               -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Del 5 av 5</p>
+  <h1>Din egen bransch</h1>
+  <p>Samma kod, ett annat sökord.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Del 5</span>Steg 16 av 16</p>
+  <h2>Byt sökord och kör igen</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Välj en bransch du är nyfiken på, till exempel <code>Reklambyrå</code>, <code>Tandläkare</code> eller <code>Bryggeri</code>.</li>
+        <li>Byt ut <code>Arkitekter</code> i alla fem adresserna i <code>scraper.js</code>. Har ordet å, ä eller ö: skriv det som det är, Node kodar om det.</li>
+        <li>Kör <code>node scraper.js</code> igen och öppna foretag.csv.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Vad gör man med listan?</h3>
+      <ul>
+        <li>Prospektlista för säljare, med telefonnummer.</li>
+        <li>Adresser till en karta över konkurrenter.</li>
+        <li>Underlag för en marknadsanalys per stad.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> du har en CSV-fil med 125 företag i din bransch. Spara den, du får användning för den senare i kursen.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Felsökning</span>De vanligaste felen</p>
+  <h2 style="max-width:none">Titta här innan du frågar chatboten</h2>
+  <table class="dense">
+    <tr><th>Symptom</th><th>Orsak</th><th>Lösning</th></tr>
+    <tr><td><code>node: command not found</code></td><td>Node är inte installerat, eller editorn öppnades före installationen.</td><td>Starta om editorn. Installera om Node.</td></tr>
+    <tr><td><code>Cannot find module 'cheerio'</code></td><td>Biblioteket är inte installerat i den här mappen.</td><td>Kör <code>npm install cheerio</code> i scraping-mappen.</td></tr>
+    <tr><td><code>HTTP 403</code></td><td>Sajten ser att du inte är en webbläsare.</td><td>Lägg till en User-Agent-header. Be chatboten.</td></tr>
+    <tr><td>0 objekt, tom fil</td><td>Selektorn matchar inget. Sajten kan ha ändrat sin kod.</td><td>Kopiera outerHTML för ett kort igen och skicka till chatboten.</td></tr>
+    <tr><td>Tom kolumn</td><td>Just det fältet saknar rätt selektor.</td><td>Säg till chatboten vilken kolumn som är tom och skicka ett kort.</td></tr>
+    <tr><td>Ã¶ i stället för ö</td><td>Filen sparades i fel teckenkodning.</td><td>Be chatboten spara filen som UTF-8 med BOM så att Excel läser rätt.</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Sammanfattning</span>Det du gjort idag</p>
+  <h2>Hämta, hitta, spara. Sedan loopa.</h2>
+  <div class="body two">
+    <div>
+      <ul>
+        <li>En scraper skickar samma förfrågan som webbläsaren och läser HTML-koden som text.</li>
+        <li>CSS-selektorer pekar ut det du vill ha. Korta och unika håller längst.</li>
+        <li>User-Agent, väntetid och felhantering är skillnaden mellan en scraper som funkar en gång och en som funkar varje gång.</li>
+        <li>Chatboten skriver koden. Du styr den med tydliga prompter och ordagranna felmeddelanden.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Nästa steg</h3>
+      <ul>
+        <li>Dynamiska sajter: Puppeteer.</li>
+        <li>Inloggning och formulär: cookies och POST-anrop.</li>
+        <li>Gömda API:er: Network-fliken → Fetch/XHR.</li>
+        <li>Ladda ner bilder och filer: strömmar (streams).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Resurser</span>Att läsa vidare</p>
+  <h2>Länkar</h2>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=2M3NqxXhk0M&list=PLlHXqV8YrtosgluHN2jBGAOQWdZ1YaqAr" target="_blank" rel="noopener">Videotutorial: Node.js web scraping med Cheerio och Puppeteer</a><br><span class="small">17 avsnitt. Använder det gamla biblioteket request, men allt om selektorer, headers och loopar gäller.</span></li>
+        <li><a href="https://cheerio.js.org" target="_blank" rel="noopener">cheerio.js.org</a> <span class="small">dokumentation för cheerio</span></li>
+        <li><a href="https://www.w3schools.com/cssref/css_selectors.php" target="_blank" rel="noopener">w3schools: CSS selectors</a> <span class="small">alla selektorer med exempel</span></li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><a href="https://pptr.dev" target="_blank" rel="noopener">pptr.dev</a> <span class="small">Puppeteer, för dynamiska sajter</span></li>
+        <li><a href="https://toscrape.com" target="_blank" rel="noopener">toscrape.com</a> <span class="small">övningssajter gjorda för att skrapas</span></li>
+        <li><a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org</a> <span class="small">Node och npm</span></li>
+        <li><a href="facit/scraper.js" target="_blank" rel="noopener">Facit: scraper.js</a> <span class="small">en färdig scraper för alla tre stegen</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div id="progress"></div>
+<div id="deckname">web scraping · growth toolbox</div>
+<div id="counter"></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var notes = document.getElementById('notes');
+  var notesBody = document.getElementById('notes-body');
+  var i = 0;
+
+  function fit(){
+    var w = window.innerWidth - (notes.classList.contains('on') ? notes.offsetWidth : 0);
+    var s = Math.min(w / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + s + ')';
+    document.getElementById('viewport').style.right = notes.classList.contains('on') ? notes.offsetWidth + 'px' : '0';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    var dark = slides[i].classList.contains('divider');
+    counter.style.color = dark ? '#7E8CA5' : '';
+    document.getElementById('deckname').style.color = dark ? '#7E8CA5' : '';
+    progress.style.background = dark ? '#8EC5FF' : '';
+    var n = slides[i].querySelector('.notes');
+    notesBody.textContent = n ? n.textContent : 'Inga anteckningar för den här sliden.';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' || e.key === 'Enter') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') { notes.classList.toggle('on'); fit(); }
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  var tx = null;
+  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
+  });
+  stage.addEventListener('click', function(e){
+    if (e.target.closest('a, button, .prompt')) return;
+    show(e.clientX < window.innerWidth / 2 ? i - 1 : i + 1);
+  });
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var box = document.getElementById(btn.getAttribute('data-copy')).cloneNode(true);
+      box.querySelector('.copy').remove();
+      var text = box.textContent.trim();
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'Kopierad'; setTimeout(function(){ btn.textContent = 'Kopiera'; }, 1500);
+      }, function(){ btn.textContent = 'Markera och kopiera'; });
+    });
+  });
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){ show(parseInt(location.hash.slice(1), 10) - 1 || 0); });
+  fit();
+  show(parseInt(location.hash.slice(1), 10) - 1 || 0);
+})();
+</script>
+</body>
+</html>
