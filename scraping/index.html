@@ -124,9 +124,15 @@ td code{font-size:.82em}
 
 /* Chrome: counter, progress, help --------------------------------------- */
 #progress{position:absolute;left:0;bottom:0;height:8px;background:var(--accent);width:0;transition:width .25s}
-#counter{position:absolute;right:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+#counter{position:absolute;right:196px;bottom:38px;font:400 20px var(--mono);color:var(--ink-3)}
 #deckname{position:absolute;left:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
 .divider #counter,.divider #deckname{color:#7E8CA5}
+#nav{position:absolute;right:48px;bottom:22px;display:flex;gap:10px}
+#nav button{width:56px;height:56px;border-radius:50%;border:2px solid var(--rule);background:#fff;color:var(--ink);font:400 26px var(--sans);cursor:pointer;display:grid;place-items:center;transition:background .12s,border-color .12s}
+#nav button:hover,#nav button:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#nav button:disabled{opacity:.3;cursor:default;border-color:var(--rule);color:var(--ink)}
+#stage.dark #nav button{background:transparent;color:#fff;border-color:#3B4A63}
+#stage.dark #nav button:hover{border-color:#8EC5FF;color:#8EC5FF}
 #help{position:fixed;left:16px;top:16px;font:400 13px var(--mono);color:var(--ink-3);background:rgba(255,255,255,.7);padding:6px 10px;border-radius:6px;opacity:.9}
 #notes{position:fixed;right:0;top:0;bottom:0;width:min(420px,40vw);background:#fff;border-left:1px solid var(--rule);padding:24px;overflow:auto;font-size:16px;line-height:1.5;display:none}
 #notes.on{display:block}
@@ -138,7 +144,7 @@ td code{font-size:.82em}
   #viewport{position:static;display:block}
   #stage{transform:none!important;box-shadow:none;page-break-after:always;margin:0 auto}
   .slide{position:relative;display:flex!important;height:900px;page-break-after:always}
-  #help,#notes,#progress,#counter,#deckname{display:none}
+  #help,#notes,#progress,#counter,#deckname,#nav{display:none}
 }
 @media (prefers-reduced-motion:reduce){#progress{transition:none}}
 </style>
@@ -253,6 +259,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
+  <p class="step"><span class="part">Intro</span>HTML är lådor i lådor</p>
+  <h2 style="max-width:none">Tagg, attribut och innehåll</h2>
+  <div class="body split">
+    <div>
+      <pre style="font-size:22px">&lt;<span class="k">div</span> <span class="s">class</span>="card" <span class="s">id</span>="foretag-1"&gt;
+  &lt;<span class="k">h2</span>&gt;
+    &lt;<span class="k">a</span> <span class="s">href</span>="/foretag/tol"&gt;TOL Arkitekter AB&lt;/<span class="k">a</span>&gt;
+  &lt;/<span class="k">h2</span>&gt;
+  &lt;<span class="k">span</span> <span class="s">class</span>="orgnr"&gt;556710-7759&lt;/<span class="k">span</span>&gt;
+  &lt;<span class="k">span</span> <span class="s">class</span>="phone"&gt;08-642 20 25&lt;/<span class="k">span</span>&gt;
+&lt;/<span class="k">div</span>&gt;</pre>
+      <p class="small" style="margin-top:16px">Ett förenklat företagskort från allabolag.se. Samma exempel på de kommande sliderna.</p>
+    </div>
+    <div>
+      <ul>
+        <li><b>Tagg</b> säger vad det är: <code>div</code>, <code>h2</code>, <code>a</code>, <code>span</code>.</li>
+        <li><b>Attribut</b> är extra uppgifter i starttaggen: <code>class</code>, <code>id</code>, <code>href</code>.</li>
+        <li><b>Klass</b> får återanvändas: alla 25 kort har <code>class="card"</code>. <b>Id</b> ska vara unikt.</li>
+        <li><b>Innehåll</b> är texten mellan taggarna, eller fler element. Ett element inuti ett annat är ett <b>barn</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Grundvokabulären för hela dagen. Poängen med "lådor i lådor": h2 ligger i div, a ligger i h2. Det är den strukturen selektorer navigerar i. Skriv gärna upp orden tagg, attribut, klass, id, barn på tavlan.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Sex selektorer som räcker långt</p>
+  <h2>Så skriver du adressen</h2>
+  <table class="dense">
+    <tr><th style="width:30%">Selektor</th><th>Betyder</th><th style="width:30%">Träffar i exemplet</th></tr>
+    <tr><td><code>h2</code></td><td>Alla element med taggen h2.</td><td>Rubriken</td></tr>
+    <tr><td><code>.orgnr</code></td><td>Alla element med klassen orgnr. Punkt betyder klass.</td><td>556710-7759</td></tr>
+    <tr><td><code>#foretag-1</code></td><td>Elementet med id foretag-1. Brädgård betyder id.</td><td>Hela kortet</td></tr>
+    <tr><td><code>.card h2</code></td><td>Alla h2 som ligger inuti något med klassen card. Mellanslag betyder "inuti".</td><td>Rubriken</td></tr>
+    <tr><td><code>.card a</code></td><td>Alla länkar inuti kortet, oavsett hur djupt.</td><td>Länken till företaget</td></tr>
+    <tr><td><code>a[href^="/foretag"]</code></td><td>Länkar vars adress börjar med /foretag. Hakparentes betyder attribut, ^= betyder "börjar med".</td><td>Länken till företaget</td></tr>
+  </table>
+  <div class="notes">Kombinera fritt: span.phone betyder "span med klassen phone". Tutorialen (video 7) använder just a[href^="genre"] för att hämta alla genrer på IMDB. Behöver de fler: w3schools CSS selectors reference, länk på sista sliden.</div>
+</section>
+
+<section class="slide">
   <p class="step"><span class="part">Intro</span>Så pekar du på rätt sak</p>
   <h2>CSS-selektorer är adressen till ett element</h2>
   <div class="body split">
@@ -268,6 +315,67 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="notes">Tutorialen (video 7): "I personally only remember basic selectors that I use on a daily basis... this is why you have the documentation available at all times." Testa selektorer i DevTools-konsolen med document.querySelectorAll('.card h2') innan de går in i koden.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Vad du plockar ur elementet</p>
+  <h2 style="max-width:none">Selektorn hittar lådan. Sedan tar du innehållet.</h2>
+  <div class="body split">
+    <div>
+      <pre style="font-size:22px"><span class="c">// texten inuti elementet</span>
+$(<span class="s">".card h2 a"</span>).text()
+<span class="c">// → "TOL Arkitekter AB"</span>
+
+<span class="c">// ett attribut, till exempel länkadressen</span>
+$(<span class="s">".card h2 a"</span>).attr(<span class="s">"href"</span>)
+<span class="c">// → "/foretag/tol"</span>
+
+<span class="c">// ett kort i taget, 25 gånger</span>
+$(<span class="s">".card"</span>).each((i, kort) =&gt; {
+  <span class="k">const</span> namn = $(kort).find(<span class="s">"h2 a"</span>).text();
+});</pre>
+    </div>
+    <div>
+      <ul>
+        <li><b>.text()</b> ger det som syns på sidan: namn, nummer, adress.</li>
+        <li><b>.attr("href")</b> ger en länk. <b>.attr("src")</b> ger en bildadress.</li>
+        <li><b>.trim()</b> efter .text() tar bort osynliga mellanslag runt texten.</li>
+        <li><b>.each()</b> går igenom alla träffar. Det är så du får en rad per företag.</li>
+      </ul>
+      <p class="small" style="margin-top:24px">Dollartecknet är cheerio. Samma syntax som jQuery.</p>
+    </div>
+  </div>
+  <div class="notes">Video 2 och 7 i tutorialen: title = $("div.title_wrapper h1").text(), poster = $("div.poster a img").attr("src"), och .each() för att bygga en array av genrer. .trim() dyker upp i video 7 när titeln kom med radbrytningar.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Intro</span>Testa innan du kodar</p>
+  <h2 style="max-width:none">Prova selektorn i konsolen först</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Högerklicka på sidan → <b>Inspektera</b>. Klicka på fliken <b>Console</b>.</li>
+        <li>Skriv en rad, tryck <kbd>Enter</kbd>, läs svaret.</li>
+        <li>Rätt antal träffar betyder att selektorn är rätt. Noll betyder fel selektor.</li>
+      </ol>
+      <p class="small" style="margin-top:24px"><code>$$("…")</code> är Chromes genväg för <code>document.querySelectorAll("…")</code>.</p>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">// hur många kort finns det?</span>
+$$(<span class="s">".SearchResultCard-card"</span>).length
+<span class="c">// → 25</span>
+
+<span class="c">// vad står i första rubriken?</span>
+$$(<span class="s">".SearchResultCard-card h2"</span>)[0].textContent
+<span class="c">// → "TOL Arkitekter AB"</span>
+
+<span class="c">// hittar den något alls?</span>
+$$(<span class="s">".fel-klass"</span>).length
+<span class="c">// → 0, fel selektor</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Tumregel</b> En selektor som ger rätt antal i konsolen ger rätt antal i scrapern.</div>
+  <div class="notes">Video 7: "because this website already has jQuery implemented we can check the jQuery code directly in the console". Moderna sajter saknar jQuery, så vi använder document.querySelectorAll, som har samma selektorer. Gör detta live på allabolag.se innan övningen.</div>
 </section>
 
 <section class="slide">
@@ -826,6 +934,7 @@ Sparade 125 rader till foretag.csv</pre>
 <div id="progress"></div>
 <div id="deckname">web scraping · growth toolbox</div>
 <div id="counter"></div>
+<div id="nav"><button id="prev" type="button" aria-label="Föregående slide" title="Föregående (←)">&#8592;</button><button id="next" type="button" aria-label="Nästa slide" title="Nästa (→)">&#8594;</button></div>
 </div>
 </div>
 
@@ -851,9 +960,12 @@ Sparade 125 rader till foretag.csv</pre>
     progress.style.width = ((i + 1) / slides.length * 100) + '%';
     counter.textContent = (i + 1) + ' / ' + slides.length;
     var dark = slides[i].classList.contains('divider');
+    stage.classList.toggle('dark', dark);
     counter.style.color = dark ? '#7E8CA5' : '';
     document.getElementById('deckname').style.color = dark ? '#7E8CA5' : '';
     progress.style.background = dark ? '#8EC5FF' : '';
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === slides.length - 1;
     var n = slides[i].querySelector('.notes');
     notesBody.textContent = n ? n.textContent : 'Inga anteckningar för den här sliden.';
     if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
@@ -888,6 +1000,8 @@ Sparade 125 rader till foretag.csv</pre>
       }, function(){ btn.textContent = 'Markera och kopiera'; });
     });
   });
+  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); this.blur(); });
+  document.getElementById('next').addEventListener('click', function(){ show(i + 1); this.blur(); });
   window.addEventListener('resize', fit);
   window.addEventListener('hashchange', function(){ show(parseInt(location.hash.slice(1), 10) - 1 || 0); });
   fit();
