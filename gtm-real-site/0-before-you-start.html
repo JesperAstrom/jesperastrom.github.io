@@ -80,14 +80,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </ol>
 
         <h2 class="step"><span class="num">Part D</span> Put the folder online</h2>
-        <p>Tag Manager's test tool can only open pages that are on the internet, not files on your computer. <b>GitHub Pages</b> is a free way to put a folder of web pages online.</p>
+        <p>Tag Manager's test tool can only open pages that are on the internet, not files on your computer. You
+            already have a GitHub Pages site, <code>yourname.github.io</code>, and a copy of it on your computer
+            that you edit in VS Code and push with git. This folder goes into that repository.</p>
         <ol class="steps">
-            <li><p>Go to <a href="https://github.com" target="_blank" rel="noopener">github.com</a> and create an account. Choose a short user name. It becomes part of your web address.</p></li>
-            <li><p>Click the <b>+</b> at the top right and choose <b>New repository</b>.</p></li>
-            <li><p>Under <b>Repository name</b>, type exactly <code>yourname.github.io</code>, with your user name instead of <i>yourname</i>. Leave it <b>Public</b>. Tick <b>Add a README file</b>. Click <b>Create repository</b>.</p></li>
-            <li><p>On the page that opens, click the button <b>Add file</b>, then <b>Upload files</b>.</p></li>
-            <li><p>Open the folder on your computer that contains <code>gtm-real-site</code>. Drag the whole <code>gtm-real-site</code> folder into the browser window, onto the box that says <b>Drag files here</b>.</p></li>
-            <li><p>Wait until every file is listed. Then click the green button <b>Commit changes</b> at the bottom.</p></li>
+            <li><p>Unzip <code>gtm-real-site.zip</code>. You get one folder called <code>gtm-real-site</code>.</p></li>
+            <li><p>Move the whole <code>gtm-real-site</code> folder into your <code>yourname.github.io</code> repository, at the top level, next to your own <code>index.html</code>. Do not rename it and do not move anything out of it.</p></li>
+            <li><p>Open the repository in VS Code. In the Explorer on the left you should now see the folder <code>gtm-real-site</code> with <code>site</code>, <code>assets</code> and <code>reference</code> inside it.</p></li>
+            <li><p>Commit and push, the same way you publish your own pages. In the terminal in VS Code (menu <b>Terminal</b>, then <b>New Terminal</b>) that is:</p>
+<pre><code>git add gtm-real-site
+git commit -m "Add the Tag Manager course folder"
+git push</code></pre>
+                <p>If you prefer the Source Control panel in VS Code, that works exactly the same: stage the folder, write the message, click <b>Commit</b>, then <b>Sync Changes</b>.</p></li>
             <li><p>Wait two minutes. Then open this address in a new tab, with your user name instead of <i>yourname</i>:</p>
 <pre><code>https://yourname.github.io/gtm-real-site/site/index.html</code></pre>
                 <p>You should see the practice shop. If you see a "404" page, wait another minute and reload.</p></li>
@@ -104,13 +108,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <h2>If it does not work</h2>
         <ul class="fix">
-            <li><b>The shop shows a 404 page.</b> Check the repository name. It must be exactly <code>yourname.github.io</code>. Then check that the folder <code>gtm-real-site</code> is at the top of the repository, not inside another folder.</li>
-            <li><b>GitHub says the upload is too big.</b> Upload the <code>site</code> folder and the other files in two rounds.</li>
+            <li><b>The shop shows a 404 page.</b> Open your repository on github.com and check that the folder <code>gtm-real-site</code> is at the top level, not inside another folder, and that it contains the <code>site</code> folder. If it is missing, the push did not go through. Run <code>git status</code> and <code>git push</code> again.</li>
+            <li><b>git says nothing to commit.</b> The folder is not inside the repository. Check where you moved it. It must be inside the folder that has the <code>.git</code> folder.</li>
+            <li><b>The shop is there but looks unstyled, or the Developer view is missing.</b> A folder inside <code>gtm-real-site</code> was not pushed. Run <code>git status</code>. If it lists files under <code>gtm-real-site</code>, add and commit them too.</li>
         </ul>
 
         <div class="lookup">
             <b>If you get stuck, search for:</b> <q>create google tag manager account</q>, <q>create ga4 property</q>,
-            <q>github pages upload files</q>.
+            <q>github pages push folder</q>, <q>vs code commit and push</q>.
         </div>
 
 

@@ -48,8 +48,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p>Tag Manager can only work on a page that contains its snippet. Right now the practice shop does not
                 contain yours. You will copy the snippet from Tag Manager and paste it into the five pages of the
                 shop. Then you will use Tag Manager's test tool, <b>Preview mode</b>, to check that it works.</p>
-            <p>You need a text editor for this. On Windows, Notepad works. On a Mac, use TextEdit, but first open
-                TextEdit's settings and choose <b>Plain text</b>. Do not use Word.</p>
+            <p>You do the editing in VS Code, in your <code>yourname.github.io</code> repository, and publish the
+                change with git, the same way you publish your own pages.</p>
         </div>
 
         <h2 class="step"><span class="num">Step 1</span> Copy the snippet from Tag Manager</h2>
@@ -62,13 +62,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <h2 class="step"><span class="num">Step 2</span> Paste it into the home page</h2>
         <ol class="steps">
-            <li><p>On your computer, open the folder <code>gtm-real-site</code>, then the folder <code>site</code> inside it. Open the file <code>index.html</code> in your text editor. (Right-click the file, choose <b>Open with</b>, and pick the editor.)</p></li>
+            <li><p>Open your <code>yourname.github.io</code> repository in VS Code. In the Explorer, open the folder <code>gtm-real-site</code>, then <code>site</code>, and click the file <code>index.html</code>.</p></li>
             <li><p>Scroll down a little. Around line 23 there is a comment that says <b>EXERCISE 1 - PASTE THE &lt;head&gt; PART</b>. Below it is an empty line, marked in the picture.</p>
                 <figure class="shot"><a href="assets/img/paste-head.png" target="_blank" rel="noopener"><img src="assets/img/paste-head.png" alt="The first place to paste. Click on the empty line marked in orange."></a><figcaption>The first place to paste. Click on the empty line marked in orange. Click the picture to see it full size.</figcaption></figure></li>
-            <li><p>Go back to the Tag Manager tab. Click the copy icon next to the <b>first</b> grey box. Go back to the editor, click on that empty line, and paste.</p></li>
+            <li><p>Go back to the Tag Manager tab. Click the copy icon next to the <b>first</b> grey box. Go back to VS Code, click on that empty line, and paste.</p></li>
             <li><p>Scroll down a little more. Just after the line that starts with <code>&lt;body</code> there is a second comment that says <b>EXERCISE 1 - PASTE THE &lt;body&gt; PART</b>. Below it is another empty line.</p>
                 <figure class="shot"><a href="assets/img/paste-body.png" target="_blank" rel="noopener"><img src="assets/img/paste-body.png" alt="The second place to paste. Click on the empty line marked in orange."></a><figcaption>The second place to paste. Click on the empty line marked in orange. Click the picture to see it full size.</figcaption></figure></li>
-            <li><p>Go back to the Tag Manager tab. Click the copy icon next to the <b>second</b> grey box. Go back to the editor, click on that empty line, and paste.</p></li>
+            <li><p>Go back to the Tag Manager tab. Click the copy icon next to the <b>second</b> grey box. Go back to VS Code, click on that empty line, and paste.</p></li>
             <li><p>Save the file.</p></li>
         </ol>
 
@@ -92,12 +92,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p>On a real website you would only do this once, because a real website has one template that all pages
             share. The practice shop is made of five separate files so that you can see the code.</p>
 
-        <h2 class="step"><span class="num">Step 4</span> Upload the five files again</h2>
+        <h2 class="step"><span class="num">Step 4</span> Commit and push</h2>
+        <p>The snippet is only in the files on your computer. The online copy of the shop still has the empty lines.
+            Publish the change with git.</p>
         <ol class="steps">
-            <li><p>Go to <a href="https://github.com" target="_blank" rel="noopener">github.com</a> and open your repository <code>yourname.github.io</code>.</p></li>
-            <li><p>Click the folder <code>gtm-real-site</code>, then the folder <code>site</code>.</p></li>
-            <li><p>Click <b>Add file</b>, then <b>Upload files</b>. Drag the five files you edited into the browser window. Click <b>Commit changes</b>. GitHub replaces the old copies.</p></li>
-            <li><p>Wait two minutes. Then open the shop's home page at <code>https://yourname.github.io/gtm-real-site/site/index.html</code>.</p></li>
+            <li><p>In VS Code, open the terminal (menu <b>Terminal</b>, then <b>New Terminal</b>). Run <code>git status</code>. It should list exactly the five files you edited, all under <code>gtm-real-site/site</code>. If it lists more, or fewer, check which files you saved.</p></li>
+            <li><p>Commit and push:</p>
+<pre><code>git add gtm-real-site/site
+git commit -m "Install my Tag Manager container"
+git push</code></pre>
+                <p>Or use the Source Control panel: stage the five files, write the message, <b>Commit</b>, then <b>Sync Changes</b>.</p></li>
+            <li><p>Wait two minutes. Then open the shop's home page at <code>https://yourname.github.io/gtm-real-site/site/index.html</code> and reload it with Ctrl + Shift + R (Windows) or Cmd + Shift + R (Mac), so the browser does not show you the old copy.</p></li>
             <li><p>Scroll to the very bottom of the page. Click the grey line that says <b>Developer view</b>. A black panel opens. The second line of the panel should now say <b>Your container GTM-… is running on this page</b>.</p>
                 <figure class="shot"><a href="assets/img/devview-after.png" target="_blank" rel="noopener"><img src="assets/img/devview-after.png" alt="The Developer view after a correct install. The green dot and the line that names your container are what you are looking for."></a><figcaption>The Developer view after a correct install. The green dot and the line that names your container are what you are looking for. Click the picture to see it full size.</figcaption></figure></li>
         </ol>
@@ -122,10 +127,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <h2>If it does not work</h2>
         <ul class="fix">
-            <li><b>The Developer view says your container is not on this page yet.</b> Either the file did not upload, or your browser is showing the old copy. Reload the page with Ctrl + Shift + R (Windows) or Cmd + Shift + R (Mac). Then check on GitHub that the file changed.</li>
+            <li><b>The Developer view says your container is not on this page yet.</b> Either the change was not pushed, or your browser is showing the old copy. Reload the page with Ctrl + Shift + R (Windows) or Cmd + Shift + R (Mac). Then run <code>git status</code>: if it still lists the file, you have not committed or pushed it. Finally open the file on github.com and check that your snippet is in it.</li>
             <li><b>The page looks broken after pasting.</b> The snippet was pasted in the wrong place. Delete what you pasted and try again. It goes on the empty line between the two comment lines, nowhere else.</li>
             <li><b>Tag Assistant says it cannot connect.</b> The address must start with <code>https://</code> and the page must be online. It will not work with a file opened from your computer.</li>
-            <li><b>One page is missing from the list in Tag Assistant.</b> That file did not get the snippet. Go back to step 3.</li>
+            <li><b>One page is missing from the list in Tag Assistant.</b> That file did not get the snippet, or was not saved before you committed. Go back to step 3, then commit and push again.</li>
         </ul>
 
         <div class="lookup">

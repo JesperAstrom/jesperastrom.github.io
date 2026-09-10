@@ -85,7 +85,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <h2 class="step"><span class="num">Step 4</span> Play the developer: add the code</h2>
         <ol class="steps">
-            <li><p>Open the file <code>site.js</code> in the <code>site</code> folder in your text editor.</p></li>
+            <li><p>In VS Code, open the file <code>site.js</code> in the folder <code>gtm-real-site/site</code>.</p></li>
             <li><p>Use the editor's search (Ctrl + F or Cmd + F) to find <code>EXERCISE 6</code>. Just below it is this code:</p>
 <pre><code>news.addEventListener(<span class="tok-str">'submit'</span>, <span class="tok-kw">function</span> (e) {
     e.preventDefault();
@@ -101,7 +101,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="tok-kw">});</span>
     news.innerHTML = <span class="tok-str">'&lt;p class="notice"&gt;Thanks — you are on the list.&lt;/p&gt;'</span>;
 });</code></pre></li>
-            <li><p>Save the file. Upload it to GitHub the same way as in exercise 1, into the <code>site</code> folder. Wait two minutes.</p></li>
+            <li><p>Save the file. Commit and push it, the same way as in exercise 1:</p>
+<pre><code>git add gtm-real-site/site/site.js
+git commit -m "Push newsletter_signup to the dataLayer"
+git push</code></pre>
+                <p>Wait two minutes.</p></li>
             <li><p>Open the shop's home page and reload it with Ctrl + Shift + R or Cmd + Shift + R. Scroll down, type an email in the Fresh roast news form, and click <b>Sign up</b>. Open the Developer view. The last entry is <code>newsletter_signup</code>.</p></li>
         </ol>
 

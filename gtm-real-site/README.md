@@ -9,19 +9,20 @@ specification for an event the site is missing.
 
 **1. Unzip this folder.** Keep it whole. Every file in it is needed.
 
-**2. Upload the whole `gtm-real-site` folder to your GitHub Pages repository**, at the top level.
-Your pages are then at:
+**2. Move the whole `gtm-real-site` folder into your GitHub Pages repository**, at the top level,
+next to your own `index.html`. Commit and push it the way you publish your own pages. Your pages are
+then at:
 
 ```
 https://yourname.github.io/gtm-real-site/
 ```
 
 **3. Open that address and do exercise 0, "Before you start".** It walks you through creating
-a free Google Tag Manager container and a free Google Analytics property, and putting this folder
-online with GitHub Pages. Every step is written out.
+a free Google Tag Manager container and a free Google Analytics property, and the git commands
+for putting this folder online. Every step is written out.
 
 **4. Then do exercises 1 to 6 in order.** Exercise 1 has you paste your own Tag Manager code
-into the shop's five HTML files. There is no settings file and no box to paste an ID into: on a
+into the shop's five HTML files in VS Code, then commit and push. There is no settings file and no box to paste an ID into: on a
 real website the code goes into the pages, so that is what you do here.
 
 ## What is in here
@@ -50,7 +51,7 @@ real website the code goes into the pages, so that is what you do here.
 ## Two things to know
 
 **Preview mode needs the site online.** Tag Assistant cannot connect to a file opened from your
-disk. Upload first, then preview.
+disk. Commit and push first, then preview.
 
 **There is already a container snippet in each site page.** It belongs to the course author and
 stays there. You paste yours in the marked place below it. Two containers on one page is normal.
