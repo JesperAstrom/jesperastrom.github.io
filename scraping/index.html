@@ -54,7 +54,8 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
 
 /* Typography ------------------------------------------------------------ */
 h1{font-size:76px;line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 28px;max-width:22ch}
-h2{font-size:56px;line-height:1.08;letter-spacing:-.02em;font-weight:700;margin:0 0 32px;max-width:24ch}
+h2{font-size:66px;line-height:1.06;letter-spacing:-.025em;font-weight:700;margin:0 0 32px;max-width:24ch}
+.byline{font-size:34px;line-height:1.3;color:var(--ink-2);margin:-10px 0 40px;max-width:44ch}
 p,li{font-size:32px;line-height:1.4;margin:0}
 p+p{margin-top:18px}
 .lede{font-size:38px;color:var(--ink-2);max-width:32ch}
@@ -71,6 +72,7 @@ b{font-weight:600}
 /* Structural pieces ----------------------------------------------------- */
 .step{font-family:var(--mono);font-size:24px;color:var(--ink-3);margin:0 0 22px;display:flex;align-items:center;gap:18px}
 .step .part{color:var(--accent);font-weight:700}
+.step .part.solo::after{display:none}
 .step .part::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rule);margin:0 0 4px 18px;vertical-align:middle}
 .body{flex:1;display:grid;grid-template-columns:1fr;gap:40px;align-content:start;margin-bottom:24px}
 .body.two{grid-template-columns:1fr 1fr}
@@ -120,6 +122,12 @@ th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--rule);vert
 th{font-weight:600;color:var(--ink-2);font-size:22px}
 table.dense{font-size:22px}
 table.dense td,table.dense th{padding:11px 16px}
+.slide:has(.byline) .body li,.slide:has(.byline) .body>div>p:not(.small):not(.lede){font-size:28px;line-height:1.38}
+.slide:has(.byline) .body li+li{margin-top:12px}
+.slide:has(.byline) .card li,.slide:has(.byline) .card p{font-size:25px}
+.tight .byline{margin-bottom:18px}
+.tight table.dense{font-size:20px}
+.tight table.dense td,.tight table.dense th{padding:8px 14px}
 td code{font-size:.82em}
 
 /* Chrome: counter, progress, help --------------------------------------- */
@@ -174,8 +182,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Vad är web scraping?</p>
-  <h2>Ett program som läser en webbsida och plockar ut det du vill ha</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Vad är web scraping?</h2>
+  <p class="byline">Ett program som läser en webbsida och plockar ut det du vill ha</p>
   <div class="body two">
     <div>
       <p class="lede">I stället för att kopiera 15&nbsp;868 företagsnamn för hand skriver du ett program som gör det på en minut.</p>
@@ -192,8 +201,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Det du redan gör varje dag</p>
-  <h2>Webbläsaren är en scraper som ritar upp resultatet</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Det du redan gör varje dag</h2>
+  <p class="byline">Webbläsaren är en scraper som ritar upp resultatet</p>
   <div class="body two">
     <div class="card">
       <h3>Webbläsaren</h3>
@@ -216,8 +226,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Var finns datan?</p>
-  <h2>Tre ställen. Kolla vilket innan du börjar koda.</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Var finns datan?</h2>
+  <p class="byline">Tre ställen. Kolla vilket innan du börjar koda.</p>
   <div class="cols3">
     <div class="card">
       <h3>1. Direkt i HTML-koden</h3>
@@ -239,8 +250,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Två verktygslådor</p>
-  <h2>Hämta och tolka, eller styra en riktig webbläsare</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Två verktygslådor</h2>
+  <p class="byline">Hämta och tolka, eller styra en riktig webbläsare</p>
   <div class="body two">
     <div class="card">
       <h3>fetch + cheerio</h3>
@@ -259,8 +271,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>HTML är lådor i lådor</p>
-  <h2 style="max-width:none">Tagg, attribut och innehåll</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Bestäm vad du vill ha från sidan</h2>
+  <p class="byline">Peka ut varje uppgift du vill spara innan du skriver kod.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Öppna sidan i Chrome. Högerklicka på ett företagsnamn och välj <b>Inspektera</b>.</li>
+        <li>Fliken <b>Elements</b> öppnas. Håll musen över raderna runt omkring. Det du pekar på blir blått på sidan.</li>
+        <li>Läs tagg och klassnamn i den blå rutan. Skriv upp dem.</li>
+        <li>Gör om det för namn, organisationsnummer, telefon och adress.</li>
+      </ol>
+    </div>
+    <div>
+      <p style="margin-bottom:60px"><span class="inspect">TOL Arkitekter AB<span class="tip"><b>h2</b>.MuiTypography-h2 <i>1032 × 40</i></span></span></p>
+      <p class="small" style="margin-top:70px">Tagg och klass i den blå rutan blir din selektor på nästa slide.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Klart när</b> du har en lista med tagg och klassnamn för varje uppgift du vill spara.</div>
+  <div class="notes">Gör detta live på allabolag.se innan ni går vidare. Poängen: scraping börjar med att bestämma vad man vill ha, inte med kod. Hover i Elements-panelen är det viktigaste greppet, visa hur markeringen på sidan flyttar sig när musen rör sig i koden.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">HTML är lådor i lådor</h2>
+  <p class="byline">Tagg, attribut och innehåll</p>
   <div class="body split">
     <div>
       <pre style="font-size:22px">&lt;<span class="k">div</span> <span class="s">class</span>="card" <span class="s">id</span>="foretag-1"&gt;
@@ -284,9 +319,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="notes">Grundvokabulären för hela dagen. Poängen med "lådor i lådor": h2 ligger i div, a ligger i h2. Det är den strukturen selektorer navigerar i. Skriv gärna upp orden tagg, attribut, klass, id, barn på tavlan.</div>
 </section>
 
-<section class="slide">
-  <p class="step"><span class="part">Intro</span>Sex selektorer som räcker långt</p>
-  <h2>Så skriver du adressen</h2>
+<section class="slide tight">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Hur du läser koden och hittar rätt selektor</h2>
+  <p class="byline">Sex selektorer som räcker långt.</p>
   <table class="dense">
     <tr><th style="width:30%">Selektor</th><th>Betyder</th><th style="width:30%">Träffar i exemplet</th></tr>
     <tr><td><code>h2</code></td><td>Alla element med taggen h2.</td><td>Rubriken</td></tr>
@@ -300,8 +336,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Så pekar du på rätt sak</p>
-  <h2>CSS-selektorer är adressen till ett element</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Med rätt selektorer skrapar du rätt information</h2>
+  <p class="byline">CSS-selektorer är adressen till ett element.</p>
   <div class="body split">
     <div>
       <pre><span class="c">&lt;div class="card"&gt;</span>
@@ -318,69 +355,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Vad du plockar ur elementet</p>
-  <h2 style="max-width:none">Selektorn hittar lådan. Sedan tar du innehållet.</h2>
-  <div class="body split">
-    <div>
-      <pre style="font-size:22px"><span class="c">// texten inuti elementet</span>
-$(<span class="s">".card h2 a"</span>).text()
-<span class="c">// → "TOL Arkitekter AB"</span>
-
-<span class="c">// ett attribut, till exempel länkadressen</span>
-$(<span class="s">".card h2 a"</span>).attr(<span class="s">"href"</span>)
-<span class="c">// → "/foretag/tol"</span>
-
-<span class="c">// ett kort i taget, 25 gånger</span>
-$(<span class="s">".card"</span>).each((i, kort) =&gt; {
-  <span class="k">const</span> namn = $(kort).find(<span class="s">"h2 a"</span>).text();
-});</pre>
-    </div>
-    <div>
-      <ul>
-        <li><b>.text()</b> ger det som syns på sidan: namn, nummer, adress.</li>
-        <li><b>.attr("href")</b> ger en länk. <b>.attr("src")</b> ger en bildadress.</li>
-        <li><b>.trim()</b> efter .text() tar bort osynliga mellanslag runt texten.</li>
-        <li><b>.each()</b> går igenom alla träffar. Det är så du får en rad per företag.</li>
-      </ul>
-      <p class="small" style="margin-top:24px">Dollartecknet är cheerio. Samma syntax som jQuery.</p>
-    </div>
-  </div>
-  <div class="notes">Video 2 och 7 i tutorialen: title = $("div.title_wrapper h1").text(), poster = $("div.poster a img").attr("src"), och .each() för att bygga en array av genrer. .trim() dyker upp i video 7 när titeln kom med radbrytningar.</div>
-</section>
-
-<section class="slide">
-  <p class="step"><span class="part">Intro</span>Testa innan du kodar</p>
-  <h2 style="max-width:none">Prova selektorn i konsolen först</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Testa innan du kodar</h2>
+  <p class="byline">Prova selektorn i Consolen först.</p>
   <div class="body two">
     <div>
       <ol>
+        <li>Öppna i Chrome: <a href="https://www.allabolag.se/bransch-s%C3%B6k?q=Arkitekter" target="_blank" rel="noopener">allabolag.se/bransch-sök?q=Arkitekter</a></li>
         <li>Högerklicka på sidan → <b>Inspektera</b>. Klicka på fliken <b>Console</b>.</li>
-        <li>Skriv en rad, tryck <kbd>Enter</kbd>, läs svaret.</li>
-        <li>Rätt antal träffar betyder att selektorn är rätt. Noll betyder fel selektor.</li>
+        <li>Skriv första raden till höger, tryck <kbd>Enter</kbd>. Svaret blir 25.</li>
+        <li>Skriv andra raden. Svaret blir 0: klassen finns inte.</li>
       </ol>
-      <p class="small" style="margin-top:24px"><code>$$("…")</code> är Chromes genväg för <code>document.querySelectorAll("…")</code>.</p>
     </div>
     <div>
-      <pre style="font-size:22px"><span class="c">// hur många kort finns det?</span>
+      <pre style="font-size:22px"><span class="c">// fungerar: 25 företagskort på sidan</span>
 $$(<span class="s">".SearchResultCard-card"</span>).length
 <span class="c">// → 25</span>
 
-<span class="c">// vad står i första rubriken?</span>
-$$(<span class="s">".SearchResultCard-card h2"</span>)[0].textContent
-<span class="c">// → "TOL Arkitekter AB"</span>
-
-<span class="c">// hittar den något alls?</span>
-$$(<span class="s">".fel-klass"</span>).length
-<span class="c">// → 0, fel selektor</span></pre>
+<span class="c">// fungerar inte: klassen finns inte</span>
+$$(<span class="s">".foretagskort"</span>).length
+<span class="c">// → 0</span></pre>
     </div>
   </div>
-  <div class="outcome"><b>Tumregel</b> En selektor som ger rätt antal i konsolen ger rätt antal i scrapern.</div>
-  <div class="notes">Video 7: "because this website already has jQuery implemented we can check the jQuery code directly in the console". Moderna sajter saknar jQuery, så vi använder document.querySelectorAll, som har samma selektorer. Gör detta live på allabolag.se innan övningen.</div>
+  <div class="outcome"><b>Tumregel</b> Rätt antal i Consolen betyder rätt antal i scrapern. Noll betyder fel selektor.</div>
+  <div class="notes">Gör detta live. Moderna sajter saknar jQuery, så vi använder document.querySelectorAll via $$, som har samma selektorer. Låt dem prova en egen klass från Elements-panelen också.</div>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Bra och dåliga selektorer</p>
-  <h2>Kort och unik överlever. Lång och exakt går sönder.</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Bra och dåliga selektorer</h2>
+  <p class="byline">Kort och unik överlever. Lång och exakt går sönder.</p>
   <div class="body two">
     <div class="card">
       <h3>Skriv själv: 2–3 led</h3>
@@ -398,8 +402,9 @@ $$(<span class="s">".fel-klass"</span>).length
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>När sidan säger nej</p>
-  <h2>Se ut som en webbläsare</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">När sidan säger nej – felkoder i Consolen</h2>
+  <p class="byline">Se ut som en webbläsare.</p>
   <div class="body two">
     <div>
       <ul>
@@ -421,8 +426,9 @@ $$(<span class="s">".fel-klass"</span>).length
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Uppför dig</p>
-  <h2>En scraper som är för snabb blir avstängd</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Uppför dig</h2>
+  <p class="byline">En scraper som är för snabb blir avstängd</p>
   <div class="body two">
     <div>
       <ul>
@@ -448,8 +454,9 @@ $$(<span class="s">".fel-klass"</span>).length
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Får man?</p>
-  <h2>Öppen data är inte samma sak som fri data</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Får man?</h2>
+  <p class="byline">Öppen data är inte samma sak som fri data</p>
   <div class="body two">
     <div>
       <ul>
@@ -465,16 +472,17 @@ $$(<span class="s">".fel-klass"</span>).length
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Intro</span>Så jobbar vi idag</p>
-  <h2>Du skriver prompten. Chatboten skriver koden. Du kör den.</h2>
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Så jobbar vi idag</h2>
+  <p class="byline">Du skriver prompten. Chatboten skriver koden. Du kör den.</p>
   <div class="body two">
     <div>
       <ol>
-        <li>Kopiera prompten från sliden.</li>
-        <li>Klistra in i ChatGPT, Claude eller Cursor.</li>
-        <li>Gör exakt det den säger, ett kommando i taget.</li>
-        <li>Får du ett fel: kopiera hela feltexten och klistra in i chatten. Säg "jag fick det här felet".</li>
-        <li>Fungerar det: öppna CSV-filen och kontrollera.</li>
+        <li>Tre slides har en prompt med knappen <b>Kopiera</b>. Klicka på den.</li>
+        <li>Klistra in prompten i ChatGPT, Claude eller Cursor och skicka.</li>
+        <li>Chatboten svarar med kommandon och kod. Gör exakt det den säger, ett kommando i taget.</li>
+        <li>Får du ett fel: klistra in hela feltexten i chatten och skriv "jag fick det här felet".</li>
+        <li>Fungerar det: öppna CSV-filen och jämför med rutan <b>Klart när</b> på sliden.</li>
       </ol>
     </div>
     <div class="card">
@@ -871,9 +879,10 @@ Sparade 125 rader till foretag.csv</pre>
   <div class="outcome"><b>Klart när</b> du har en CSV-fil med 125 företag i din bransch. Spara den, du får användning för den senare i kursen.</div>
 </section>
 
-<section class="slide">
-  <p class="step"><span class="part">Felsökning</span>De vanligaste felen</p>
-  <h2 style="max-width:none">Titta här innan du frågar chatboten</h2>
+<section class="slide tight">
+  <p class="step"><span class="part solo">Felsökning</span></p>
+  <h2 style="max-width:none">De vanligaste felen</h2>
+  <p class="byline">Titta här innan du frågar chatboten</p>
   <table class="dense">
     <tr><th>Symptom</th><th>Orsak</th><th>Lösning</th></tr>
     <tr><td><code>node: command not found</code></td><td>Node är inte installerat, eller editorn öppnades före installationen.</td><td>Starta om editorn. Installera om Node.</td></tr>
@@ -886,8 +895,9 @@ Sparade 125 rader till foretag.csv</pre>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Sammanfattning</span>Det du gjort idag</p>
-  <h2>Hämta, hitta, spara. Sedan loopa.</h2>
+  <p class="step"><span class="part solo">Sammanfattning</span></p>
+  <h2 style="max-width:none">Det du gjort idag</h2>
+  <p class="byline">Hämta, hitta, spara. Sedan loopa.</p>
   <div class="body two">
     <div>
       <ul>
@@ -910,8 +920,9 @@ Sparade 125 rader till foretag.csv</pre>
 </section>
 
 <section class="slide">
-  <p class="step"><span class="part">Resurser</span>Att läsa vidare</p>
-  <h2>Länkar</h2>
+  <p class="step"><span class="part solo">Resurser</span></p>
+  <h2 style="max-width:none">Att läsa vidare</h2>
+  <p class="byline">Länkar</p>
   <div class="body two">
     <div>
       <ul>
@@ -972,23 +983,12 @@ Sparade 125 rader till foretag.csv</pre>
   }
   document.addEventListener('keydown', function(e){
     if (e.target.tagName === 'BUTTON') return;
-    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' || e.key === 'Enter') { e.preventDefault(); show(i + 1); }
-    else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault(); show(i - 1); }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
     else if (e.key === 'Home') show(0);
     else if (e.key === 'End') show(slides.length - 1);
     else if (e.key === 'n' || e.key === 'N') { notes.classList.toggle('on'); fit(); }
     else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
-  });
-  var tx = null;
-  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
-  document.addEventListener('touchend', function(e){
-    if (tx === null) return;
-    var dx = e.changedTouches[0].clientX - tx; tx = null;
-    if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
-  });
-  stage.addEventListener('click', function(e){
-    if (e.target.closest('a, button, .prompt')) return;
-    show(e.clientX < window.innerWidth / 2 ? i - 1 : i + 1);
   });
   document.querySelectorAll('.copy').forEach(function(btn){
     btn.addEventListener('click', function(){
