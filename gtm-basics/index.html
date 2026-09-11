@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Tag Manager: triggers, tags and variables – Growth Toolbox</title>
+<meta name="description" content="Lecture and exercises: what Google Tag Manager is for, what a tag, a trigger and a variable are, and how to build them on a real site. One step per slide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Google Tag Manager – slide deck
+   Same stage as the scraping deck. The one bold element here is the
+   "settings" table: the exact fields a student fills in inside Tag Manager,
+   shown the way the Tag Manager form shows them. Everything else is quiet.
+   ========================================================================== */
+:root {
+  --ground: #E9EDF2;
+  --stage:  #F7F8FA;
+  --panel:  #0E1726;
+  --panel-ink: #E8EEF8;
+  --ink:    #0B1F3A;
+  --ink-2:  #4A5B71;
+  --ink-3:  #7C8A9E;
+  --rule:   #CBD4DF;
+  --accent: #2E6BFF;
+  --accent-wash: rgba(46,107,255,.16);
+  --ok:     #178A5E;
+  --ok-wash:#E1F3EB;
+  --warn:   #B45309;
+  --warn-wash:#FCEFDD;
+  --sans: "Space Grotesk", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+/* Stage: a 1600×900 canvas scaled to fit the viewport ------------------- */
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;background:var(--stage);box-shadow:0 30px 80px rgba(11,31,58,.18);overflow:hidden}
+.slide{position:absolute;inset:0;padding:96px 120px 120px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide:focus{outline:none}
+
+/* Typography ------------------------------------------------------------ */
+h1{font-size:76px;line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 28px;max-width:22ch}
+h2{font-size:66px;line-height:1.06;letter-spacing:-.025em;font-weight:700;margin:0 0 32px;max-width:24ch}
+.byline{font-size:34px;line-height:1.3;color:var(--ink-2);margin:-10px 0 40px;max-width:44ch}
+p,li{font-size:32px;line-height:1.4;margin:0}
+p+p{margin-top:18px}
+.lede{font-size:38px;color:var(--ink-2);max-width:32ch}
+.small{font-size:24px;color:var(--ink-2)}
+.muted{color:var(--ink-3)}
+ul,ol{margin:0;padding-left:1.1em}
+li+li{margin-top:16px}
+li::marker{color:var(--accent);font-weight:600}
+code{font-family:var(--mono);font-size:.86em;background:#FFFFFF;border:1px solid var(--rule);padding:.05em .35em;border-radius:6px;white-space:nowrap}
+a{color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent-wash)}
+kbd{font-family:var(--mono);font-size:.8em;background:#fff;border:1px solid var(--rule);border-bottom-width:3px;border-radius:6px;padding:.05em .4em}
+b{font-weight:600}
+
+/* Structural pieces ----------------------------------------------------- */
+.step{font-family:var(--mono);font-size:24px;color:var(--ink-3);margin:0 0 22px;display:flex;align-items:center;gap:18px}
+.step .part{color:var(--accent);font-weight:700}
+.step .part.solo::after{display:none}
+.step .part::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rule);margin:0 0 4px 18px;vertical-align:middle}
+.body{flex:1;display:grid;grid-template-columns:1fr;gap:40px;align-content:start;margin-bottom:24px}
+.body.two{grid-template-columns:1fr 1fr}
+.body.split{grid-template-columns:1.1fr .9fr}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.card h3{font-size:30px;margin:0 0 12px}
+.card code{white-space:normal;word-break:break-all}
+.card p,.card li{font-size:26px;line-height:1.38}
+.outcome{margin-top:auto;background:var(--ok-wash);border-left:8px solid var(--ok);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.outcome b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:8px solid var(--warn);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.warn b{color:var(--warn)}
+
+/* Code panel ------------------------------------------------------------ */
+pre{margin:0;background:var(--panel);color:var(--panel-ink);font-family:var(--mono);font-size:26px;line-height:1.5;padding:28px 34px;border-radius:12px;white-space:pre-wrap;word-break:break-word;overflow:hidden}
+pre .c{color:#7E8CA5}
+pre .k{color:#8EC5FF}
+pre .s{color:#B9E39C}
+pre .hl{background:rgba(142,197,255,.18);outline:1px solid #8EC5FF;border-radius:4px;padding:0 .2em}
+
+/* Settings table: the fields to fill in inside Tag Manager (the bold element) */
+.settings{width:100%;border-collapse:collapse;background:#fff;border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:24px;line-height:1.35}
+.settings th,.settings td{text-align:left;padding:13px 22px;border-bottom:1px solid var(--rule);vertical-align:top}
+.settings tr:last-child td{border-bottom:0}
+.settings th{width:38%;font-weight:500;color:var(--ink-2);font-size:22px;background:#F2F5F9}
+.settings td{font-family:var(--mono);font-size:22px}
+.settings td.sans{font-family:var(--sans);font-size:23px}
+.settings caption{caption-side:top;text-align:left;font:600 22px var(--mono);color:var(--accent);padding:0 0 12px}
+.settings .var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px}
+
+/* The inspect highlight ------------------------------------------------- */
+.inspect{position:relative;display:inline-block;background:var(--accent-wash);outline:2px solid var(--accent);border-radius:2px;padding:.05em .2em}
+.inspect .tip{position:absolute;left:0;top:calc(100% + 12px);white-space:nowrap;background:var(--panel);color:#fff;font:400 20px var(--mono);padding:8px 14px;border-radius:6px}
+.inspect .tip b{color:#8EC5FF;font-weight:400}
+.inspect .tip i{color:#9AA6B8;font-style:normal;margin-left:10px}
+
+/* A fake site button, to show what the student is looking for ----------- */
+.fakebtn{display:inline-block;background:#5B3A29;color:#fff;font:600 26px var(--sans);padding:16px 30px;border-radius:8px}
+.fakebtn.ghost{background:transparent;color:#5B3A29;border:2px solid #A98A78}
+
+/* Title slide ----------------------------------------------------------- */
+.title{justify-content:center;padding-left:140px}
+.title .tag{font-family:var(--mono);font-size:44px;color:var(--ink-3);font-weight:400;display:block;line-height:1.1}
+.title h1{font-size:130px;margin:6px 0 6px;max-width:none;letter-spacing:-.04em}
+.title .meta{margin-top:56px;font-size:28px;color:var(--ink-2)}
+.title .meta span{display:inline-block;margin-right:48px}
+
+/* Section divider ------------------------------------------------------- */
+.divider{justify-content:center;background:var(--panel);color:#fff}
+.divider .step{color:#8EC5FF}
+.divider h1{color:#fff;font-size:110px;max-width:none;letter-spacing:-.035em}
+.divider p{color:#B8C4D6;font-size:36px;max-width:34ch}
+
+/* Table ----------------------------------------------------------------- */
+table{border-collapse:collapse;width:100%;font-size:25px;line-height:1.35}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:22px}
+table.dense{font-size:22px}
+table.dense td,table.dense th{padding:11px 16px}
+.slide:has(.byline) .body li,.slide:has(.byline) .body>div>p:not(.small):not(.lede){font-size:28px;line-height:1.38}
+.slide:has(.byline) .body li+li{margin-top:12px}
+.slide:has(.byline) .card li,.slide:has(.byline) .card p{font-size:25px}
+.tight .byline{margin-bottom:18px}
+.tight table.dense{font-size:20px}
+.tight table.dense td,.tight table.dense th{padding:8px 14px}
+td code{font-size:.82em}
+.slide:has(.outcome) .body li,.slide:has(.warn) .body li{font-size:28px;line-height:1.38}
+.slide:has(.outcome) .body li+li,.slide:has(.warn) .body li+li{margin-top:12px}
+.slide:has(.outcome) h2,.slide:has(.warn) h2{margin-bottom:26px}
+.outcome,.warn{font-size:26px;padding:18px 28px}
+
+/* Chrome: counter, progress, help --------------------------------------- */
+#progress{position:absolute;left:0;bottom:0;height:8px;background:var(--accent);width:0;transition:width .25s}
+#counter{position:absolute;right:196px;bottom:38px;font:400 20px var(--mono);color:var(--ink-3)}
+#deckname{position:absolute;left:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+.divider #counter,.divider #deckname{color:#7E8CA5}
+#nav{position:absolute;right:48px;bottom:22px;display:flex;gap:10px}
+#nav button{width:56px;height:56px;border-radius:50%;border:2px solid var(--rule);background:#fff;color:var(--ink);font:400 26px var(--sans);cursor:pointer;display:grid;place-items:center;transition:background .12s,border-color .12s}
+#nav button:hover,#nav button:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#nav button:disabled{opacity:.3;cursor:default;border-color:var(--rule);color:var(--ink)}
+#stage.dark #nav button{background:transparent;color:#fff;border-color:#3B4A63}
+#stage.dark #nav button:hover{border-color:#8EC5FF;color:#8EC5FF}
+#help{position:fixed;left:16px;top:16px;font:400 13px var(--mono);color:var(--ink-3);background:rgba(255,255,255,.7);padding:6px 10px;border-radius:6px;opacity:.9}
+#notes{position:fixed;right:0;top:0;bottom:0;width:min(420px,40vw);background:#fff;border-left:1px solid var(--rule);padding:24px;overflow:auto;font-size:16px;line-height:1.5;display:none}
+#notes.on{display:block}
+#notes h4{margin:0 0 12px;font-size:13px;color:var(--ink-3);font-weight:600}
+.notes{display:none}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;box-shadow:none;page-break-after:always;margin:0 auto}
+  .slide{position:relative;display:flex!important;height:900px;page-break-after:always}
+  #help,#notes,#progress,#counter,#deckname,#nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){#progress{transition:none}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="help">← → next slide · N notes · F fullscreen</div>
+<aside id="notes"><h4>Teacher notes</h4><div id="notes-body"></div></aside>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- ====================================================================== -->
+<!-- PART 0 · INTRO                                                         -->
+<!-- ====================================================================== -->
+
+<section class="slide title">
+  <span class="tag">&lt;script&gt;</span>
+  <h1>Google Tag Manager</h1>
+  <span class="tag">&lt;/script&gt;</span>
+  <p class="meta"><span>Growth Toolbox</span><span>Triggers, tags and variables</span><span>Jesper Åström</span></p>
+  <div class="notes">The title sits between script tags on purpose: Tag Manager is one script on the page, and everything else happens inside a web tool. Today: what it is for, the three building blocks, and then the same three exercises on three pages of the practice shop.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What is Google Tag Manager for?</h2>
+  <p class="byline">One piece of code on the site. All your tracking managed in a web tool.</p>
+  <div class="body two">
+    <div class="card">
+      <h3>Without Tag Manager</h3>
+      <ul>
+        <li>Google Analytics wants its code on every page.</li>
+        <li>Meta, LinkedIn and Google Ads each want their own code.</li>
+        <li>Every change means asking a developer and waiting for a release.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>With Tag Manager</h3>
+      <ul>
+        <li>The developer pastes one snippet, once.</li>
+        <li>You add and change tracking at <b>tagmanager.google.com</b>.</li>
+        <li>You test it in Preview mode and publish when it works. No release needed.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Ask the class: who has asked a developer to add a pixel and waited two weeks? That is the problem Tag Manager solves. It is a container: one script that loads all the other scripts, controlled from a web interface.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">How the container works</h2>
+  <p class="byline">Four things happen, in this order, on every page.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>The page loads. The snippet in the page loads your <b>container</b>.</li>
+        <li>The container watches the page: page views, clicks, form submits, messages from the developer.</li>
+        <li>When something happens, the container checks its <b>triggers</b>.</li>
+        <li>If a trigger matches, its <b>tag</b> runs and sends data somewhere, for example to Google Analytics.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">&lt;!-- Google Tag Manager --&gt;</span>
+&lt;<span class="k">script</span>&gt;(function(w,d,s,l,i){ …
+  j.src=<span class="s">'https://www.googletagmanager.com/gtm.js?id='</span>+i
+})(window,document,<span class="s">'script'</span>,<span class="s">'dataLayer'</span>,<span class="s">'GTM-W2S6DPBK'</span>);
+&lt;/<span class="k">script</span>&gt;</pre>
+      <p class="small" style="margin-top:16px">This is the snippet. The ID at the end is the container. You already pasted yours into the practice shop.</p>
+    </div>
+  </div>
+  <div class="notes">Point at the container ID. Everything the students build today lives inside that ID. The page never changes again; the container does.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Three building blocks</h2>
+  <p class="byline">Everything you build in Tag Manager is one of these three.</p>
+  <div class="cols3">
+    <div class="card">
+      <h3>Tag</h3>
+      <p><b>What</b> to do.</p>
+      <p>Send an event to Google Analytics. Load the Meta pixel. Run a piece of code.</p>
+    </div>
+    <div class="card">
+      <h3>Trigger</h3>
+      <p><b>When</b> to do it.</p>
+      <p>On every page view. When a button is clicked. When the developer says a form was sent.</p>
+    </div>
+    <div class="card">
+      <h3>Variable</h3>
+      <p><b>With which information.</b></p>
+      <p>The text on the button. The URL of the page. The price of the product.</p>
+    </div>
+  </div>
+  <div class="outcome" style="margin-top:40px"><b>One sentence</b> "Send an event to Google Analytics (tag) when someone clicks Subscribe (trigger) and include which plan they chose (variable)."</div>
+  <div class="notes">Write the sentence on the board and underline the three parts. Every exercise today is that sentence with different words.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What is a Tag?</h2>
+  <p class="byline">A piece of code that sends data somewhere.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li>Tag Manager has ready-made tags for Google Analytics, Google Ads, Floodlight and many others. You fill in a form, no code.</li>
+        <li><b>Custom HTML</b> is the tag type for anything else: paste the code a tool gives you.</li>
+        <li>A tag does nothing on its own. It waits for a <b>trigger</b>.</li>
+        <li>Today we use one type: <b>Google Analytics: GA4 Event</b>. It sends an event with a name and some parameters.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The tag we build today</h3>
+      <table class="settings">
+        <tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+        <tr><th>Measurement ID</th><td>G-XXXXXXXXXX</td></tr>
+        <tr><th>Event Name</th><td>hero_click</td></tr>
+        <tr><th>Event Parameters</th><td>cta_location = <span class="var">{{dlv - cta.location}}</span></td></tr>
+        <tr><th>Triggering</th><td class="sans">Click - hero button</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="notes">Show the table and say: this is the whole tag. Five fields. The double curly braces are how Tag Manager writes a variable. We get there in Part 3.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What is a Trigger?</h2>
+  <p class="byline">The rule that decides when a tag fires.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li>A trigger has a <b>type</b>: Page View, Click, Form Submission, Custom Event, Scroll and more.</li>
+        <li>A trigger can fire on <b>all</b> events of that type, or on <b>some</b>, with a condition. "All clicks" or "clicks where Click Text equals Subscribe".</li>
+        <li>One trigger can be used by many tags. One tag can have many triggers.</li>
+        <li>The condition uses a <b>variable</b>. That is why the three blocks belong together.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The trigger types we use today</h3>
+      <table class="dense">
+        <tr><th>Type</th><th>Fires when</th></tr>
+        <tr><td>Click - All Elements</td><td>Anything on the page is clicked.</td></tr>
+        <tr><td>Custom Event</td><td>The developer pushes an event with that name.</td></tr>
+      </table>
+      <p class="small" style="margin-top:14px">Page View you already used in the course "Tag Manager on a real site".</p>
+    </div>
+  </div>
+  <div class="notes">Two trigger types cover most real work: click triggers when you have to work with what is on the page, custom event triggers when the developer helps you. The whole of Part 1 is about choosing between them.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What are Variables?</h2>
+  <p class="byline">Named values Tag Manager reads from the page.</p>
+  <div class="body two">
+    <div class="card">
+      <h3>Built-in variables</h3>
+      <p>Come with Tag Manager. You switch them on.</p>
+      <ul>
+        <li><b>Page URL</b>, <b>Page Path</b></li>
+        <li><b>Click Text</b>, <b>Click Classes</b>, <b>Click ID</b>, <b>Click URL</b>, <b>Click Element</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>User-defined variables</h3>
+      <p>You create them and give them a name.</p>
+      <ul>
+        <li><b>Data Layer Variable</b>: reads a value the developer put in the dataLayer. Today's main tool.</li>
+        <li><b>Auto-Event Variable</b>: reads something from the element that was clicked.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Used in two places</b> In a trigger, as the condition. In a tag, as the information you send. Written as <code>{{Click Text}}</code>.</div>
+  <div class="notes">Built-in variables are free but only know about the page: text, classes, URL. Data Layer Variables know what the developer knows: product name, price, plan. Exercises go from built-in to data layer.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">The dataLayer</h2>
+  <p class="byline">A list on the page. The developer writes to it. Tag Manager reads from it.</p>
+  <div class="body split">
+    <div>
+      <pre style="font-size:22px">window.dataLayer.push({
+  <span class="k">event</span>: <span class="s">'cta_click'</span>,
+  <span class="k">cta</span>: {
+    <span class="k">text</span>: <span class="s">'Start your subscription'</span>,
+    <span class="k">location</span>: <span class="s">'hero'</span>,
+    <span class="k">destination</span>: <span class="s">'signup.html'</span>
+  }
+});</pre>
+      <p class="small" style="margin-top:16px">This is what the practice shop pushes when a call-to-action button is clicked. It is in <code>site/site.js</code>.</p>
+    </div>
+    <div>
+      <ul>
+        <li><b>event</b> is a special key. It is what a Custom Event trigger listens for.</li>
+        <li><b>cta</b> is an object with three values inside it. That is a <b>nested</b> value.</li>
+        <li>You reach a nested value with <b>dot notation</b>: <code>cta.location</code> is <code>hero</code>.</li>
+        <li>Values pushed without an <b>event</b> key, like <code>page.type</code>, fire no trigger but can be read by every tag.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Read the push out loud: "event cta_click, and an object called cta with text, location and destination". Dot notation is the one syntax they must learn today. Everything in Part 3 is dot notation.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Preview mode</h2>
+  <p class="byline">See what fires before you publish. You will live in this window today.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In Tag Manager, click the <b>Preview</b> button at the top right.</li>
+        <li>A tool called <b>Tag Assistant</b> opens. Paste the address of your site and click <b>Connect</b>.</li>
+        <li>Your site opens in a new window with a small badge that says it is connected.</li>
+        <li>Back in Tag Assistant: the <b>left column</b> lists everything that happened. The <b>middle</b> shows which tags fired for the selected event.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>The three tabs in the middle</h3>
+      <ul>
+        <li><b>Tags</b>: Tags Fired and Tags Not Fired for the selected event.</li>
+        <li><b>Variables</b>: every variable and its value at that moment.</li>
+        <li><b>Data Layer</b>: exactly what the developer pushed.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Preview mode does not change the live site; only your browser sees the unpublished container. Tag Assistant cannot connect to a file on disk, the site must be online.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">How we work today</h2>
+  <p class="byline">I show it on my copy. You build on yours.</p>
+  <div class="body two">
+    <div>
+      <p><b>You need three things from the shop course:</b></p>
+      <ol style="margin-top:14px">
+        <li>Your own Tag Manager container.</li>
+        <li>Your own copy of the shop online with your snippet in it: <code>yourname.github.io/gtm-real-site/site/</code></li>
+        <li>Your Google Analytics Measurement ID, the one that starts with <code>G-</code>.</li>
+      </ol>
+      <p class="small" style="margin-top:18px">Missing something? Do <a href="../gtm-real-site/0-before-you-start.html" target="_blank" rel="noopener">Before you start</a> and <a href="../gtm-real-site/1-install.html" target="_blank" rel="noopener">exercise 1</a> first.</p>
+    </div>
+    <div class="card">
+      <h3>Today's five parts</h3>
+      <ol>
+        <li>Home page: a trigger for one button</li>
+        <li>Home page: a tag that sends the click</li>
+        <li>Home page: variables from the dataLayer</li>
+        <li>The signup page: same thing, a form</li>
+        <li>The products page: same thing, three identical buttons</li>
+      </ol>
+    </div>
+  </div>
+  <div class="outcome"><b>My copy</b> <a href="https://jesperastrom.github.io/gtm-real-site/site/index.html" target="_blank" rel="noopener">jesperastrom.github.io/gtm-real-site/site/</a>. Look there. Build on your own copy.</div>
+  <div class="notes">Preview mode only works on a page that has the student's container snippet, so they cannot preview on the teacher's copy. They look at the teacher's copy, they build on their own. If a student has no copy online, pair them with a neighbour for today.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 1 · TRIGGER                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 1 of 5</p>
+  <h1>A trigger for one button</h1>
+  <p>The hero button on the home page. Find it, listen for it, filter it.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 1 of 34</p>
+  <h2>Look at the button</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open <a href="https://jesperastrom.github.io/gtm-real-site/site/index.html" target="_blank" rel="noopener">gtm-real-site/site/index.html</a> in Chrome.</li>
+        <li>Right-click the brown button <b>Start your subscription</b> and choose <b>Inspect</b>.</li>
+        <li>Read the highlighted line in the <b>Elements</b> tab. Write down the tag, the class, the href and the text.</li>
+      </ol>
+    </div>
+    <div>
+      <p style="margin-bottom:60px"><span class="inspect"><span class="fakebtn">Start your subscription</span><span class="tip"><b>a</b>.btn <i>272 × 54</i></span></span></p>
+      <pre style="font-size:21px;margin-top:40px">&lt;<span class="k">a</span> <span class="s">class</span>="btn" <span class="s">href</span>="signup.html" <span class="s">data-cta</span>="hero"&gt;
+  Start your subscription
+&lt;/<span class="k">a</span>&gt;</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can say: it is a link (<code>a</code>), its class is <code>btn</code>, it goes to <code>signup.html</code>, it has no <code>id</code>, and its text is "Start your subscription".</div>
+  <div class="notes">Do this live. The four facts on the outcome line are the four things a click trigger can filter on. Point out that there is no id: that rules out Click ID later.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 2 of 34</p>
+  <h2>Turn on Preview mode</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Go to <a href="https://tagmanager.google.com" target="_blank" rel="noopener">tagmanager.google.com</a> and open your container.</li>
+        <li>Click <b>Preview</b> at the top right.</li>
+        <li>In the field <b>Your website's URL</b>, paste the address of your own copy: <code style="white-space:normal;word-break:break-all">https://yourname.github.io/gtm-real-site/site/index.html</code></li>
+        <li>Click <b>Connect</b>. Your shop opens in a new window.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Keep two windows open</h3>
+      <p><b>Window 1: Tag Assistant.</b> Shows what happened.</p>
+      <p><b>Window 2: your shop.</b> Where you click.</p>
+      <p class="muted">You will switch between them all day. Put them side by side if your screen is wide enough.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the badge at the bottom right of the shop says <b>Connected</b>, and Tag Assistant lists <b>Container Loaded</b> in the left column.</div>
+  <div class="notes">Common problem: the student pasted a URL from disk (file://). It must be the github.io address. Second problem: a popup blocker stops the shop window from opening.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 3 of 34</p>
+  <h2>Click the button and look</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the shop window, click <b>Start your subscription</b>. The signup page opens.</li>
+        <li>Go to Tag Assistant. Look at the left column.</li>
+        <li>Find the row <b>cta_click</b>. Then look for a row called <b>Click</b>. There is none.</li>
+      </ol>
+      <p class="small" style="margin-top:28px">Tag Manager only listens for clicks when your container has at least one Click trigger. Right now it has none, so the click is invisible. The <b>cta_click</b> row is different: the developer pushed it into the dataLayer.</p>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">Tag Assistant, left column</span>
+index.html
+  Container Loaded
+  DOM Ready
+  Window Loaded
+  <span class="hl">cta_click</span>          <span class="c">← the developer's push</span>
+signup.html
+  Container Loaded
+  …</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have seen that <b>cta_click</b> appears in the list and that no <b>Click</b> row appears. That is the problem the next two steps solve.</div>
+  <div class="notes">This is the single most confusing thing for beginners: "I clicked, why is there no click?" Say it clearly: no click trigger, no click listener. The cta_click row is a preview of Part 1 step 8.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 4 of 34</p>
+  <h2>Switch on the Click variables</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In Tag Manager, click <b>Variables</b> in the menu on the left.</li>
+        <li>In the box <b>Built-In Variables</b> at the top, click <b>Configure</b>.</li>
+        <li>Scroll to the heading <b>Clicks</b>. Tick all six: <b>Click Element, Click Classes, Click ID, Click Target, Click URL, Click Text</b>.</li>
+        <li>Close the panel with the X.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Why switch them on?</h3>
+      <p>Built-in variables exist but are hidden until you tick them. Once ticked, they show up in every trigger condition and in the Variables tab in Tag Assistant.</p>
+      <p class="muted">Tick them once per container. They stay on.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the six Click variables are listed in the Built-In Variables box.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 5 of 34</p>
+  <h2>Create a trigger for all clicks</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click <b>Triggers</b> in the menu on the left. Click <b>New</b>.</li>
+        <li>Click the big box <b>Trigger Configuration</b>. Choose <b>Click - All Elements</b>.</li>
+        <li>Under <b>This trigger fires on</b>, leave <b>All Clicks</b>.</li>
+        <li>At the top left, type the name. Click <b>Save</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger</caption>
+        <tr><th>Name</th><td>Click - hero button</td></tr>
+        <tr><th>Trigger type</th><td class="sans">Click - All Elements</td></tr>
+        <tr><th>This trigger fires on</th><td class="sans">All Clicks</td></tr>
+      </table>
+      <p class="small" style="margin-top:16px">The name says what we want it to become. Right now it fires on every click. We narrow it down in step 7.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the trigger <b>Click - hero button</b> is in your list of triggers.</div>
+  <div class="notes">Naming convention for the whole day: type first, then what. "Click - hero button", "CE - cta_click", "GA4 - hero_click", "dlv - cta.location". Same as in the course they did before.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 6 of 34</p>
+  <h2>Preview again and read the click</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click <b>Preview</b> again in Tag Manager. Tag Assistant reconnects with the new trigger.</li>
+        <li>In the shop window, click <b>Start your subscription</b>.</li>
+        <li>In Tag Assistant, a row called <b>Click</b> now appears. Click on it.</li>
+        <li>Click the tab <b>Variables</b> in the middle. Find the six Click variables.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">Variables tab, for the Click event</span>
+Click Classes   <span class="s">"btn"</span>
+Click Element   <span class="s">a.btn</span>
+Click ID        <span class="s">""</span>
+Click Target    <span class="s">""</span>
+Click Text      <span class="s">"Start your subscription"</span>
+Click URL       <span class="s">"https://…/site/signup.html"</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> Click Text says "Start your subscription" and Click ID is empty. Now click anything else on the page: every click makes a new Click row.</div>
+  <div class="notes">Every time they change something in Tag Manager they must click Preview again, or reload the shop window. Say it now and repeat it every step. The Variables tab is the answer to "what can I filter on?".</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 7 of 34</p>
+  <h2>Filter: only this button</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open the trigger <b>Click - hero button</b>.</li>
+        <li>Under <b>This trigger fires on</b>, choose <b>Some Clicks</b>. Three fields appear.</li>
+        <li>First field: <b>Click Text</b>. Second: <b>equals</b>. Third: type <code>Start your subscription</code>.</li>
+        <li>Click <b>Save</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger</caption>
+        <tr><th>Name</th><td>Click - hero button</td></tr>
+        <tr><th>Trigger type</th><td class="sans">Click - All Elements</td></tr>
+        <tr><th>This trigger fires on</th><td class="sans">Some Clicks</td></tr>
+        <tr><th>Condition</th><td>Click Text &nbsp;equals&nbsp; Start your subscription</td></tr>
+      </table>
+      <p class="small" style="margin-top:16px"><b>equals</b> means the whole text, exactly. <b>contains</b> would also match "Start your subscription today".</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the trigger has one condition on Click Text. You cannot see it work yet: a trigger only shows in Tag Assistant once a tag uses it. That is Part 2.</div>
+  <div class="notes">Beginners expect to see the trigger "fire" in Tag Assistant. It does not: Tag Assistant shows tags, and triggers only under a tag. Say that now so they do not spend ten minutes looking.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part solo">Part 1 · Advice</span></p>
+  <h2 style="max-width:none">Five ways to filter a click</h2>
+  <p class="byline">Pick the one that is unique to the button and will not change next month.</p>
+  <table class="dense">
+    <tr><th style="width:24%">Condition</th><th style="width:34%">For the hero button</th><th>Good and bad</th></tr>
+    <tr><td><code>Click Text</code> equals</td><td><code>Start your subscription</code></td><td>Easy to read. Breaks when the copywriter changes the text, or the site is translated.</td></tr>
+    <tr><td><code>Click Classes</code> equals</td><td><code>btn</code></td><td>Stable. But every button on the site has the class <code>btn</code>, so it matches all of them.</td></tr>
+    <tr><td><code>Click URL</code> contains</td><td><code>signup.html</code></td><td>Good for links. Matches every link to the signup page, also the one in the footer.</td></tr>
+    <tr><td><code>Click ID</code> equals</td><td>nothing, the button has no id</td><td>Best when it exists. Ask the developer to add one if you need it.</td></tr>
+    <tr><td><code>Click Element</code> matches CSS selector</td><td><code>[data-cta="hero"]</code></td><td>Precise, uses anything from Inspect. Needs a CSS selector, which you learned in the scraping lecture.</td></tr>
+  </table>
+  <div class="notes">Combine conditions with the plus button: Click Classes equals btn AND Click URL contains signup.html gives exactly the hero button and the footer link. The CSS selector row is the bridge to the scraping deck: same selectors.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 8 of 34</p>
+  <h2>There is a custom event. Use it.</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In Tag Assistant, click the row <b>cta_click</b> in the left column, then the tab <b>Data Layer</b>. You see the developer's push from the intro.</li>
+        <li>In Tag Manager: <b>Triggers</b>, <b>New</b>, <b>Trigger Configuration</b>, choose <b>Custom Event</b>.</li>
+        <li>In <b>Event name</b>, type exactly <code>cta_click</code>.</li>
+        <li>Name it and click <b>Save</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger</caption>
+        <tr><th>Name</th><td>CE - cta_click</td></tr>
+        <tr><th>Trigger type</th><td class="sans">Custom Event</td></tr>
+        <tr><th>Event name</th><td>cta_click</td></tr>
+        <tr><th>This trigger fires on</th><td class="sans">All Custom Events</td></tr>
+      </table>
+      <p class="small" style="margin-top:16px">The event name must match the push letter for letter. <code>cta_click</code>, not <code>CTA_click</code>.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have two triggers for the same button: <b>Click - hero button</b> and <b>CE - cta_click</b>. Part 2 shows why the second one is better.</div>
+  <div class="notes">Why better: the developer's push fires after the site has done its own work, it carries data (text, location, destination), and it does not care about text, classes or CSS. It also fires for all three CTA buttons, which we fix with a variable in Part 3.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Part 1 · Advice</span></p>
+  <h2 style="max-width:none">When there is no custom event</h2>
+  <p class="byline">First look for one. Then choose.</p>
+  <div class="body two">
+    <div class="card">
+      <h3>How to look</h3>
+      <ol>
+        <li>Open Preview mode and do the thing: click, submit, add to cart.</li>
+        <li>Read the left column in Tag Assistant. A row with a name the developer chose, like <code>cta_click</code>, is a custom event.</li>
+        <li>Only rows called Click, Form Submit, Scroll Depth? Then there is no custom event for it.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Then</h3>
+      <ul>
+        <li><b>Custom event exists</b>: use a Custom Event trigger. Always.</li>
+        <li><b>No custom event</b>: use a Click trigger with the most stable filter from the table. Works today, may break later.</li>
+        <li><b>You need data the page does not show</b>, like a price or a user id: write a specification and ask the developer for a push. Exercise 6 in the shop course shows how.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">The footer newsletter form on the shop pushes nothing. It is the example of "no custom event" and it is what exercise 6 in gtm-real-site is about.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 2 · TAG                                                           -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 2 of 5</p>
+  <h1>A tag that sends the click</h1>
+  <p>One GA4 event tag. See it fire, see it in Google Analytics, rename it, move it.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 9 of 34</p>
+  <h2>Create the tag</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click <b>Tags</b> in the menu on the left. Click <b>New</b>.</li>
+        <li>Click <b>Tag Configuration</b>. Choose <b>Google Analytics: GA4 Event</b>.</li>
+        <li>In <b>Measurement ID</b>, paste your <code>G-</code> ID. In <b>Event Name</b>, type <code>hero_click</code>.</li>
+        <li>Click <b>Triggering</b>. Choose <b>Click - hero button</b>.</li>
+        <li>Name it and click <b>Save</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Tag</caption>
+        <tr><th>Name</th><td>GA4 - hero_click</td></tr>
+        <tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+        <tr><th>Measurement ID</th><td>G-XXXXXXXXXX</td></tr>
+        <tr><th>Event Name</th><td>hero_click</td></tr>
+        <tr><th>Triggering</th><td class="sans">Click - hero button</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the tag <b>GA4 - hero_click</b> is in your list of tags, with one trigger.</div>
+  <div class="notes">The Measurement ID is the same one they used for the Google tag in the shop course. If the field is called "Google tag" instead, they pick the existing Google tag - GA4 from the list.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 10 of 34</p>
+  <h2>See it fire, and not fire</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click <b>Preview</b> again. Reload the shop window.</li>
+        <li>Click <b>Start your subscription</b>. In Tag Assistant, click the new <b>Click</b> row.</li>
+        <li>Tab <b>Tags</b>: your tag is under <b>Tags Fired</b>.</li>
+        <li>Go back in the shop. Click the grey button <b>See the coffees</b>. Click that Click row.</li>
+        <li>Your tag is under <b>Tags Not Fired</b>. Click it: the condition on Click Text is shown with a red X.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">Click on "Start your subscription"</span>
+Tags Fired
+  <span class="s">GA4 - hero_click</span>
+Tags Not Fired
+  Google tag - GA4
+
+<span class="c">Click on "See the coffees"</span>
+Tags Fired
+  <span class="c">(none)</span>
+Tags Not Fired
+  <span class="k">GA4 - hero_click</span>   <span class="c">← Click Text ≠ …</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the tag fires for the hero button and not for the other one. That is your filter from step 7, working.</div>
+  <div class="notes">Clicking a tag under Tags Not Fired shows every condition with a green tick or a red X. That is the debugging tool for the rest of the course.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 11 of 34</p>
+  <h2>See it in Google Analytics</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a> and open your property.</li>
+        <li>Click <b>Admin</b> (the gear at the bottom left), then <b>DebugView</b> under Data display.</li>
+        <li>In the shop window, go to the home page and click <b>Start your subscription</b> again.</li>
+        <li>Within a few seconds <b>hero_click</b> appears in the timeline in DebugView. Click it.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Why DebugView and not a report?</h3>
+      <p>Reports in Google Analytics update hours later. DebugView shows events from browsers in Preview mode within seconds.</p>
+      <p class="muted">Nothing there? Check the Measurement ID in the tag. Try a browser without ad blockers.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <b>hero_click</b> is in DebugView. The click went: page, Tag Manager, Google Analytics.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 12 of 34</p>
+  <h2>Change the event name</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open the tag <b>GA4 - hero_click</b>.</li>
+        <li>Change <b>Event Name</b> to <code>start_subscription</code>. Save.</li>
+        <li>Preview again, reload the shop, click the hero button.</li>
+        <li>In Tag Assistant, open the tag under Tags Fired: <b>Event Name</b> says start_subscription. So does DebugView.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Naming an event</h3>
+      <ul>
+        <li>Yours to choose. Google Analytics shows it exactly as typed.</li>
+        <li>Lowercase with underscores. Say what happened, not where.</li>
+        <li>Google has recommended names, like <code>generate_lead</code>. Use them when they fit.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> DebugView shows <b>start_subscription</b>. Rename the tag <b>GA4 - start_subscription</b> so the names match.</div>
+  <div class="notes">Search term for them: "GA4 recommended events". The point of this step: the tag name in Tag Manager and the event name in Google Analytics are two different things, and only the second one is visible in reports.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 13 of 34</p>
+  <h2>Move the tag to cta_click</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open the tag <b>GA4 - start_subscription</b>. Click the box <b>Triggering</b>.</li>
+        <li>Remove <b>Click - hero button</b> with the minus icon. Add <b>CE - cta_click</b> with the plus. Save.</li>
+        <li>Preview, reload, click the hero button. Click the row <b>cta_click</b>: the tag fired.</li>
+        <li>Now click the grey button <b>See the coffees</b>. Then the button <b>Browse all three</b> further down. The tag fires for those too.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">The three call-to-action buttons</span>
+Start your subscription   cta.location = <span class="s">"hero"</span>
+See the coffees           cta.location = <span class="s">"hero_secondary"</span>
+Browse all three          cta.location = <span class="s">"mid_page"</span>
+
+<span class="c">All three push event: "cta_click"</span></pre>
+      <p class="small" style="margin-top:16px">Same event name, different data inside. A trigger on the name alone cannot tell them apart.</p>
+    </div>
+  </div>
+  <div class="warn"><b>Problem</b> The tag now fires for all three buttons. We need to read <code>cta.location</code>. That is a variable. Part 3.</div>
+  <div class="notes">Let them feel the problem before the solution. Everyone should have the tag firing three times before the break.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 3 · VARIABLES                                                     -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 3 of 5</p>
+  <h1>Variables from the dataLayer</h1>
+  <p>Read a nested value, filter on it, send it along with the event.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 14 of 34</p>
+  <h2>Read the push in Tag Assistant</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the shop, click <b>Start your subscription</b>.</li>
+        <li>In Tag Assistant, click the row <b>cta_click</b>. Click the tab <b>Data Layer</b>.</li>
+        <li>Read the object. Say each value with its path: <code>cta.text</code>, <code>cta.location</code>, <code>cta.destination</code>.</li>
+      </ol>
+      <p class="small" style="margin-top:28px">The Data Layer tab shows exactly what the developer pushed. The path is the key on the outside, a dot, the key on the inside.</p>
+    </div>
+    <div>
+      <pre style="font-size:20px"><span class="c">Data Layer tab</span>
+{
+  event: <span class="s">"cta_click"</span>,
+  cta: {
+    text: <span class="s">"Start your…"</span>,        <span class="c">← cta.text</span>
+    location: <span class="s">"hero"</span>,           <span class="c">← cta.location</span>
+    destination: <span class="s">"signup.html"</span> <span class="c">← cta.destination</span>
+  },
+  gtm.uniqueEventId: 12
+}</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can write the path for each of the three values without looking. Ignore <code>gtm.uniqueEventId</code>: Tag Manager adds it.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 15 of 34</p>
+  <h2>Create a Data Layer Variable</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click <b>Variables</b> in the menu. Under <b>User-Defined Variables</b>, click <b>New</b>.</li>
+        <li>Click <b>Variable Configuration</b>. Choose <b>Data Layer Variable</b>.</li>
+        <li>In <b>Data Layer Variable Name</b>, type <code>cta.location</code>. Leave <b>Version 2</b>.</li>
+        <li>Name it and click <b>Save</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Variable</caption>
+        <tr><th>Name</th><td>dlv - cta.location</td></tr>
+        <tr><th>Variable type</th><td class="sans">Data Layer Variable</td></tr>
+        <tr><th>Data Layer Variable Name</th><td>cta.location</td></tr>
+        <tr><th>Data Layer Version</th><td class="sans">Version 2</td></tr>
+      </table>
+      <p class="small" style="margin-top:16px">The variable name is what you call it in Tag Manager. The Data Layer Variable Name is the path in the push. They are different fields.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <b>dlv - cta.location</b> is in your list of user-defined variables. Version 2 is what makes the dot work.</div>
+  <div class="notes">Version 1 reads only top-level keys and treats the dot as part of the name. Version 2 understands nesting. Always Version 2.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 16 of 34</p>
+  <h2>Check the variable in Preview</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Preview again, reload the shop, click <b>Start your subscription</b>.</li>
+        <li>In Tag Assistant, click the row <b>cta_click</b>, then the tab <b>Variables</b>.</li>
+        <li>Scroll to <b>dlv - cta.location</b>. Its value is <code>hero</code>.</li>
+        <li>Click the row <b>Container Loaded</b> instead. Now the value is <b>undefined</b>. The push has not happened yet at that moment.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">Variables tab, event cta_click</span>
+dlv - cta.location   Data Layer Variable   <span class="s">"hero"</span>
+
+<span class="c">Variables tab, event Container Loaded</span>
+dlv - cta.location   Data Layer Variable   <span class="k">undefined</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the variable says <b>hero</b> on the cta_click row. A variable has a value at a moment in time. Always check it on the right row.</div>
+  <div class="notes">"undefined" is the most common question of the day. Almost always: they are looking at the wrong row in the left column, or the path has a typo.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 17 of 34</p>
+  <h2>Filter the custom event</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open the trigger <b>CE - cta_click</b>.</li>
+        <li>Under <b>This trigger fires on</b>, choose <b>Some Custom Events</b>.</li>
+        <li>First field: <b>dlv - cta.location</b>. Second: <b>equals</b>. Third: <code>hero</code>. Save.</li>
+        <li>Rename the trigger <b>CE - cta_click - hero</b>.</li>
+        <li>Preview, reload. Click all three call-to-action buttons. The tag fires only for the first.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger</caption>
+        <tr><th>Name</th><td>CE - cta_click - hero</td></tr>
+        <tr><th>Trigger type</th><td class="sans">Custom Event</td></tr>
+        <tr><th>Event name</th><td>cta_click</td></tr>
+        <tr><th>This trigger fires on</th><td class="sans">Some Custom Events</td></tr>
+        <tr><th>Condition</th><td><span class="var">dlv - cta.location</span> &nbsp;equals&nbsp; hero</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <b>GA4 - start_subscription</b> is under Tags Fired for the hero button and under Tags Not Fired for the other two.</div>
+  <div class="notes">Same idea as step 7, but the condition reads the developer's data instead of the button text. That is the whole difference between a fragile setup and a stable one.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 18 of 34</p>
+  <h2>Send values with the event</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Create a second variable the same way: <b>dlv - cta.text</b> with the path <code>cta.text</code>.</li>
+        <li>Open the tag <b>GA4 - start_subscription</b>. Click <b>Event Parameters</b>.</li>
+        <li>Click <b>Add parameter</b>. Left field: <code>cta_location</code>. Right field: click the block icon and choose <b>dlv - cta.location</b>.</li>
+        <li>Add another: <code>cta_text</code> and <b>dlv - cta.text</b>. Save.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Tag</caption>
+        <tr><th>Name</th><td>GA4 - start_subscription</td></tr>
+        <tr><th>Event Name</th><td>start_subscription</td></tr>
+        <tr><th>Event Parameters</th><td>cta_location = <span class="var">{{dlv - cta.location}}</span><br>cta_text = <span class="var">{{dlv - cta.text}}</span></td></tr>
+        <tr><th>Triggering</th><td class="sans">CE - cta_click - hero</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you click the hero button, open the tag under Tags Fired in Tag Assistant and see both parameters with values. DebugView shows them under the event.</div>
+  <div class="notes">The left field is the name Google Analytics will see. Lowercase with underscores, like the event name. The right field is the variable in curly braces; the block icon inserts it so they never have to type the braces.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 19 of 34</p>
+  <h2>Two levels deep</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In Tag Assistant, click <b>Container Loaded</b>, then <b>Data Layer</b>. Find <code>page.type</code> and <code>user.consent.marketing</code>.</li>
+        <li>Create <b>dlv - page.type</b> with the path <code>page.type</code>.</li>
+        <li>Create <b>dlv - user.consent.marketing</b> with the path <code>user.consent.marketing</code>. Three levels, two dots.</li>
+        <li>Add both as parameters to the tag: <code>page_type</code> and <code>marketing_consent</code>. Save, preview, click the hero button.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:21px"><span class="c">Pushed by site.js before the container loads</span>
+{
+  page: { type: <span class="s">"home"</span>, category: null, … },
+  user: {
+    id: null,
+    logged_in: false,
+    tier: <span class="s">"guest"</span>,
+    consent: { analytics: true, marketing: <span class="s">false</span> }
+  }
+}</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the tag shows page_type = <b>home</b> and marketing_consent = <b>false</b>. The push happened before the click, and the dataLayer remembers it.</div>
+  <div class="notes">Two lessons: dot notation goes as deep as you need, and the dataLayer keeps earlier values. That is why the page data is pushed before the container loads: every event on the page can use it.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Part 3 · Advice</span></p>
+  <h2 style="max-width:none">Which variable when</h2>
+  <p class="byline">Built-in for what the page looks like. Data Layer for what the page knows.</p>
+  <div class="body two">
+    <div class="card">
+      <h3>Built-in: Click Text, Click URL, Page Path</h3>
+      <ul>
+        <li>Zero setup, always available.</li>
+        <li>Knows only what is visible in the HTML.</li>
+        <li>Use in click triggers when there is no custom event.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Data Layer Variable: dlv - cta.location</h3>
+      <ul>
+        <li>One variable per path. Version 2, dot notation.</li>
+        <li>Knows what the developer knows: prices, plans, ids, consent.</li>
+        <li>Use in custom event triggers and as tag parameters.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Rule</b> Name the variable after the path: <b>dlv - cta.location</b> for <code>cta.location</code>. Six months later you will thank yourself.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 4 · SIGNUP PAGE                                                   -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 4 of 5</p>
+  <h1>The signup page</h1>
+  <p>Same three steps. A form instead of a link, and a value that changes with the choice.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 20 of 34</p>
+  <h2>Look at the form and its button</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open <a href="https://jesperastrom.github.io/gtm-real-site/site/signup.html" target="_blank" rel="noopener">gtm-real-site/site/signup.html</a>.</li>
+        <li>Right-click the button <b>Subscribe</b> and choose <b>Inspect</b>.</li>
+        <li>Write down: tag, class, text, id.</li>
+        <li>Scroll to the footer. Inspect the button <b>Sign up</b> too. Compare.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:21px"><span class="c">The subscribe form</span>
+&lt;<span class="k">button</span> <span class="s">class</span>="btn" <span class="s">type</span>="submit"&gt;Subscribe&lt;/<span class="k">button</span>&gt;
+
+<span class="c">The footer newsletter form</span>
+&lt;<span class="k">button</span> <span class="s">class</span>="btn small" <span class="s">type</span>="submit"&gt;Sign up&lt;/<span class="k">button</span>&gt;</pre>
+      <p class="small" style="margin-top:16px">Both are buttons, both have the class btn, neither has an id. The text is the only difference you can see.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you know the Subscribe button is a <code>button</code> with class <code>btn</code>, text "Subscribe", no id, no URL. So Click URL is out, Click ID is out.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 21 of 34</p>
+  <h2>Trigger and tag on the click</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>New trigger: <b>Click - All Elements</b>, Some Clicks, <b>Click Text equals Subscribe</b>. Name <b>Click - subscribe button</b>.</li>
+        <li>New tag: <b>GA4 Event</b>, event name <code>subscribe_click</code>, trigger <b>Click - subscribe button</b>. Name <b>GA4 - subscribe_click</b>.</li>
+        <li>Preview, open your signup page, click <b>Subscribe</b>.</li>
+        <li>In Tag Assistant: the Click row shows the tag under Tags Fired.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger + Tag</caption>
+        <tr><th>Trigger</th><td>Click - subscribe button</td></tr>
+        <tr><th>Condition</th><td>Click Text &nbsp;equals&nbsp; Subscribe</td></tr>
+        <tr><th>Tag</th><td>GA4 - subscribe_click</td></tr>
+        <tr><th>Event Name</th><td>subscribe_click</td></tr>
+        <tr><th>Triggering</th><td class="sans">Click - subscribe button</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="warn"><b>Problem</b> A click is not a subscription. Delete the email, click Subscribe: the form refuses, the tag fires anyway.</div>
+  <div class="notes">Ask: what do we actually want to count? Completed signups. The click is the wrong moment. Let the students try the empty email themselves.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 22 of 34</p>
+  <h2>Find the custom event</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Fill the form: choose <b>Every week</b>, bag <b>500 g</b>, tick the box about emails. Click <b>Subscribe</b>.</li>
+        <li>In Tag Assistant, a row <b>generate_lead</b> appears after the Click row. Click it, then the tab <b>Data Layer</b>.</li>
+        <li>Write down the path of every value in <code>lead</code> and the one in <code>user</code>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:20px">{
+  event: <span class="s">"generate_lead"</span>,
+  lead: {
+    plan: <span class="s">"weekly"</span>,      <span class="c">← lead.plan</span>
+    bag_size: <span class="s">"500g"</span>,    <span class="c">← lead.bag_size</span>
+    source: <span class="s">"signup_page"</span>,
+    value: <span class="s">516</span>           <span class="c">← lead.value</span>
+  },
+  user: { consent: { marketing: <span class="s">true</span> } }
+}                       <span class="c">← user.consent.marketing</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have found <b>generate_lead</b> and can point at <code>lead.plan</code>, <code>lead.bag_size</code>, <code>lead.value</code>. It only appears when the form was actually sent.</div>
+  <div class="notes">generate_lead is one of Google's recommended event names, which is why the developer chose it. Value 516 is 129 times 4 for a weekly plan; monthly gives 129.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 23 of 34</p>
+  <h2>Trigger on the custom event</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>New trigger: <b>Custom Event</b>, event name <code>generate_lead</code>, All Custom Events.</li>
+        <li>Name it <b>CE - generate_lead</b>. Save.</li>
+        <li>Open the tag <b>GA4 - subscribe_click</b>. Swap the trigger to <b>CE - generate_lead</b>. Change the event name to <code>generate_lead</code>. Rename the tag <b>GA4 - generate_lead</b>. Save.</li>
+        <li>Preview, reload the signup page, try an empty email first, then a real submit.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger + Tag</caption>
+        <tr><th>Trigger</th><td>CE - generate_lead</td></tr>
+        <tr><th>Event name</th><td>generate_lead</td></tr>
+        <tr><th>Tag</th><td>GA4 - generate_lead</td></tr>
+        <tr><th>Event Name</th><td>generate_lead</td></tr>
+        <tr><th>Triggering</th><td class="sans">CE - generate_lead</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the refused submit fires nothing, and the real submit shows <b>GA4 - generate_lead</b> under Tags Fired on the generate_lead row.</div>
+  <div class="notes">Tag Manager also has a "Form Submission" trigger type. On sites where JavaScript handles the form, like this one, it is unreliable. Mention it, then say: custom event when there is one.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 24 of 34</p>
+  <h2>Three variables, three parameters</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Create three Data Layer Variables: <b>dlv - lead.plan</b>, <b>dlv - lead.bag_size</b>, <b>dlv - lead.value</b>. Paths <code>lead.plan</code>, <code>lead.bag_size</code>, <code>lead.value</code>.</li>
+        <li>Open <b>GA4 - generate_lead</b>. Add four parameters as in the table. <code>currency</code> is typed in by hand, not a variable.</li>
+        <li>Save, preview, submit the form with <b>Every month</b>. Open the tag under Tags Fired.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Tag</caption>
+        <tr><th>Name</th><td>GA4 - generate_lead</td></tr>
+        <tr><th>Event Parameters</th><td>plan = <span class="var">{{dlv - lead.plan}}</span><br>bag_size = <span class="var">{{dlv - lead.bag_size}}</span><br>value = <span class="var">{{dlv - lead.value}}</span><br>currency = SEK</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the tag shows plan = <b>monthly</b> and value = <b>129</b>. Now submit again with <b>Every week</b>: value = <b>516</b>. The variable follows what the visitor chose.</div>
+  <div class="notes">value and currency are the two parameters Google Analytics uses for revenue. Sending them on generate_lead makes the "lead value" show up in the reports. This is the first time the students see a variable change between two clicks.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 25 of 34</p>
+  <h2>The dataLayer merges</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Add <b>dlv - user.consent.marketing</b> from Part 3 as the parameter <code>marketing_consent</code>. Add <b>dlv - user.tier</b> (path <code>user.tier</code>) as <code>user_tier</code>. Save.</li>
+        <li>Preview. On the signup page, tick the email box and submit.</li>
+        <li>Open the tag: marketing_consent = <b>true</b>, user_tier = <b>guest</b>.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">The push only contained <code>user.consent.marketing</code>. But <code>user.tier</code> still has its value from the page load. Objects in the dataLayer merge, they do not replace each other.</p>
+    </div>
+    <div>
+      <pre style="font-size:21px"><span class="c">Page load pushed</span>
+user: { id: null, tier: <span class="s">"guest"</span>,
+        consent: { analytics: true, marketing: false } }
+
+<span class="c">Form submit pushed</span>
+user: { consent: { marketing: <span class="s">true</span> } }
+
+<span class="c">What Tag Manager now sees</span>
+user: { id: null, tier: <span class="s">"guest"</span>,
+        consent: { analytics: true, marketing: <span class="s">true</span> } }</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you see both values in the tag. Click <b>Log in (demo)</b> at the top of the page and submit again: user_tier becomes <b>member</b>.</div>
+  <div class="notes">Merging is the reason the shop pushes ecommerce: null before every ecommerce event on the products page. Without it, items from the previous event would still be there. Next part.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 5 · PRODUCTS PAGE                                                 -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 5 of 5</p>
+  <h1>The products page</h1>
+  <p>Three buttons with the same text. Which coffee was it?</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 26 of 34</p>
+  <h2>Look at the three buttons</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open <a href="https://jesperastrom.github.io/gtm-real-site/site/products.html" target="_blank" rel="noopener">gtm-real-site/site/products.html</a>.</li>
+        <li>Right-click the first <b>Add to cart</b> button and choose <b>Inspect</b>.</li>
+        <li>Do the same for the second and the third. Compare the three lines.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:21px">&lt;<span class="k">button</span> <span class="s">class</span>="btn small" <span class="s">data-add</span>="<span class="hl">FK-001</span>"&gt;Add to cart&lt;/<span class="k">button</span>&gt;
+&lt;<span class="k">button</span> <span class="s">class</span>="btn small" <span class="s">data-add</span>="<span class="hl">FK-002</span>"&gt;Add to cart&lt;/<span class="k">button</span>&gt;
+&lt;<span class="k">button</span> <span class="s">class</span>="btn small" <span class="s">data-add</span>="<span class="hl">FK-003</span>"&gt;Add to cart&lt;/<span class="k">button</span>&gt;</pre>
+      <p class="small" style="margin-top:16px">Same text, same class, no id, no URL. The only difference is the attribute <code>data-add</code>.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can say why Click Text, Click Classes, Click ID and Click URL all fail to tell the three buttons apart.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 27 of 34</p>
+  <h2>Click trigger and tag, all three</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>New trigger: <b>Click - All Elements</b>, Some Clicks, <b>Click Text equals Add to cart</b>. Name <b>Click - add to cart</b>.</li>
+        <li>New tag: <b>GA4 Event</b>, event name <code>add_to_cart_click</code>, trigger <b>Click - add to cart</b>. Name <b>GA4 - add_to_cart_click</b>.</li>
+        <li>Preview, open your products page, click all three <b>Add to cart</b> buttons, one at a time.</li>
+        <li>In Tag Assistant: three Click rows, the tag fired on each.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Trigger + Tag</caption>
+        <tr><th>Trigger</th><td>Click - add to cart</td></tr>
+        <tr><th>Condition</th><td>Click Text &nbsp;equals&nbsp; Add to cart</td></tr>
+        <tr><th>Tag</th><td>GA4 - add_to_cart_click</td></tr>
+        <tr><th>Event Name</th><td>add_to_cart_click</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="warn"><b>Problem</b> Google Analytics gets three identical events. You cannot see which coffee sold. Two ways to fix it: next two steps.</div>
+  <div class="notes">Detail for the curious: after a click the button says "Added" for a second. Click twice fast and the second Click Text is "Added", so the trigger misses it. One more reason text is fragile.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 28 of 34</p>
+  <h2>Read an attribute from the click</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>Variables</b>, User-Defined, <b>New</b>. Type <b>Auto-Event Variable</b>.</li>
+        <li><b>Variable Type</b>: <b>Element Attribute</b>. <b>Attribute Name</b>: <code>data-add</code>. Name it and save.</li>
+        <li>Open <b>GA4 - add_to_cart_click</b>. Add the parameter <code>sku</code> = <b>aev - data-add</b>. Save.</li>
+        <li>Preview, click the second <b>Add to cart</b>. Open the tag: sku = <b>FK-002</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Variable</caption>
+        <tr><th>Name</th><td>aev - data-add</td></tr>
+        <tr><th>Variable type</th><td class="sans">Auto-Event Variable</td></tr>
+        <tr><th>Variable Type</th><td class="sans">Element Attribute</td></tr>
+        <tr><th>Attribute Name</th><td>data-add</td></tr>
+      </table>
+      <p class="small" style="margin-top:16px">An Auto-Event Variable reads from the element that was clicked. Any attribute you saw in Inspect works: <code>data-add</code>, <code>href</code>, <code>name</code>.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> each button sends its own sku. This is the "no custom event" way: it works, and it breaks if the developer renames the attribute.</div>
+  <div class="notes">Same trick works on the hero button with data-cta. Limitation: it reads the exact element clicked. If the button had an icon inside it and the visitor clicked the icon, the attribute would be on the parent and come back empty.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 29 of 34</p>
+  <h2>The custom event add_to_cart</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In Tag Assistant, click the row <b>add_to_cart</b> that came right after your Click row. Tab <b>Data Layer</b>.</li>
+        <li>Find the product: inside <code>ecommerce</code>, inside <code>items</code>, at position <code>0</code>.</li>
+        <li>Write the path: <code>ecommerce.items.0.item_name</code>. The number means "first in the list".</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:18px;line-height:1.45">{
+  event: <span class="s">"add_to_cart"</span>,
+  ecommerce: {
+    currency: <span class="s">"SEK"</span>,
+    value: <span class="s">219</span>,            <span class="c">← ecommerce.value</span>
+    items: [
+      {                     <span class="c">← ecommerce.items.0</span>
+        item_id: <span class="s">"FK-002"</span>,
+        item_name: <span class="s">"Slow Sunday"</span>,
+        price: <span class="s">219</span>, quantity: <span class="s">1</span>, …
+      }
+    ]
+  }
+}
+<span class="c">ecommerce.items.0.item_name → "Slow Sunday"</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can write the path to the product name and to the value. Square brackets mean a list. Count from 0.</div>
+  <div class="notes">This is the standard GA4 ecommerce shape. Every shop that follows Google's documentation pushes exactly this. Learning to read items.0 here means they can read any shop.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 30 of 34</p>
+  <h2>Now with the custom event</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Trigger: <b>Custom Event</b>, event name <code>add_to_cart</code>. Name <b>CE - add_to_cart</b>.</li>
+        <li>Three variables, named after their paths: <b>dlv - ecommerce.items.0.item_name</b>, <b>dlv - ecommerce.items.0.item_id</b>, <b>dlv - ecommerce.value</b>.</li>
+        <li>Tag: new <b>GA4 Event</b> as in the table. Name <b>GA4 - add_to_cart</b>.</li>
+        <li>Preview, click <b>Add to cart</b> on Slow Sunday. Open the tag.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="settings">
+        <caption>Tag</caption>
+        <tr><th>Name</th><td>GA4 - add_to_cart</td></tr>
+        <tr><th>Event Name</th><td>add_to_cart</td></tr>
+        <tr><th>Event Parameters</th><td>item_name = <span class="var">{{dlv - ecommerce.items.0.item_name}}</span><br>item_id = <span class="var">{{dlv - ecommerce.items.0.item_id}}</span><br>value = <span class="var">{{dlv - ecommerce.value}}</span><br>currency = SEK</td></tr>
+        <tr><th>Triggering</th><td class="sans">CE - add_to_cart</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the tag shows item_name = <b>Slow Sunday</b>, item_id = <b>FK-002</b>, value = <b>219</b>. Click the other two buttons: the values follow the coffee.</div>
+  <div class="notes">Two tags now fire on one click: the click tag with sku and the custom event tag with the full product. In real life you keep one. Ask which, and why (the custom event one: stable, carries price).</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 31 of 34</p>
+  <h2>Delete the click version</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open the tag <b>GA4 - add_to_cart_click</b>. Click the three dots at the top right, then <b>Delete</b>.</li>
+        <li>Do the same for the trigger <b>Click - add to cart</b>. Keep the variable <b>aev - data-add</b>, it is useful later.</li>
+        <li>Preview, click <b>Add to cart</b>. Only <b>GA4 - add_to_cart</b> fires now.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">Same on the home page: the tag uses <b>CE - cta_click - hero</b>, so <b>Click - hero button</b> is no longer used by anything. Delete it or keep it as a reminder. Unused triggers do no harm.</p>
+    </div>
+    <div class="card">
+      <h3>Why delete?</h3>
+      <ul>
+        <li>Two tags on one click means every add to cart counts twice in Google Analytics.</li>
+        <li>A container full of old tags is hard to understand for the next person.</li>
+        <li>Nothing is lost: Tag Manager keeps versions, and you can restore a deleted item before you publish.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> one Add to cart click fires exactly one tag.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 32 of 34</p>
+  <h2>Not everything is a click</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Reload your products page in Preview. In Tag Assistant, look at the left column. A row <b>view_item_list</b> is there without anyone clicking.</li>
+        <li>Click it, tab <b>Data Layer</b>. The list has all three coffees: <code>ecommerce.items.0</code>, <code>ecommerce.items.1</code>, <code>ecommerce.items.2</code>.</li>
+        <li>Build <b>CE - view_item_list</b> and <b>GA4 - view_item_list</b> like before. One parameter: <code>item_list_name</code> = <b>dlv - ecommerce.item_list_name</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:21px"><span class="c">Left column, products page, no clicks yet</span>
+products.html
+  Container Loaded
+  DOM Ready
+  <span class="hl">view_item_list</span>     <span class="c">← pushed by site.js on load</span>
+  Window Loaded</pre>
+      <p class="small" style="margin-top:16px">The developer pushed this when the list was drawn. A Custom Event trigger does not care whether a click, a page load or a timer caused the push.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <b>GA4 - view_item_list</b> fires on the view_item_list row with item_list_name = <b>All coffees</b>, every time the page loads.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 33 of 34</p>
+  <h2>Check everything in DebugView</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open DebugView in Google Analytics.</li>
+        <li>In the shop, in Preview: home page, click the hero button. Signup page, submit the form. Products page, add a coffee.</li>
+        <li>Read the timeline in DebugView. Click each event and check its parameters.</li>
+      </ol>
+    </div>
+    <div>
+      <pre style="font-size:22px"><span class="c">DebugView timeline</span>
+page_view
+start_subscription    cta_location, cta_text, page_type, …
+page_view
+generate_lead         plan, bag_size, value, currency, …
+page_view
+view_item_list        item_list_name
+add_to_cart           item_name, item_id, value, currency</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> all four of your events are in DebugView with their parameters. Missing one? Go back to its step and check Tags Fired in Tag Assistant first.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 5</span>Step 34 of 34</p>
+  <h2>Publish</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In Tag Manager, click the blue button <b>Submit</b> at the top right.</li>
+        <li>Under <b>Version Name</b>, type <code>Clicks, signup and add to cart</code>.</li>
+        <li>Click <b>Publish</b>.</li>
+        <li>Open your shop in a normal window, not Preview. Click the hero button. Within a minute it is in the <b>Realtime</b> report in Google Analytics.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Until you publish</h3>
+      <p>Nothing you built today runs for anyone but you. Preview mode is a private view of the unpublished container.</p>
+      <p class="muted">Publishing creates a version. You can always go back to an earlier version under Versions.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the version is published and the Realtime report shows your events from a window without Preview.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part solo">Troubleshooting</span></p>
+  <h2 style="max-width:none">The most common problems</h2>
+  <p class="byline">Look here before you ask.</p>
+  <table class="dense">
+    <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+    <tr><td>No Click row after clicking</td><td>The container has no Click trigger, so it does not listen.</td><td>Create any Click - All Elements trigger. Preview again.</td></tr>
+    <tr><td>My new trigger or tag is not in Tag Assistant</td><td>You changed something and did not restart Preview.</td><td>Click Preview again, then reload the shop window.</td></tr>
+    <tr><td>Variable says undefined</td><td>Wrong row selected, or a typo in the path.</td><td>Select the custom event row, not Container Loaded. Compare the path with the Data Layer tab.</td></tr>
+    <tr><td>Tag under Tags Not Fired</td><td>A condition failed.</td><td>Click the tag. The red X shows which condition. Check spelling and equals versus contains.</td></tr>
+    <tr><td>Custom Event trigger never fires</td><td>Event name does not match the push exactly.</td><td>Copy the name from the Data Layer tab. Case matters.</td></tr>
+    <tr><td>Nothing in DebugView</td><td>Wrong Measurement ID, or an ad blocker.</td><td>Check the G- ID in the tag. Try a browser window without extensions.</td></tr>
+    <tr><td>Tag Assistant cannot connect</td><td>The page has no container snippet, or is opened from disk.</td><td>Use your github.io address. Check exercise 1 of the shop course.</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Summary</span></p>
+  <h2 style="max-width:none">What you did today</h2>
+  <p class="byline">Tag, trigger, variable. Three pages, same three moves.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li>A <b>trigger</b> decides when. A Click trigger with a filter when you must, a Custom Event trigger when the developer pushes one.</li>
+        <li>A <b>tag</b> decides what. One GA4 Event tag with a name you choose and parameters you attach.</li>
+        <li>A <b>variable</b> carries the information. Built-in for the page, Data Layer Variable with dot notation for what the developer knows.</li>
+        <li><b>Preview mode</b> is where you check every step: left column, Tags, Variables, Data Layer.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Next</h3>
+      <ul>
+        <li>The full ecommerce setup: exercise 4 in <a href="../gtm-real-site/index.html" target="_blank" rel="noopener">Tag Manager on a real site</a>.</li>
+        <li>Write a specification for the newsletter form and add the push yourself: exercise 6.</li>
+        <li>Your own site: find the three most important clicks and track them the same way.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Resources</span></p>
+  <h2 style="max-width:none">Read more</h2>
+  <p class="byline">Links and search terms</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><a href="https://support.google.com/tagmanager/answer/6103657" target="_blank" rel="noopener">Google: Tag Manager help, Triggers</a></li>
+        <li><a href="https://support.google.com/tagmanager/answer/7683362" target="_blank" rel="noopener">Google: Built-in variables for web</a></li>
+        <li><a href="https://developers.google.com/tag-platform/tag-manager/datalayer" target="_blank" rel="noopener">Google: The data layer</a></li>
+        <li><a href="https://support.google.com/analytics/answer/9267735" target="_blank" rel="noopener">Google: GA4 recommended events</a></li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><a href="../gtm-real-site/index.html" target="_blank" rel="noopener">Course: Tag Manager on a real site</a> <span class="small">the shop and six exercises</span></li>
+        <li><a href="../gtm-real-site/reference/glossary.html" target="_blank" rel="noopener">Glossary</a> <span class="small">every word used today</span></li>
+        <li><a href="facit/index.html" target="_blank" rel="noopener">Answer sheet</a> <span class="small">every trigger, tag and variable from today with its settings</span></li>
+        <li class="small">Search for: <i>GTM click trigger</i>, <i>GTM custom event trigger</i>, <i>data layer variable version 2</i>, <i>GTM auto-event variable element attribute</i>, <i>GA4 DebugView</i></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div id="progress"></div>
+<div id="deckname">google tag manager · growth toolbox</div>
+<div id="counter"></div>
+<div id="nav"><button id="prev" type="button" aria-label="Previous slide" title="Previous (←)">&#8592;</button><button id="next" type="button" aria-label="Next slide" title="Next (→)">&#8594;</button></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var notes = document.getElementById('notes');
+  var notesBody = document.getElementById('notes-body');
+  var i = 0;
+
+  function fit(){
+    var w = window.innerWidth - (notes.classList.contains('on') ? notes.offsetWidth : 0);
+    var s = Math.min(w / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + s + ')';
+    document.getElementById('viewport').style.right = notes.classList.contains('on') ? notes.offsetWidth + 'px' : '0';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    var dark = slides[i].classList.contains('divider');
+    stage.classList.toggle('dark', dark);
+    counter.style.color = dark ? '#7E8CA5' : '';
+    document.getElementById('deckname').style.color = dark ? '#7E8CA5' : '';
+    progress.style.background = dark ? '#8EC5FF' : '';
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === slides.length - 1;
+    var n = slides[i].querySelector('.notes');
+    notesBody.textContent = n ? n.textContent : 'No notes for this slide.';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') { notes.classList.toggle('on'); fit(); }
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); this.blur(); });
+  document.getElementById('next').addEventListener('click', function(){ show(i + 1); this.blur(); });
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){ show(parseInt(location.hash.slice(1), 10) - 1 || 0); });
+  fit();
+  show(parseInt(location.hash.slice(1), 10) - 1 || 0);
+})();
+</script>
+</body>
+</html>

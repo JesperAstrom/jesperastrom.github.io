@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer sheet – Google Tag Manager: triggers, tags and variables</title>
+<meta name="description" content="Every trigger, tag and variable built in the Google Tag Manager lecture, with the exact settings.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--accent-wash:rgba(46,107,255,.16);--ok:#178A5E;--ok-wash:#E1F3EB;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.4rem;letter-spacing:-.02em;margin:0 0 .3em}
+h2{font-size:1.6rem;letter-spacing:-.015em;margin:2.4em 0 .6em;padding-top:.6em;border-top:2px solid var(--ink)}
+h3{font-size:1.05rem;font-family:var(--mono);color:var(--accent);margin:1.8em 0 .5em}
+p{margin:0 0 1em}
+.lede{color:var(--ink-2);font-size:1.15rem;max-width:60ch}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.92em;background:#fff;border:1px solid var(--rule);padding:.05em .35em;border-radius:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:.95rem;margin:0 0 1.2em}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td,tr:last-child th{border-bottom:0}
+th{width:34%;font-weight:500;color:var(--ink-2);background:#F2F5F9;font-size:.88rem}
+td{font-family:var(--mono);font-size:.9rem}
+td.sans{font-family:var(--sans);font-size:.95rem}
+.var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px}
+.ok{background:var(--ok-wash);border-left:6px solid var(--ok);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.ok b{color:var(--ok)}
+.muted{color:var(--ink-3)}
+ul{padding-left:1.2em}
+li{margin-bottom:.35em}
+@media (max-width:600px){th{width:40%}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+
+<p class="muted"><a href="../index.html">← Back to the slides</a></p>
+<h1>Answer sheet</h1>
+<p class="lede">Every trigger, tag and variable from the lecture <b>Google Tag Manager: triggers, tags and variables</b>, with the exact settings. Names follow the pattern <i>type - what</i>. Field names are the ones Tag Manager shows.</p>
+
+<div class="ok"><b>What the container has at the end of the day</b> 7 triggers, 5 tags, 12 user-defined variables, plus the six built-in Click variables switched on. The click versions of the hero and add-to-cart tags are deleted in step 31; they are listed here in case you want to compare.</div>
+
+<h2>Before everything</h2>
+<h3>Built-In Variables</h3>
+<p>Variables → Built-In Variables → Configure → under <b>Clicks</b>, tick: <code>Click Element</code>, <code>Click Classes</code>, <code>Click ID</code>, <code>Click Target</code>, <code>Click URL</code>, <code>Click Text</code>.</p>
+
+<h2>Part 1 · Home page: the trigger</h2>
+
+<h3>Trigger: Click - hero button</h3>
+<table>
+<tr><th>Trigger type</th><td class="sans">Click - All Elements</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">Some Clicks</td></tr>
+<tr><th>Condition</th><td>Click Text &nbsp;equals&nbsp; Start your subscription</td></tr>
+</table>
+<p class="muted">Alternatives that also work: <code>Click Element</code> matches CSS selector <code>[data-cta="hero"]</code>; or <code>Click Classes</code> equals <code>btn</code> AND <code>Click URL</code> contains <code>signup.html</code>.</p>
+
+<h3>Trigger: CE - cta_click - hero</h3>
+<p class="muted">Created as <b>CE - cta_click</b> with All Custom Events in step 8, filtered and renamed in step 17.</p>
+<table>
+<tr><th>Trigger type</th><td class="sans">Custom Event</td></tr>
+<tr><th>Event name</th><td>cta_click</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">Some Custom Events</td></tr>
+<tr><th>Condition</th><td><span class="var">dlv - cta.location</span> &nbsp;equals&nbsp; hero</td></tr>
+</table>
+
+<h2>Part 2 and 3 · Home page: the tag and its variables</h2>
+
+<h3>Variables</h3>
+<table>
+<tr><th>Name</th><th style="width:auto">Variable type</th><th style="width:auto">Data Layer Variable Name</th></tr>
+<tr><td>dlv - cta.location</td><td class="sans">Data Layer Variable, Version 2</td><td>cta.location</td></tr>
+<tr><td>dlv - cta.text</td><td class="sans">Data Layer Variable, Version 2</td><td>cta.text</td></tr>
+<tr><td>dlv - page.type</td><td class="sans">Data Layer Variable, Version 2</td><td>page.type</td></tr>
+<tr><td>dlv - user.consent.marketing</td><td class="sans">Data Layer Variable, Version 2</td><td>user.consent.marketing</td></tr>
+</table>
+
+<h3>Tag: GA4 - start_subscription</h3>
+<p class="muted">Created as <b>GA4 - hero_click</b> with event name <code>hero_click</code> and trigger <b>Click - hero button</b> in step 9. Renamed in step 12, moved to the custom event in step 13, parameters added in steps 18 and 19.</p>
+<table>
+<tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+<tr><th>Measurement ID</th><td>G-XXXXXXXXXX &nbsp;<span class="muted">(your own)</span></td></tr>
+<tr><th>Event Name</th><td>start_subscription</td></tr>
+<tr><th>Event Parameters</th><td>cta_location = <span class="var">{{dlv - cta.location}}</span><br>cta_text = <span class="var">{{dlv - cta.text}}</span><br>page_type = <span class="var">{{dlv - page.type}}</span><br>marketing_consent = <span class="var">{{dlv - user.consent.marketing}}</span></td></tr>
+<tr><th>Triggering</th><td class="sans">CE - cta_click - hero</td></tr>
+</table>
+<div class="ok"><b>Expected in Preview</b> Click "Start your subscription" on the home page → row <code>cta_click</code> → Tags Fired: GA4 - start_subscription with cta_location = hero, cta_text = Start your subscription, page_type = home, marketing_consent = false. The other two call-to-action buttons: Tags Not Fired.</div>
+
+<h2>Part 4 · Signup page</h2>
+
+<h3>Trigger: Click - subscribe button <span class="muted">(step 21, replaced in step 23)</span></h3>
+<table>
+<tr><th>Trigger type</th><td class="sans">Click - All Elements</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">Some Clicks</td></tr>
+<tr><th>Condition</th><td>Click Text &nbsp;equals&nbsp; Subscribe</td></tr>
+</table>
+
+<h3>Trigger: CE - generate_lead</h3>
+<table>
+<tr><th>Trigger type</th><td class="sans">Custom Event</td></tr>
+<tr><th>Event name</th><td>generate_lead</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">All Custom Events</td></tr>
+</table>
+
+<h3>Variables</h3>
+<table>
+<tr><th>Name</th><th style="width:auto">Variable type</th><th style="width:auto">Data Layer Variable Name</th></tr>
+<tr><td>dlv - lead.plan</td><td class="sans">Data Layer Variable, Version 2</td><td>lead.plan</td></tr>
+<tr><td>dlv - lead.bag_size</td><td class="sans">Data Layer Variable, Version 2</td><td>lead.bag_size</td></tr>
+<tr><td>dlv - lead.value</td><td class="sans">Data Layer Variable, Version 2</td><td>lead.value</td></tr>
+<tr><td>dlv - user.tier</td><td class="sans">Data Layer Variable, Version 2</td><td>user.tier</td></tr>
+</table>
+
+<h3>Tag: GA4 - generate_lead</h3>
+<p class="muted">Created as <b>GA4 - subscribe_click</b> with event name <code>subscribe_click</code> in step 21, moved and renamed in step 23.</p>
+<table>
+<tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+<tr><th>Measurement ID</th><td>G-XXXXXXXXXX</td></tr>
+<tr><th>Event Name</th><td>generate_lead</td></tr>
+<tr><th>Event Parameters</th><td>plan = <span class="var">{{dlv - lead.plan}}</span><br>bag_size = <span class="var">{{dlv - lead.bag_size}}</span><br>value = <span class="var">{{dlv - lead.value}}</span><br>currency = SEK<br>marketing_consent = <span class="var">{{dlv - user.consent.marketing}}</span><br>user_tier = <span class="var">{{dlv - user.tier}}</span></td></tr>
+<tr><th>Triggering</th><td class="sans">CE - generate_lead</td></tr>
+</table>
+<div class="ok"><b>Expected in Preview</b> Submit with "Every month" → value = 129. Submit with "Every week" → value = 516. Email box ticked → marketing_consent = true. After "Log in (demo)" → user_tier = member, otherwise guest. An empty email address fires nothing.</div>
+
+<h2>Part 5 · Products page</h2>
+
+<h3>Trigger: Click - add to cart <span class="muted">(step 27, deleted in step 31)</span></h3>
+<table>
+<tr><th>Trigger type</th><td class="sans">Click - All Elements</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">Some Clicks</td></tr>
+<tr><th>Condition</th><td>Click Text &nbsp;equals&nbsp; Add to cart</td></tr>
+</table>
+
+<h3>Variable: aev - data-add</h3>
+<table>
+<tr><th>Variable type</th><td class="sans">Auto-Event Variable</td></tr>
+<tr><th>Variable Type</th><td class="sans">Element Attribute</td></tr>
+<tr><th>Attribute Name</th><td>data-add</td></tr>
+</table>
+
+<h3>Tag: GA4 - add_to_cart_click <span class="muted">(step 27 and 28, deleted in step 31)</span></h3>
+<table>
+<tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+<tr><th>Event Name</th><td>add_to_cart_click</td></tr>
+<tr><th>Event Parameters</th><td>sku = <span class="var">{{aev - data-add}}</span></td></tr>
+<tr><th>Triggering</th><td class="sans">Click - add to cart</td></tr>
+</table>
+
+<h3>Trigger: CE - add_to_cart</h3>
+<table>
+<tr><th>Trigger type</th><td class="sans">Custom Event</td></tr>
+<tr><th>Event name</th><td>add_to_cart</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">All Custom Events</td></tr>
+</table>
+
+<h3>Trigger: CE - view_item_list</h3>
+<table>
+<tr><th>Trigger type</th><td class="sans">Custom Event</td></tr>
+<tr><th>Event name</th><td>view_item_list</td></tr>
+<tr><th>This trigger fires on</th><td class="sans">All Custom Events</td></tr>
+</table>
+
+<h3>Variables</h3>
+<table>
+<tr><th>Name</th><th style="width:auto">Variable type</th><th style="width:auto">Data Layer Variable Name</th></tr>
+<tr><td>dlv - ecommerce.items.0.item_name</td><td class="sans">Data Layer Variable, Version 2</td><td>ecommerce.items.0.item_name</td></tr>
+<tr><td>dlv - ecommerce.items.0.item_id</td><td class="sans">Data Layer Variable, Version 2</td><td>ecommerce.items.0.item_id</td></tr>
+<tr><td>dlv - ecommerce.value</td><td class="sans">Data Layer Variable, Version 2</td><td>ecommerce.value</td></tr>
+<tr><td>dlv - ecommerce.item_list_name</td><td class="sans">Data Layer Variable, Version 2</td><td>ecommerce.item_list_name</td></tr>
+</table>
+
+<h3>Tag: GA4 - add_to_cart</h3>
+<table>
+<tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+<tr><th>Measurement ID</th><td>G-XXXXXXXXXX</td></tr>
+<tr><th>Event Name</th><td>add_to_cart</td></tr>
+<tr><th>Event Parameters</th><td>item_name = <span class="var">{{dlv - ecommerce.items.0.item_name}}</span><br>item_id = <span class="var">{{dlv - ecommerce.items.0.item_id}}</span><br>value = <span class="var">{{dlv - ecommerce.value}}</span><br>currency = SEK</td></tr>
+<tr><th>Triggering</th><td class="sans">CE - add_to_cart</td></tr>
+</table>
+
+<h3>Tag: GA4 - view_item_list</h3>
+<table>
+<tr><th>Tag type</th><td class="sans">Google Analytics: GA4 Event</td></tr>
+<tr><th>Measurement ID</th><td>G-XXXXXXXXXX</td></tr>
+<tr><th>Event Name</th><td>view_item_list</td></tr>
+<tr><th>Event Parameters</th><td>item_list_name = <span class="var">{{dlv - ecommerce.item_list_name}}</span></td></tr>
+<tr><th>Triggering</th><td class="sans">CE - view_item_list</td></tr>
+</table>
+<div class="ok"><b>Expected in Preview</b> Loading the products page → row <code>view_item_list</code> → GA4 - view_item_list fires with item_list_name = All coffees. Clicking "Add to cart" on Slow Sunday → row <code>add_to_cart</code> → GA4 - add_to_cart fires with item_name = Slow Sunday, item_id = FK-002, value = 219, currency = SEK.</div>
+
+<h2>The pushes the shop makes</h2>
+<p>All of them are in <a href="../../gtm-real-site/site/site.js">gtm-real-site/site/site.js</a>. The full list is in the <a href="../../gtm-real-site/README.md">README of the shop course</a>.</p>
+<ul>
+<li><b>Every page, before the container loads:</b> <code>page.type</code>, <code>page.category</code>, <code>user.id</code>, <code>user.tier</code>, <code>user.consent.marketing</code>. No event key.</li>
+<li><b>cta_click</b>: <code>cta.text</code>, <code>cta.location</code> (hero, hero_secondary, mid_page), <code>cta.destination</code>.</li>
+<li><b>generate_lead</b>: <code>lead.plan</code>, <code>lead.bag_size</code>, <code>lead.source</code>, <code>lead.value</code>, <code>user.consent.marketing</code>.</li>
+<li><b>view_item_list, select_item, view_item, add_to_cart, begin_checkout, purchase</b>: GA4 <code>ecommerce</code> object with <code>ecommerce.items.0.*</code>.</li>
+<li><b>login, logout</b>: <code>user.*</code>.</li>
+<li><b>The footer newsletter form pushes nothing.</b> That is the exercise 6 task in the shop course.</li>
+</ul>
+
+</main>
+</body>
+</html>
