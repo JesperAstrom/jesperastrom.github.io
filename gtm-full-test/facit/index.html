@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer sheet – Tag Manager final test</title>
+<meta name="description" content="The four dataLayer pushes on the final test page, and the triggers, variables and tags that track them.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--accent-wash:rgba(46,107,255,.16);--ok:#178A5E;--ok-wash:#E1F3EB;--panel:#0E1726;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.4rem;letter-spacing:-.02em;margin:0 0 .3em}
+h2{font-size:1.6rem;letter-spacing:-.015em;margin:2.4em 0 .6em;padding-top:.6em;border-top:2px solid var(--ink)}
+h3{font-size:1.05rem;font-family:var(--mono);color:var(--accent);margin:1.8em 0 .5em}
+p{margin:0 0 1em}
+.lede{color:var(--ink-2);font-size:1.15rem;max-width:60ch}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.92em;background:#fff;border:1px solid var(--rule);padding:.05em .35em;border-radius:5px}
+pre{background:var(--panel);color:#E8EEF8;font-family:var(--mono);font-size:.88rem;line-height:1.5;padding:16px 20px;border-radius:10px;overflow:auto;margin:0 0 1.2em}
+table{border-collapse:collapse;width:100%;background:#fff;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:.95rem;margin:0 0 1.2em}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td,tr:last-child th{border-bottom:0}
+th{width:34%;font-weight:500;color:var(--ink-2);background:#F2F5F9;font-size:.88rem}
+td{font-family:var(--mono);font-size:.9rem}
+td.sans{font-family:var(--sans);font-size:.95rem}
+.var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px}
+.ok{background:var(--ok-wash);border-left:6px solid var(--ok);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.ok b{color:var(--ok)}
+.muted{color:var(--ink-3)}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+<p class="muted"><a href="../index.html">← Back to the test page</a></p>
+<h1>Answer sheet: final test</h1>
+<p class="lede">The four pushes on <b>Norrsken Outdoor</b>, and one way to track each of them. Names follow the pattern <i>type - what</i>. Any setup that gets all parameters into DebugView is a pass.</p>
+<div class="ok"><b>A full pass</b> 4 Custom Event triggers, 9 Data Layer Variables, 4 GA4 Event tags, and every parameter visible in DebugView with the right value. The quantity in add_to_cart must follow the number typed on the page.</div>
+
+<h2>1. The link</h2>
+<pre>{ event: 'link_click', link: { text: 'Read our story', url: '#story', location: 'card' } }</pre>
+<table>
+<tr><th>Trigger: CE - link_click</th><td class="sans">Custom Event, event name <code>link_click</code></td></tr>
+<tr><th>Variables</th><td>dlv - link.text → link.text<br>dlv - link.url → link.url</td></tr>
+<tr><th>Tag: GA4 - link_click</th><td class="sans">GA4 Event, name <code>link_click</code>, parameters <span class="var">link_text = {{dlv - link.text}}</span>, <span class="var">link_url = {{dlv - link.url}}</span></td></tr>
+</table>
+<p class="muted">Also acceptable: a Click - Just Links trigger filtered on Click ID equals story-link, with the built-in Click Text and Click URL variables. The dataLayer version is the one the course taught.</p>
+
+<h2>2. The button</h2>
+<pre>{ event: 'button_click', button: { id: 'discount-button', text: 'Get a discount code', coupon: 'NORRSKEN10' } }</pre>
+<table>
+<tr><th>Trigger: CE - button_click</th><td class="sans">Custom Event, event name <code>button_click</code></td></tr>
+<tr><th>Variables</th><td>dlv - button.text → button.text<br>dlv - button.coupon → button.coupon</td></tr>
+<tr><th>Tag: GA4 - button_click</th><td class="sans">GA4 Event, name <code>button_click</code>, parameters <span class="var">button_text = {{dlv - button.text}}</span>, <span class="var">coupon = {{dlv - button.coupon}}</span></td></tr>
+</table>
+
+<h2>3. The form</h2>
+<pre>{ event: 'form_submit', form: { name: 'newsletter', interest: 'hiking', method: 'email' } }</pre>
+<table>
+<tr><th>Trigger: CE - form_submit</th><td class="sans">Custom Event, event name <code>form_submit</code></td></tr>
+<tr><th>Variables</th><td>dlv - form.name → form.name<br>dlv - form.interest → form.interest</td></tr>
+<tr><th>Tag: GA4 - generate_lead</th><td class="sans">GA4 Event, name <code>generate_lead</code>, parameters <span class="var">form_name = {{dlv - form.name}}</span>, <span class="var">interest = {{dlv - form.interest}}</span></td></tr>
+</table>
+<p class="muted">The interest parameter must change when a different option is chosen before submitting. That is the check that the variable reads the dataLayer and is not typed in by hand.</p>
+
+<h2>4. The product</h2>
+<pre>{ ecommerce: null }
+{ event: 'add_to_cart', ecommerce: { currency: 'SEK', value: 2590,
+    items: [{ item_id: 'NO-HL-800', item_name: 'Polar 800', item_category: 'Headlamps',
+              item_brand: 'Norrsken', price: 1295, quantity: 2 }] } }</pre>
+<table>
+<tr><th>Trigger: CE - add_to_cart</th><td class="sans">Custom Event, event name <code>add_to_cart</code></td></tr>
+<tr><th>Variables</th><td>dlv - ecommerce.items → ecommerce.items<br>dlv - ecommerce.value → ecommerce.value<br>dlv - ecommerce.currency → ecommerce.currency</td></tr>
+<tr><th>Tag: GA4 - add_to_cart</th><td class="sans">GA4 Event, name <code>add_to_cart</code>, parameters <span class="var">items = {{dlv - ecommerce.items}}</span>, <span class="var">value = {{dlv - ecommerce.value}}</span>, <span class="var">currency = {{dlv - ecommerce.currency}}</span></td></tr>
+</table>
+<p class="muted">Simpler and also correct: in the tag, tick <b>Send Ecommerce data</b> with data source Data Layer, and skip the three variables. The check is that DebugView shows quantity 2 after typing 2 on the page, and value 2590.</p>
+
+<h2>Common mistakes</h2>
+<ul>
+<li>Trigger type Click instead of Custom Event: fires, but the parameters are empty.</li>
+<li>Variable path <code>link_text</code> instead of <code>link.text</code>: undefined.</li>
+<li>Trigger event name typed with a capital letter or a space: never fires.</li>
+<li>Snippet pasted only in head: the container still works, the noscript part is only for browsers without JavaScript.</li>
+<li>Tag Assistant cannot connect: the page is opened from disk. It must be online, on the student's github.io address.</li>
+</ul>
+</main>
+</body>
+</html>

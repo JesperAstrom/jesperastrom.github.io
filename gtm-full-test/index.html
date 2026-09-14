@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norrsken Outdoor — Final test</title>
+<meta name="description" content="Final test for the Tag Manager course. One page, four things to track: a link, a button, a form and a product. No tracking code on the page: you add it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ======================================================================
+     PASTE THE <head> PART OF YOUR GOOGLE TAG MANAGER SNIPPET
+     ON THE EMPTY LINE BELOW THIS COMMENT.
+     ====================================================================== -->
+
+<style>
+:root{--ink:#14201A;--ink-2:#4B5A52;--ink-3:#7E8B84;--rule:#D5DCD7;--moss:#2F6B4F;--moss-dark:#245540;--moss-wash:#E4F0E9;--sand:#F6F4EE;--card:#FFFFFF;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sand);color:var(--ink);font-family:var(--sans);line-height:1.5}
+a{color:var(--moss)}
+header{border-bottom:1px solid var(--rule);background:#fff}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.top{display:flex;justify-content:space-between;align-items:center;height:64px}
+.brand{font-weight:700;font-size:1.15rem;color:var(--ink);text-decoration:none}
+.top nav a{margin-left:1.2rem;color:var(--ink-2);text-decoration:none;font-size:.95rem}
+main{padding:40px 0 80px}
+h1{font-size:2.4rem;letter-spacing:-.02em;line-height:1.1;margin:0 0 .4em}
+h2{font-size:1.3rem;margin:0 0 .5em}
+.lede{color:var(--ink-2);font-size:1.1rem;max-width:56ch;margin:0 0 1em}
+.task{background:var(--moss-wash);border-left:6px solid var(--moss);border-radius:8px;padding:16px 20px;margin:0 0 36px;max-width:70ch}
+.task ol{margin:.4em 0 0;padding-left:1.2em}
+.task li{margin:.2em 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media (max-width:720px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:24px 26px}
+.card p{margin:0 0 .8em;color:var(--ink-2)}
+.btn{display:inline-block;font:600 1rem var(--sans);background:var(--moss);color:#fff;border:0;border-radius:8px;padding:12px 20px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--moss-dark)}
+.btn.ghost{background:transparent;color:var(--moss);border:2px solid var(--moss)}
+label{display:block;font-size:.92rem;color:var(--ink-2);margin:0 0 4px}
+input,select{width:100%;font:400 1rem var(--sans);padding:10px 12px;border:1px solid var(--rule);border-radius:8px;margin:0 0 14px;background:#fff;color:var(--ink)}
+.product{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:start}
+.product .img{aspect-ratio:1;border-radius:12px;background:linear-gradient(160deg,#2F6B4F,#14201A);display:grid;place-items:center;color:#fff;font:700 .8rem var(--mono);text-align:center;padding:10px}
+.price{font:700 1.3rem var(--sans);margin:0 0 .4em;color:var(--ink)}
+.meta{font:400 .85rem var(--mono);color:var(--ink-3);margin:0 0 12px}
+.qty{display:flex;gap:10px;align-items:center;margin:0 0 14px}
+.qty input{width:70px;margin:0}
+.note{display:none;margin-top:12px;padding:10px 14px;background:var(--moss-wash);border-radius:8px;font-size:.95rem}
+.note.on{display:block}
+.code{font:700 1.1rem var(--mono);color:var(--moss)}
+footer{border-top:1px solid var(--rule);padding:20px 0;color:var(--ink-3);font-size:.85rem}
+#story{margin-top:48px;max-width:60ch}
+#story p{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<!-- ======================================================================
+     PASTE THE <body> PART OF YOUR GOOGLE TAG MANAGER SNIPPET
+     ON THE EMPTY LINE BELOW THIS COMMENT.
+     ====================================================================== -->
+
+<header>
+  <div class="wrap top">
+    <a class="brand" href="index.html">Norrsken Outdoor</a>
+    <nav><a href="#products">Products</a><a href="#newsletter">Newsletter</a><a href="#story">Our story</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Light for the dark half of the year.</h1>
+  <p class="lede">Headlamps built in Kiruna for people who do not stop when the sun does.</p>
+
+  <div class="task">
+    <b>Final test.</b> This page has no tracking code. Copy it to your own site, paste your container snippet, then track all four things below. Each one pushes an event to the dataLayer when you use it. Build the triggers, the variables and one GA4 event tag per event, and check every parameter in Preview mode.
+    <ol>
+      <li>The link <b>Read our story</b></li>
+      <li>The button <b>Get a discount code</b></li>
+      <li>The newsletter form</li>
+      <li>The product <b>Add to cart</b>, with the quantity you chose</li>
+    </ol>
+  </div>
+
+  <div class="grid">
+
+    <section class="card">
+      <h2>1. A link</h2>
+      <p>We started in a garage in Kiruna in 2019. The whole story is a bit further down this page.</p>
+      <a href="#story" class="btn ghost" id="story-link" data-track="link">Read our story</a>
+    </section>
+
+    <section class="card">
+      <h2>2. A button</h2>
+      <p>First order? There is a code for that. It is only valid this week.</p>
+      <button type="button" class="btn" id="discount-button" data-track="button">Get a discount code</button>
+      <div class="note" id="discount-note">Your code: <span class="code">NORRSKEN10</span>. Ten percent off your first order.</div>
+    </section>
+
+    <section class="card" id="newsletter">
+      <h2>3. A form</h2>
+      <p>One email a month. Trail reports, new gear, no spam.</p>
+      <form id="newsletter-form" data-track="form">
+        <label for="nl-email">Email</label>
+        <input type="email" id="nl-email" name="email" value="test@example.com" required>
+        <label for="nl-interest">What are you into?</label>
+        <select id="nl-interest" name="interest">
+          <option value="hiking">Hiking</option>
+          <option value="trail_running">Trail running</option>
+          <option value="ski_touring">Ski touring</option>
+        </select>
+        <button type="submit" class="btn">Subscribe</button>
+      </form>
+      <div class="note" id="newsletter-note">Thanks. The first email is on its way.</div>
+    </section>
+
+    <section class="card" id="products">
+      <h2>4. A product</h2>
+      <div class="product">
+        <div class="img">POLAR 800</div>
+        <div>
+          <p class="price">1 295 kr</p>
+          <p class="meta">NO-HL-800 · Headlamps</p>
+          <p>800 lumen, 40 hours on low, works at −30 °C.</p>
+          <div class="qty">
+            <label for="qty" style="margin:0">Quantity</label>
+            <input type="number" id="qty" name="qty" value="1" min="1" max="9">
+          </div>
+          <button type="button" class="btn" id="add-to-cart" data-track="product">Add to cart</button>
+          <div class="note" id="cart-note"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <section id="story">
+    <h2>Our story</h2>
+    <p>Two engineers, one garage, a winter with 20 hours of darkness a day. The first Polar was soldered on a kitchen table and tested on the way to work. Six years later we still test every lamp the same way.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">Norrsken Outdoor AB · Kiruna · A practice page for the Tag Manager course. No real products, no real orders.</div></footer>
+
+<script>
+(function () {
+  window.dataLayer = window.dataLayer || [];
+
+  var product = { item_id: 'NO-HL-800', item_name: 'Polar 800', item_category: 'Headlamps', item_brand: 'Norrsken', price: 1295 };
+
+  // 1. The link
+  document.getElementById('story-link').addEventListener('click', function () {
+    window.dataLayer.push({
+      event: 'link_click',
+      link: { text: this.textContent.trim(), url: this.getAttribute('href'), location: 'card' }
+    });
+  });
+
+  // 2. The button
+  document.getElementById('discount-button').addEventListener('click', function () {
+    document.getElementById('discount-note').classList.add('on');
+    window.dataLayer.push({
+      event: 'button_click',
+      button: { id: this.id, text: this.textContent.trim(), coupon: 'NORRSKEN10' }
+    });
+  });
+
+  // 3. The form
+  document.getElementById('newsletter-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var interest = this.elements.interest.value;
+    document.getElementById('newsletter-note').classList.add('on');
+    window.dataLayer.push({
+      event: 'form_submit',
+      form: { name: 'newsletter', interest: interest, method: 'email' }
+    });
+  });
+
+  // 4. The product
+  document.getElementById('add-to-cart').addEventListener('click', function () {
+    var qty = parseInt(document.getElementById('qty').value, 10) || 1;
+    var note = document.getElementById('cart-note');
+    note.textContent = qty + ' × ' + product.item_name + ' added to your cart.';
+    note.classList.add('on');
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: 'add_to_cart',
+      ecommerce: {
+        currency: 'SEK',
+        value: product.price * qty,
+        items: [{
+          item_id: product.item_id,
+          item_name: product.item_name,
+          item_category: product.item_category,
+          item_brand: product.item_brand,
+          price: product.price,
+          quantity: qty
+        }]
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
