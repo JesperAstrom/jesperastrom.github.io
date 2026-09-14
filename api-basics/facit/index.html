@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer sheet – APIs: request, key, response</title>
+<meta name="description" content="Every command from the APIs lecture with the expected answer, the numbers from the marketing campaign dataset, and the two Node scripts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--accent-wash:rgba(46,107,255,.16);--ok:#178A5E;--ok-wash:#E1F3EB;--warn:#B45309;--warn-wash:#FCEFDD;--panel:#0E1726;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.4rem;letter-spacing:-.02em;margin:0 0 .3em}
+h2{font-size:1.6rem;letter-spacing:-.015em;margin:2.4em 0 .6em;padding-top:.6em;border-top:2px solid var(--ink)}
+h3{font-size:1.05rem;font-family:var(--mono);color:var(--accent);margin:1.8em 0 .5em}
+p{margin:0 0 1em}
+.lede{color:var(--ink-2);font-size:1.15rem;max-width:60ch}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.92em;background:#fff;border:1px solid var(--rule);padding:.05em .35em;border-radius:5px}
+pre{background:var(--panel);color:#E8EEF8;font-family:var(--mono);font-size:.88rem;line-height:1.5;padding:16px 20px;border-radius:10px;overflow:auto;margin:0 0 1.2em;white-space:pre-wrap;word-break:break-word}
+pre .out{color:#B9E39C}
+pre .err{color:#FFB4A8}
+pre .c{color:#7E8CA5}
+table{border-collapse:collapse;width:100%;background:#fff;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:.95rem;margin:0 0 1.2em}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td,tr:last-child th{border-bottom:0}
+th{font-weight:500;color:var(--ink-2);background:#F2F5F9;font-size:.88rem}
+td.mono{font-family:var(--mono);font-size:.9rem}
+.ok{background:var(--ok-wash);border-left:6px solid var(--ok);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.ok b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:6px solid var(--warn);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.warn b{color:var(--warn)}
+.muted{color:var(--ink-3)}
+ul,ol{padding-left:1.2em}
+li{margin-bottom:.35em}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+
+<p class="muted"><a href="../index.html">← Back to the slides</a></p>
+<h1>Answer sheet</h1>
+<p class="lede">Every command from the lecture <b>APIs: request, key, response</b>, with the answer you should get. Replace <code>TOKEN</code> with your own Kaggle token everywhere. On Windows, write <code>curl.exe</code> instead of <code>curl</code>.</p>
+
+<div class="warn"><b>The token is a password.</b> It does not belong in a chat, a screenshot or a file you upload. When you ask a chatbot for help with a command, replace the token with the word TOKEN first.</div>
+
+<h2>Part 1: in the browser, no token</h2>
+
+<h3>Step 1: search for datasets</h3>
+<pre>https://www.kaggle.com/api/v1/datasets/list?search=marketing%20campaign</pre>
+<p>A list (square bracket first). The first object has <code>"ref": "rodsaldanha/arketing-campaign"</code>. In Chrome, tick <b>Pretty-print</b> at the top left to get one field per line.</p>
+
+<h3>Step 2: change the parameter</h3>
+<pre>https://www.kaggle.com/api/v1/datasets/list?search=coffee</pre>
+<p>Different list. When this was written the first object was <code>ihelon/coffee-sales</code> with about 75 000 downloads. The order changes over time.</p>
+
+<h3>Step 3: one dataset</h3>
+<pre>https://www.kaggle.com/api/v1/datasets/view/rodsaldanha/arketing-campaign</pre>
+<table>
+<tr><th>Field</th><th>Value when this was written</th></tr>
+<tr><td class="mono">title</td><td>Marketing Campaign</td></tr>
+<tr><td class="mono">ownerName</td><td>Rodolfo Saldanha</td></tr>
+<tr><td class="mono">downloadCount</td><td>66 157 (grows)</td></tr>
+<tr><td class="mono">voteCount</td><td>447 (grows)</td></tr>
+<tr><td class="mono">totalBytes</td><td>536 064</td></tr>
+<tr><td class="mono">lastUpdated</td><td>2020-05-08T13:14:32.86Z</td></tr>
+<tr><td class="mono">currentVersionNumber</td><td>8</td></tr>
+</table>
+
+<h3>Step 4: the locked door</h3>
+<pre>https://www.kaggle.com/api/v1/competitions/list
+<span class="err">{"code":401,"message":"Unauthenticated"}</span></pre>
+
+<h2>Part 2: account and token</h2>
+<ol>
+  <li><a href="https://www.kaggle.com/account/login" target="_blank" rel="noopener">kaggle.com/account/login</a> → <b>Register</b> → with Google or with email. Confirm the email.</li>
+  <li>Profile picture → <b>Settings</b>, or <a href="https://www.kaggle.com/settings" target="_blank" rel="noopener">kaggle.com/settings</a>. Scroll to the heading <b>API</b>.</li>
+  <li>Click <b>Generate New Token</b>. A dialog <b>API Token is now available</b> opens. Click the copy icon next to the token. It starts with <code>KGAT_</code> and is shown only once.</li>
+  <li>Paste it into TextEdit or Notepad. Save as <code>kaggle-token.txt</code> in your Downloads folder. Close the dialog.</li>
+  <li>Create a folder <code>api</code>. Open it in VS Code or Cursor (File → Open Folder), then Terminal → New Terminal. Check: <code>curl --version</code> (Windows: <code>curl.exe --version</code>).</li>
+</ol>
+<div class="ok"><b>Lost the token?</b> Generate New Token again. The old one stops working, which is fine.</div>
+
+<h2>Part 3: in the Terminal, with the token</h2>
+
+<h3>Step 10: unlock the door</h3>
+<pre>curl -H "Authorization: Bearer TOKEN" "https://www.kaggle.com/api/v1/competitions/list"
+<span class="out">[{"ref":"arc-prize-2026-arc-agi-3","title":"ARC Prize 2026 - ARC-AGI-3", …</span></pre>
+<p>A long JSON list of competitions. The names change over time; the shape does not.</p>
+
+<h3>Step 11: wrong token</h3>
+<pre>curl -H "Authorization: Bearer KGAT_wrong" "https://www.kaggle.com/api/v1/competitions/list"
+<span class="err">{"code":401,"message":"Unauthenticated"}</span></pre>
+
+<h3>Step 12: headers included</h3>
+<pre>curl -i -H "Authorization: Bearer TOKEN" "https://www.kaggle.com/api/v1/datasets/view/rodsaldanha/arketing-campaign"
+<span class="out">HTTP/2 200
+content-type: application/json
+date: Mon, 14 Sep 2026 06:42:11 GMT
+x-kaggle-apiversion: 2.2.2
+…
+
+{"title":"Marketing Campaign","subtitle":"Boost the profit of a marketing campaign", …</span></pre>
+
+<h3>Step 13: download one file</h3>
+<pre>curl -L -H "Authorization: Bearer TOKEN" -o marketing_campaign.csv "https://www.kaggle.com/api/v1/datasets/download/rodsaldanha/arketing-campaign/marketing_campaign.csv"</pre>
+<p>Nothing is printed. The file lands in the <code>api</code> folder and is 220 189 bytes. Check with <code>ls -l marketing_campaign.csv</code> (Mac) or <code>dir marketing_campaign.csv</code> (Windows).</p>
+<p class="muted">Without the file name at the end you get a zip file with the CSV and an Excel version inside. Then use <code>-o marketing.zip</code> and unzip it.</p>
+
+<h3>Step 14: the file</h3>
+<p>Separator: semicolon. 2 240 customers plus one header row. 29 columns. Column letters in a spreadsheet:</p>
+<table>
+<tr><th>Column</th><th>Header</th><th>Meaning</th></tr>
+<tr><td>A</td><td class="mono">ID</td><td>Customer id</td></tr>
+<tr><td>B – I</td><td class="mono">Year_Birth … Recency</td><td>Who the customer is</td></tr>
+<tr><td>J – O</td><td class="mono">MntWines … MntGoldProds</td><td>Money spent per product group, last two years</td></tr>
+<tr><td>P – T</td><td class="mono">NumDealsPurchases … NumWebVisitsMonth</td><td>How and how often they buy</td></tr>
+<tr><td>U</td><td class="mono">AcceptedCmp3</td><td>1 if the offer in campaign 3 was accepted</td></tr>
+<tr><td>V</td><td class="mono">AcceptedCmp4</td><td>campaign 4</td></tr>
+<tr><td>W</td><td class="mono">AcceptedCmp5</td><td>campaign 5</td></tr>
+<tr><td>X</td><td class="mono">AcceptedCmp1</td><td>campaign 1</td></tr>
+<tr><td>Y</td><td class="mono">AcceptedCmp2</td><td>campaign 2</td></tr>
+<tr><td>Z</td><td class="mono">Complain</td><td>1 if the customer complained in the last two years</td></tr>
+<tr><td>AA, AB</td><td class="mono">Z_CostContact, Z_Revenue</td><td>Constants, ignore</td></tr>
+<tr><td>AC</td><td class="mono">Response</td><td>1 if the offer in the last campaign was accepted</td></tr>
+</table>
+
+<h3>Step 15: the answers</h3>
+<table>
+<tr><th>Question</th><th>Formula (Google Sheets, Swedish locale)</th><th>Answer</th></tr>
+<tr><td>Accepted the last campaign</td><td class="mono">=COUNTIF(AC:AC;1)</td><td><b>334</b></td></tr>
+<tr><td>Accepted campaign 1</td><td class="mono">=COUNTIF(X:X;1)</td><td>144</td></tr>
+<tr><td>Accepted campaign 2</td><td class="mono">=COUNTIF(Y:Y;1)</td><td>30</td></tr>
+<tr><td>Accepted campaign 3</td><td class="mono">=COUNTIF(U:U;1)</td><td>163</td></tr>
+<tr><td>Accepted campaign 4</td><td class="mono">=COUNTIF(V:V;1)</td><td><b>167</b> (the most)</td></tr>
+<tr><td>Accepted campaign 5</td><td class="mono">=COUNTIF(W:W;1)</td><td>163</td></tr>
+<tr><td>Complained</td><td class="mono">=COUNTIF(Z:Z;1)</td><td>21</td></tr>
+<tr><td>Customers with no income given</td><td class="mono">=COUNTBLANK(E2:E2241)</td><td>24</td></tr>
+</table>
+<p class="muted">English locale: comma instead of semicolon between the arguments.</p>
+
+<h2>Part 4: in code</h2>
+
+<h3>Step 17: kaggle.js</h3>
+<p>File: <a href="kaggle.js">kaggle.js</a>. Replace <code>YOUR_TOKEN</code>, save, run <code>node kaggle.js</code>.</p>
+<pre>const token = "YOUR_TOKEN";
+const url = "https://www.kaggle.com/api/v1/datasets/download/rodsaldanha/arketing-campaign/marketing_campaign.csv";
+
+async function main() {
+  const response = await fetch(url, {
+    headers: { Authorization: "Bearer " + token }
+  });
+  console.log("Status:", response.status);
+
+  const text = await response.text();
+  const rows = text.trim().split("\n").slice(1);
+  const accepted = rows.filter(row => row.trim().split(";").at(-1) === "1").length;
+
+  console.log("Customers:", rows.length);
+  console.log("Accepted the last campaign:", accepted);
+}
+main();</pre>
+
+<h3>Step 18: expected output</h3>
+<pre>$ node kaggle.js
+<span class="out">Status: 200
+Customers: 2240
+Accepted the last campaign: 334</span></pre>
+
+<h3>Step 19: one line per campaign</h3>
+<p>File: <a href="kaggle-campaigns.js">kaggle-campaigns.js</a>. What the chatbot should give you, more or less.</p>
+<pre>$ node kaggle-campaigns.js
+<span class="out">Status: 200
+Customers: 2240
+Accepted the last campaign: 334
+Accepted campaign 1: 144
+Accepted campaign 2: 30
+Accepted campaign 3: 163
+Accepted campaign 4: 167
+Accepted campaign 5: 163</span></pre>
+
+<h2>Two things worth knowing</h2>
+
+<h3>Public datasets do not need the token</h3>
+<p>Kaggle lets anyone read and download <b>public</b> datasets without a token. That is why Part 1 works in the browser. The token matters for endpoints tied to your account, such as the competitions list, and for private datasets. Sending the token on every request is still the right habit: most APIs require it everywhere.</p>
+
+<h3>The legacy key: username and key</h3>
+<p>Under <b>Legacy API Credentials</b> on the same settings page, <b>Create Legacy API Key</b> downloads a file <code>kaggle.json</code> with a username and a key. That pair is sent with <b>Basic authentication</b> instead of a Bearer token:</p>
+<pre><span class="c"># curl</span>
+curl -u USERNAME:KEY "https://www.kaggle.com/api/v1/competitions/list"
+
+<span class="c"># Node</span>
+headers: { Authorization: "Basic " + Buffer.from(username + ":" + key).toString("base64") }</pre>
+<p>Older tutorials on the internet use this form. Both work.</p>
+
+</main>
+</body>
+</html>

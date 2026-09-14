@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APIs: request, key, response – Growth Toolbox</title>
+<meta name="description" content="Lecture and exercises: what an API is, how a request and a response work, how to get an API key at Kaggle and how to fetch a dataset with it. One step per slide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   APIs – slide deck
+   Same stage as the Tag Manager deck. The bold element here is the
+   terminal panel: the exact command a student types and the exact answer
+   the server gives back. Everything else is quiet.
+   ========================================================================== */
+:root {
+  --ground: #E9EDF2;
+  --stage:  #F7F8FA;
+  --panel:  #0E1726;
+  --panel-ink: #E8EEF8;
+  --ink:    #0B1F3A;
+  --ink-2:  #4A5B71;
+  --ink-3:  #7C8A9E;
+  --rule:   #CBD4DF;
+  --accent: #2E6BFF;
+  --accent-wash: rgba(46,107,255,.16);
+  --ok:     #178A5E;
+  --ok-wash:#E1F3EB;
+  --warn:   #B45309;
+  --warn-wash:#FCEFDD;
+  --sans: "Space Grotesk", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+/* Stage: a 1600×900 canvas scaled to fit the viewport ------------------- */
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;background:var(--stage);box-shadow:0 30px 80px rgba(11,31,58,.18);overflow:hidden}
+.slide{position:absolute;inset:0;padding:96px 120px 120px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide:focus{outline:none}
+
+/* Typography ------------------------------------------------------------ */
+h1{font-size:76px;line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 28px;max-width:22ch}
+h2{font-size:66px;line-height:1.06;letter-spacing:-.025em;font-weight:700;margin:0 0 32px;max-width:24ch}
+.byline{font-size:34px;line-height:1.3;color:var(--ink-2);margin:-10px 0 40px;max-width:44ch}
+p,li{font-size:32px;line-height:1.4;margin:0}
+p+p{margin-top:18px}
+.lede{font-size:38px;color:var(--ink-2);max-width:32ch}
+.small{font-size:24px;color:var(--ink-2)}
+.muted{color:var(--ink-3)}
+ul,ol{margin:0;padding-left:1.1em}
+li+li{margin-top:16px}
+li::marker{color:var(--accent);font-weight:600}
+code{font-family:var(--mono);font-size:.86em;background:#FFFFFF;border:1px solid var(--rule);padding:.05em .35em;border-radius:6px;white-space:nowrap}
+a{color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent-wash)}
+kbd{font-family:var(--mono);font-size:.8em;background:#fff;border:1px solid var(--rule);border-bottom-width:3px;border-radius:6px;padding:.05em .4em}
+b{font-weight:600}
+
+/* Structural pieces ----------------------------------------------------- */
+.step{font-family:var(--mono);font-size:24px;color:var(--ink-3);margin:0 0 22px;display:flex;align-items:center;gap:18px}
+.step .part{color:var(--accent);font-weight:700}
+.step .part.solo::after{display:none}
+.step .part::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rule);margin:0 0 4px 18px;vertical-align:middle}
+.body{flex:1;display:grid;grid-template-columns:1fr;gap:40px;align-content:start;margin-bottom:24px}
+.body.two{grid-template-columns:1fr 1fr}
+.body.split{grid-template-columns:1.1fr .9fr}
+.body.wide{grid-template-columns:.8fr 1.2fr}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.card h3{font-size:30px;margin:0 0 12px}
+.card code{white-space:normal;word-break:break-all}
+.card p,.card li{font-size:26px;line-height:1.38}
+.outcome{margin-top:auto;background:var(--ok-wash);border-left:8px solid var(--ok);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.outcome b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:8px solid var(--warn);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.warn b{color:var(--warn)}
+.outcome code,.warn code{white-space:normal;word-break:break-all}
+
+/* Terminal / code panel (the bold element) ------------------------------- */
+pre{margin:0;background:var(--panel);color:var(--panel-ink);font-family:var(--mono);font-size:26px;line-height:1.5;padding:28px 34px;border-radius:12px;white-space:pre-wrap;word-break:break-word;overflow:hidden}
+pre .c{color:#7E8CA5}
+pre .k{color:#8EC5FF}
+pre .s{color:#B9E39C}
+pre .p{color:#FFD28A}
+pre .hl{background:rgba(142,197,255,.18);outline:1px solid #8EC5FF;border-radius:4px;padding:0 .2em}
+pre .prompt-char{color:#7E8CA5;user-select:none}
+.term{font-size:22px}
+.term .out{color:#B9E39C}
+.term .err{color:#FFB4A8}
+
+/* Address anatomy table --------------------------------------------------- */
+.settings{width:100%;border-collapse:collapse;background:#fff;border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:24px;line-height:1.35}
+.settings th,.settings td{text-align:left;padding:13px 22px;border-bottom:1px solid var(--rule);vertical-align:top}
+.settings tr:last-child td{border-bottom:0}
+.settings th{width:44%;font-weight:500;color:var(--ink-2);font-size:22px;background:#F2F5F9;font-family:var(--mono)}
+.settings td{font-size:23px}
+.settings caption{caption-side:top;text-align:left;font:600 22px var(--mono);color:var(--accent);padding:0 0 12px}
+.settings .var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px;font-family:var(--mono)}
+
+/* Prompt box with copy button (same as the scraping deck) ---------------- */
+.prompt{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:26px 36px 80px;font-size:22px;line-height:1.42;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0;position:relative;font-family:var(--sans)}
+.prompt .ph{background:var(--accent-wash);color:var(--accent);font-weight:600;padding:0 .3em;border-radius:4px}
+.copy{position:absolute;bottom:18px;right:18px;font:600 20px var(--sans);color:var(--accent);background:#fff;border:2px solid var(--accent);border-radius:8px;padding:8px 16px;cursor:pointer}
+.copy:hover,.copy:focus-visible{background:var(--accent);color:#fff;outline:none}
+
+/* A fake browser address bar -------------------------------------------- */
+.urlbar{display:flex;align-items:center;gap:16px;background:#fff;border:2px solid var(--rule);border-radius:999px;padding:14px 26px;font:400 21px var(--mono);color:var(--ink);overflow:hidden;white-space:nowrap}
+.urlbar .lock{color:var(--ink-3);font-size:20px}
+.urlbar b{color:var(--accent);font-weight:400}
+
+/* Title slide ----------------------------------------------------------- */
+.title{justify-content:center;padding-left:140px}
+.title .tag{font-family:var(--mono);font-size:44px;color:var(--ink-3);font-weight:400;display:block;line-height:1.1}
+.title h1{font-size:130px;margin:6px 0 6px;max-width:none;letter-spacing:-.04em}
+.title .meta{margin-top:56px;font-size:28px;color:var(--ink-2)}
+.title .meta span{display:inline-block;margin-right:48px}
+
+/* Section divider ------------------------------------------------------- */
+.divider{justify-content:center;background:var(--panel);color:#fff}
+.divider .step{color:#8EC5FF}
+.divider h1{color:#fff;font-size:110px;max-width:none;letter-spacing:-.035em}
+.divider p{color:#B8C4D6;font-size:36px;max-width:34ch}
+
+/* Table ----------------------------------------------------------------- */
+table{border-collapse:collapse;width:100%;font-size:25px;line-height:1.35}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:22px}
+table.dense{font-size:22px}
+table.dense td,table.dense th{padding:11px 16px}
+.slide:has(.byline) .body li,.slide:has(.byline) .body>div>p:not(.small):not(.lede){font-size:28px;line-height:1.38}
+.slide:has(.byline) .body li+li{margin-top:12px}
+.slide:has(.byline) .card li,.slide:has(.byline) .card p{font-size:25px}
+.tight .byline{margin-bottom:18px}
+.tight table.dense{font-size:20px}
+.tight table.dense td,.tight table.dense th{padding:8px 14px}
+td code{font-size:.82em}
+.slide:has(.outcome) .body li,.slide:has(.warn) .body li{font-size:28px;line-height:1.38}
+.slide:has(.outcome) .body li+li,.slide:has(.warn) .body li+li{margin-top:12px}
+.slide:has(.outcome) h2,.slide:has(.warn) h2{margin-bottom:26px}
+.outcome,.warn{font-size:26px;padding:18px 28px}
+.status{font-family:var(--mono);font-weight:700;color:var(--accent)}
+
+/* Chrome: counter, progress, help --------------------------------------- */
+#progress{position:absolute;left:0;bottom:0;height:8px;background:var(--accent);width:0;transition:width .25s}
+#counter{position:absolute;right:196px;bottom:38px;font:400 20px var(--mono);color:var(--ink-3)}
+#deckname{position:absolute;left:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+.divider #counter,.divider #deckname{color:#7E8CA5}
+#nav{position:absolute;right:48px;bottom:22px;display:flex;gap:10px}
+#nav button{width:56px;height:56px;border-radius:50%;border:2px solid var(--rule);background:#fff;color:var(--ink);font:400 26px var(--sans);cursor:pointer;display:grid;place-items:center;transition:background .12s,border-color .12s}
+#nav button:hover,#nav button:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#nav button:disabled{opacity:.3;cursor:default;border-color:var(--rule);color:var(--ink)}
+#stage.dark #nav button{background:transparent;color:#fff;border-color:#3B4A63}
+#stage.dark #nav button:hover{border-color:#8EC5FF;color:#8EC5FF}
+#help{position:fixed;left:16px;top:16px;font:400 13px var(--mono);color:var(--ink-3);background:rgba(255,255,255,.7);padding:6px 10px;border-radius:6px;opacity:.9}
+#notes{position:fixed;right:0;top:0;bottom:0;width:min(420px,40vw);background:#fff;border-left:1px solid var(--rule);padding:24px;overflow:auto;font-size:16px;line-height:1.5;display:none}
+#notes.on{display:block}
+#notes h4{margin:0 0 12px;font-size:13px;color:var(--ink-3);font-weight:600}
+.notes{display:none}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;box-shadow:none;page-break-after:always;margin:0 auto}
+  .slide{position:relative;display:flex!important;height:900px;page-break-after:always}
+  #help,#notes,#progress,#counter,#deckname,#nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){#progress{transition:none}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="help">← → next slide · N notes · F fullscreen</div>
+<aside id="notes"><h4>Teacher notes</h4><div id="notes-body"></div></aside>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- ====================================================================== -->
+<!-- INTRO                                                                  -->
+<!-- ====================================================================== -->
+
+<section class="slide title">
+  <span class="tag">GET /api/v1/datasets/view/…</span>
+  <h1>APIs</h1>
+  <span class="tag">200 OK</span>
+  <p class="meta"><span>Growth Toolbox</span><span>Request, key, response</span><span>Jesper Åström</span></p>
+  <div class="notes">The title sits between a request and a response on purpose: that is the whole topic. You ask, the server answers. Today: what an API is, how to read an address and an answer, then a real account, a real key and a real dataset from Kaggle. Two hours: 25 minutes intro, then four parts of roughly 10, 20, 30 and 25 minutes.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What is an API?</h2>
+  <p class="byline">A website for programs. You ask with an address. You get data back, not a page.</p>
+  <div class="body two">
+    <div class="card">
+      <h3>A website</h3>
+      <ul>
+        <li>You type an address. You get a <b>page</b>: text, images, buttons, layout.</li>
+        <li>Made for people to look at.</li>
+        <li>To reuse the numbers on it you copy them by hand, or scrape the page.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>An API</h3>
+      <ul>
+        <li>A program types an address. It gets <b>data</b>: plain text in a fixed shape.</li>
+        <li>Made for other programs to read.</li>
+        <li>Same question, same shape of answer, every time. No layout to fight with.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>In one sentence</b> An API is the door a service opens so that other programs can ask it questions and get answers.</div>
+  <div class="notes">API stands for Application Programming Interface. Do not dwell on the words. Ask: who has looked at a Google Analytics report and wanted the numbers in a spreadsheet without copying? That is what the API is for. Every tool you use today has one: GA4, Meta, Shopify, Mailchimp, ChatGPT.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Request and response</h2>
+  <p class="byline">Two messages. You send one, the server sends one back.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>You send a <b>request</b>: a method and an address. The method today is always <b>GET</b>, which means "give me".</li>
+        <li>The server sends a <b>response</b>: a <b>status code</b> that says how it went, and a <b>body</b> with the data.</li>
+        <li>The body is text. Almost always it is written in a format called <b>JSON</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term"><span class="c">Request</span>
+<span class="k">GET</span> https://www.kaggle.com/api/v1/datasets/view/rodsaldanha/arketing-campaign
+
+<span class="c">Response</span>
+<span class="p">200 OK</span>
+{
+  "title": <span class="s">"Marketing Campaign"</span>,
+  "ownerName": <span class="s">"Rodolfo Saldanha"</span>,
+  "downloadCount": 66157,
+  "voteCount": 447
+}</pre>
+    </div>
+  </div>
+  <div class="notes">Read the panel out loud, top to bottom. GET plus an address goes up. A status code plus a body comes down. Everything in the next two hours is this picture with different words in it. Other methods exist (POST sends data in, DELETE removes) but we only read today.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">How to read an API address</h2>
+  <p class="byline" style="max-width:none">Four parts. The documentation of an API is a list of the last two.</p>
+  <div class="body">
+    <table class="settings">
+      <tr><th>https://www.kaggle.com</th><td><b>Base URL.</b> Which service you are talking to. Same for every request.</td></tr>
+      <tr><th>/api/v1</th><td><b>Version.</b> The API can change over time. You say which version you expect.</td></tr>
+      <tr><th>/datasets/list</th><td><b>Endpoint.</b> What you are asking for. The documentation lists all of them: <span class="var">/datasets/list</span>, <span class="var">/datasets/view/…</span>, <span class="var">/competitions/list</span></td></tr>
+      <tr><th>?search=marketing</th><td><b>Parameters.</b> How you want it. Starts with <span class="var">?</span>, one <span class="var">name=value</span> per parameter, joined with <span class="var">&amp;</span>.</td></tr>
+    </table>
+  </div>
+  <div class="outcome"><b>Read it as a sentence</b> "Kaggle, version 1, list datasets, that match marketing."</div>
+  <div class="notes">Point at each row. Students have seen parameters before in normal web addresses (utm_source=…). Same thing. Later today they change the search parameter themselves and see the answer change.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">JSON: how the answer is written</h2>
+  <p class="byline">Three rules and you can read any API answer.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>Curly braces</b> <code>{ }</code> hold an <b>object</b>: a list of <code>"name": value</code> pairs, separated by commas.</li>
+        <li><b>Square brackets</b> <code>[ ]</code> hold a <b>list</b>. Each item can be an object.</li>
+        <li><b>Text</b> is in double quotes. <b>Numbers</b>, <code>true</code> and <code>false</code> are not.</li>
+      </ol>
+      <p class="small" style="margin-top:28px">Read it out loud: "a list with two objects; the first has ref, title and downloadCount".</p>
+    </div>
+    <div>
+      <pre class="term" style="font-size:21px">[
+  {
+    "ref": <span class="s">"rodsaldanha/arketing-campaign"</span>,
+    "title": <span class="s">"Marketing Campaign"</span>,
+    "downloadCount": 66157
+  },
+  {
+    "ref": <span class="s">"arashnic/uplift-modeling"</span>,
+    "title": <span class="s">"Uplift Modeling, Marketing Campaign Data"</span>,
+    "downloadCount": 3239
+  }
+]</pre>
+    </div>
+  </div>
+  <div class="notes">This is a real answer from Kaggle, shortened. The real one has 20 datasets and 40 fields each. The skill is to find the field you want and ignore the rest. JSON stands for JavaScript Object Notation, which explains why the Node script in Part 4 can read it without any extra library.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Status codes: how it went</h2>
+  <p class="byline">Every response starts with a number. Learn these seven.</p>
+  <div class="body">
+    <table class="dense">
+      <tr><th style="width:14%">Code</th><th style="width:26%">Means</th><th>What to do</th></tr>
+      <tr><td class="status">200</td><td>OK</td><td>Read the body. You got what you asked for.</td></tr>
+      <tr><td class="status">302</td><td>Go somewhere else</td><td>The data is at another address. Tools follow it if you tell them to. In curl that is <code>-L</code>.</td></tr>
+      <tr><td class="status">401</td><td>Who are you?</td><td>The endpoint needs a key and you sent none, or the wrong one.</td></tr>
+      <tr><td class="status">403</td><td>Not allowed</td><td>The key is right but your account may not see this.</td></tr>
+      <tr><td class="status">404</td><td>Not found</td><td>The endpoint or the thing you named does not exist. Check the spelling of the address.</td></tr>
+      <tr><td class="status">429</td><td>Too many requests</td><td>Slow down. Wait a minute and try again.</td></tr>
+      <tr><td class="status">500</td><td>The server broke</td><td>Not your fault. Try again later.</td></tr>
+    </table>
+  </div>
+  <div class="notes">2xx is good, 3xx is a detour, 4xx is your mistake, 5xx is their mistake. You will see 200, 302 and 401 today, on purpose. The 401 is the reason Part 2 exists.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">API keys</h2>
+  <p class="byline">A password for programs. It tells the API who is asking.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>Why:</b> the service wants to know who is asking, count the requests, and show only what your account may see.</li>
+        <li><b>Where you get it:</b> in your account settings on the service. Never by email.</li>
+        <li><b>How it is sent:</b> inside the request, in a part called a <b>header</b>. Not in the address.</li>
+        <li><b>Kaggle:</b> one long token that starts with <code>KGAT_</code>. curl sends it with <code>-H "Authorization: Bearer TOKEN"</code>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Treat the token as a password</h3>
+      <ul>
+        <li>Never in a screenshot, a chat, a slide or a shared document.</li>
+        <li>Never in a file you upload to GitHub.</li>
+        <li>Leaked? Delete it on the settings page and generate a new one.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warn"><b>Today</b> the token goes into the Terminal and into one file on your computer. Nowhere else.</div>
+  <div class="notes">Make the rule physical: the token goes into the Terminal and into kaggle.js on their own machine. If someone asks a chatbot for help with a command, they replace the token with the word TOKEN first. Tell them now, before they have one. Bearer is just the word HTTP uses for "the holder of this token is allowed in"; many APIs (OpenAI, Shopify, GA4) use the same header.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Where you meet APIs in growth work</h2>
+  <p class="byline">Every tool you already use has one. You will not build them, you will call them.</p>
+  <div class="body two">
+    <div>
+      <table class="dense">
+        <tr><th>API</th><th>What you ask it</th></tr>
+        <tr><td>Google Analytics Data API</td><td>Sessions, conversions, any report, as rows</td></tr>
+        <tr><td>Meta Marketing API</td><td>Spend and results per campaign</td></tr>
+        <tr><td>Google Ads API</td><td>Same for search ads</td></tr>
+        <tr><td>Shopify Admin API</td><td>Orders, products, customers</td></tr>
+        <tr><td>Mailchimp, Klaviyo</td><td>Add a subscriber, read open rates</td></tr>
+        <tr><td>OpenAI, Anthropic</td><td>Send text, get text back</td></tr>
+        <tr><td>Kaggle</td><td>Search and download datasets. Today's practice API.</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>API or scraping?</h3>
+      <p>Scraping reads a page made for people. It breaks when the page changes.</p>
+      <p>An API is made for programs. It is documented, stable and allowed.</p>
+      <p><b>Rule:</b> if there is an API, use it. Scrape only when there is none.</p>
+    </div>
+  </div>
+  <div class="notes">Connect to the scraping lecture: allabolag.se had no API, so we scraped. Kaggle has one, so we do not. The list on the left is where the students will use this in their first job: pulling numbers into a sheet or a dashboard without copying.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">How we work today</h2>
+  <p class="byline">Three tools. One step per slide. Check the green box before you move on.</p>
+  <div class="body two">
+    <div>
+      <p><b>The tools</b></p>
+      <ol style="margin-top:14px">
+        <li><b>Chrome.</b> The address bar can send a GET request. Good for open endpoints.</li>
+        <li><b>The Terminal inside VS Code or Cursor</b>, with the command <code>curl</code>. Can send a token. curl is already on every Mac and Windows computer.</li>
+        <li><b>A spreadsheet</b> (Google Sheets or Excel) to read the data. Part 4 adds Node, from the scraping lecture.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Today's four parts</h3>
+      <ol>
+        <li>First requests, in the browser, no key</li>
+        <li>A Kaggle account and an API key</li>
+        <li>Requests with the key, in the Terminal</li>
+        <li>The same thing in code</li>
+      </ol>
+    </div>
+  </div>
+  <div class="outcome"><b>Before we start</b> Chrome open. VS Code or Cursor installed. An email you can read today.</div>
+  <div class="notes">The editor is needed from step 9, Node only in Part 4. Students who did the scraping lecture have both. Students who did not can pair up, or stop after Part 3 and still have done the core: a request, a key, a response, an answer from the data.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 1 · BROWSER                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 1 of 4</p>
+  <h1>First requests, no key</h1>
+  <p>Kaggle leaves some doors open. Walk through them in the address bar.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 1 of 19</p>
+  <h2>Search for datasets</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open a new tab in Chrome.</li>
+        <li>Paste this address and press <kbd>Enter</kbd>:<br><a href="https://www.kaggle.com/api/v1/datasets/list?search=marketing%20campaign" target="_blank" rel="noopener"><code style="white-space:normal;word-break:break-all">https://www.kaggle.com/api/v1/datasets/list?search=marketing%20campaign</code></a></li>
+        <li>You get a wall of text. Tick the box <b>Pretty-print</b> at the top left. Now it is JSON with one field per line.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="urlbar"><span class="lock">🔒</span>www.kaggle.com/api/v1/datasets/list<b>?search=marketing%20campaign</b></div>
+      <pre class="term" style="margin-top:28px">[
+  {
+    "ref": <span class="s">"rodsaldanha/arketing-campaign"</span>,
+    "title": <span class="s">"Marketing Campaign"</span>,
+    "ownerName": <span class="s">"Rodolfo Saldanha"</span>,
+    "downloadCount": 66157,
+    …</pre>
+      <p class="small" style="margin-top:16px"><code>%20</code> is a space. An address cannot contain a real space.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the first object in the list has <code>"ref": "rodsaldanha/arketing-campaign"</code>. That is the dataset we use all day.</div>
+  <div class="notes">Do it live. The browser sends a GET request exactly like a program would. Point out the square bracket at the very top: a list. Then the first curly brace: an object. Pretty-print is a Chrome checkbox; Safari and Firefox format JSON on their own.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 2 of 19</p>
+  <h2>Change the parameter</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click in the address bar. Replace <code>marketing%20campaign</code> with <code>coffee</code>. Press <kbd>Enter</kbd>.</li>
+        <li>Read the first three objects. For each, find <code>title</code> and <code>downloadCount</code>.</li>
+        <li>Try one more word of your own. Use <code>%20</code> between words.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="urlbar"><span class="lock">🔒</span>www.kaggle.com/api/v1/datasets/list<b>?search=coffee</b></div>
+      <pre class="term" style="margin-top:28px">[
+  {
+    "ref": <span class="s">"ihelon/coffee-sales"</span>,
+    "title": <span class="s">"Coffee Sales"</span>,
+    "downloadCount": 75801,
+    …</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can say which coffee dataset has the most downloads, and you have searched for one word of your own.</div>
+  <div class="notes">The point: the address is the question. Change one word, get a different answer. The numbers on the slide will drift over time; that is fine, the shape is the same.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 3 of 19</p>
+  <h2>Ask about one dataset</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Paste this address:<br><a href="https://www.kaggle.com/api/v1/datasets/view/rodsaldanha/arketing-campaign" target="_blank" rel="noopener"><code style="white-space:normal;word-break:break-all">https://www.kaggle.com/api/v1/datasets/view/rodsaldanha/arketing-campaign</code></a></li>
+        <li>This time the answer is one object, not a list. No square bracket at the top.</li>
+        <li>Find these fields: <code>title</code>, <code>downloadCount</code>, <code>voteCount</code>, <code>totalBytes</code>, <code>lastUpdated</code>.</li>
+        <li>Open <a href="https://www.kaggle.com/datasets/rodsaldanha/arketing-campaign" target="_blank" rel="noopener">the same dataset as a web page</a> in another tab. Same numbers, different clothes.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term">{
+  "title": <span class="s">"Marketing Campaign"</span>,
+  "subtitle": <span class="s">"Boost the profit of a marketing campaign"</span>,
+  "ownerName": <span class="s">"Rodolfo Saldanha"</span>,
+  "downloadCount": 66157,
+  "voteCount": 447,
+  "totalBytes": 536064,
+  "lastUpdated": <span class="s">"2020-05-08T13:14:32.86Z"</span>,
+  "currentVersionNumber": 8,
+  …</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can say how many times the dataset has been downloaded and when it was last updated.</div>
+  <div class="notes">The endpoint changed from list to view, and the thing after it names one dataset: owner slash name. The web page tab is the same data rendered for people. Ask: which one would you rather have a program read?</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 4 of 19</p>
+  <h2>A locked door</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Paste this address:<br><a href="https://www.kaggle.com/api/v1/competitions/list" target="_blank" rel="noopener"><code style="white-space:normal;word-break:break-all">https://www.kaggle.com/api/v1/competitions/list</code></a></li>
+        <li>Read the answer. It is short.</li>
+        <li>Open the Chrome menu, <b>More tools → Developer tools</b>, tab <b>Network</b>, reload the page. Click the row <b>list</b>. Under <b>Status</b> it says <b>401</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="urlbar"><span class="lock">🔒</span>www.kaggle.com/api/v1/<b>competitions/list</b></div>
+      <pre class="term" style="margin-top:28px"><span class="err">{"code":401,"message":"Unauthenticated"}</span></pre>
+      <p class="small" style="margin-top:16px">401: "who are you?". The endpoint exists, but it wants to know who is asking.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have seen the 401 answer. This is the door Part 2 gives you the key to.</div>
+  <div class="notes">The address bar cannot send a key. That is why the next part moves to the Terminal. Step 3 of the Network tab is optional if time is short; the body already tells you the code.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 2 · ACCOUNT AND KEY                                               -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 2 of 4</p>
+  <h1>A Kaggle account and an API token</h1>
+  <p>Register, find the API section in settings, generate a token, open a Terminal in your editor.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 5 of 19</p>
+  <h2>Create a Kaggle account</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Go to <a href="https://www.kaggle.com/account/login" target="_blank" rel="noopener">kaggle.com/account/login</a>.</li>
+        <li>Click <b>Register</b>. Choose <b>Register with Google</b> or <b>Register with your email</b>.</li>
+        <li>Fill in the form. If you used email: open the email from Kaggle and click the confirmation link.</li>
+        <li>You land on kaggle.com signed in. Your profile picture is at the top right.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>What is Kaggle?</h3>
+      <p>A site owned by Google where people share datasets, compete in data science competitions and run notebooks.</p>
+      <p class="muted">We use it because the account is free, the API is simple and it has thousands of public datasets to practise on.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you are signed in and see your profile picture at the top right of kaggle.com.</div>
+  <div class="notes">Already have an account? Sign in and wait. Kaggle may ask for a display name and a username on the first sign in. Any name is fine; the API token does not depend on it.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 6 of 19</p>
+  <h2>Find the API section in settings</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click your profile picture at the top right. Choose <b>Settings</b>. Or go straight to <a href="https://www.kaggle.com/settings" target="_blank" rel="noopener">kaggle.com/settings</a>.</li>
+        <li>Scroll down until you see the heading <b>API</b>.</li>
+        <li>Read what is there before you click anything.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>What you see under API</h3>
+      <p>A button <b>Generate New Token</b>. Below it, a smaller section <b>Legacy API Credentials</b>.</p>
+      <p class="muted">We use <b>Generate New Token</b>. The legacy one is an older username-and-key pair; the answer sheet shows how to use that too.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you see the API section with the button Generate New Token.</div>
+  <div class="notes">Kaggle moves things around. If the section is missing, the account is not fully set up: check for a "verify your email" banner. Phone verification is not needed for API tokens.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 7 of 19</p>
+  <h2>Generate the token</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click <b>Generate New Token</b>.</li>
+        <li>A dialog opens: <b>API Token is now available</b>. The token starts with <code>KGAT_</code>.</li>
+        <li>Click the <b>copy icon</b> to the right of the token. Do not close the dialog yet.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Shown once</h3>
+      <p>The dialog says: <i>Please copy your API token now. You won't be able to view it again.</i></p>
+      <p>Lost it? No problem. Click <b>Generate New Token</b> again and you get a new one. The old one stops working.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the token is on your clipboard and the dialog is still open.</div>
+  <div class="notes">The dialog also shows commands with export and mkdir. Ignore them; they are for people who install the Kaggle command-line tool. We send the token ourselves in the next part. Students who click Close too early: generate again.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 8 of 19</p>
+  <h2>Save the token in a text file</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Open <b>TextEdit</b> (Mac) or <b>Notepad</b> (Windows).</li>
+        <li>Paste. You get one line that starts with <code>KGAT_</code> followed by 32 letters and digits.</li>
+        <li>Save the file as <code>kaggle-token.txt</code> in your <b>Downloads</b> folder. Keep it open: you copy from it all day.</li>
+        <li>Go back to Kaggle and click <b>Close</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term">KGAT_<span class="s">a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4</span></pre>
+      <p class="small" style="margin-top:20px">Yours is different from everyone else's. The same token works from any computer, which is exactly why it must stay secret.</p>
+    </div>
+  </div>
+  <div class="warn"><b>Never share the token.</b> Not in a screenshot, not in a chat, not in a slide. If it gets out: Settings → API → delete it, then generate a new one.</div>
+  <div class="notes">Mac TextEdit may want to save as rich text: Format → Make Plain Text first. Make the point before they copy anything else: when they ask a chatbot for help later, they replace the token with the word TOKEN.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 9 of 19</p>
+  <h2>Open a Terminal in your editor</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Create a new folder called <code>api</code>, next to your <code>scraping</code> folder.</li>
+        <li>Start VS Code or Cursor. <b>File → Open Folder</b>, choose <code>api</code>.</li>
+        <li><b>Terminal → New Terminal</b>. A window opens at the bottom. It is standing in your <code>api</code> folder.</li>
+        <li>Type <code>curl --version</code> and press <kbd>Enter</kbd>. On Windows type <code>curl.exe --version</code>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>curl --version
+<span class="out">curl 8.7.1 (x86_64-apple-darwin24.0) libcurl/8.7.1 …</span></pre>
+      <div class="card" style="margin-top:24px">
+        <h3>Windows: write curl.exe</h3>
+        <p>On Windows this Terminal is PowerShell, which has its own <code>curl</code> that works differently. <code>curl.exe</code> is the real one. Add <code>.exe</code> every time today.</p>
+      </div>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the Terminal answers with a line that starts with <code>curl 7</code> or <code>curl 8</code>. The rest of the numbers do not matter.</div>
+  <div class="notes">Same setup as the scraping lecture: a folder, an editor, a terminal at the bottom. curl is a program that sends requests from the command line, preinstalled on every Mac and on Windows 10 and 11. The dollar sign on the slides is the Terminal's prompt: do not type it. No editor installed? VS Code is free at code.visualstudio.com.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 3 · WITH THE KEY                                                  -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 3 of 4</p>
+  <h1>Requests with the key</h1>
+  <p>Unlock the door, break it on purpose, then download the dataset and answer a question with it.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 10 of 19</p>
+  <h2>Unlock the door</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Copy the command on the right into the Terminal. Do not press Enter yet.</li>
+        <li>Replace <code>TOKEN</code> with your token from <code>kaggle-token.txt</code>. Keep the quotes. Keep the word Bearer and the space after it.</li>
+        <li>Press <kbd>Enter</kbd>. Windows: the command starts with <code>curl.exe</code>.</li>
+      </ol>
+      <p class="small" style="margin-top:24px"><code>-H</code> means "header": curl adds one line to the request, called <b>Authorization</b>, with your token in it.</p>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>curl -H "Authorization: Bearer <span class="hl">TOKEN</span>" "https://www.kaggle.com/api/v1/competitions/list"
+<span class="out">[{"ref":"arc-prize-2026-arc-agi-3","title":"ARC Prize 2026 - ARC-AGI-3", …</span></pre>
+      <p class="small" style="margin-top:20px">Same address as the locked door in step 4. This time the answer is a long list.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the Terminal fills with JSON that starts with <code>[{</code> instead of the 401 message.</div>
+  <div class="notes">The address is the same as in Part 1. The only difference is the header. Let that sink in: the token does not change what you ask, it changes who is asking. Common problems: the quotes left out, "Bearer" misspelled, the token pasted twice, or a line break inside the command.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 11 of 19</p>
+  <h2>Break it on purpose</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Press the <kbd>↑</kbd> arrow key. The last command comes back.</li>
+        <li>Change one character in the token. Press <kbd>Enter</kbd>.</li>
+        <li>Read the answer. Then press <kbd>↑</kbd> again, fix the character, and run it once more so it works.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>curl -H "Authorization: Bearer KGAT_a1b2…c3dX" "https://www.kaggle.com/api/v1/competitions/list"
+<span class="err">{"code":401,"message":"Unauthenticated"}</span></pre>
+      <p class="small" style="margin-top:20px">A wrong token looks exactly like no token. The server does not tell you which. When you see 401 in real work: check the token first.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have seen the 401 message with a wrong token and the list again with the right one.</div>
+  <div class="notes">Ten seconds of work, and the most useful ten seconds of the day: they now recognise the error they will get in every future integration. The up arrow is worth showing; many have never used it.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 12 of 19</p>
+  <h2>See the whole response</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Run the command on the right. <code>-i</code> means "include the headers".</li>
+        <li>The first line is the status. Then come the <b>headers</b>: facts about the answer. Then a blank line, then the body.</li>
+        <li>Find <code>content-type</code>. It tells you the body is JSON.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>curl -i -H "Authorization: Bearer TOKEN" "https://www.kaggle.com/api/v1/datasets/view/rodsaldanha/arketing-campaign"
+<span class="out">HTTP/2 200
+content-type: application/json
+date: Mon, 14 Sep 2026 06:42:11 GMT
+x-kaggle-apiversion: 2.2.2
+…
+
+{"title":"Marketing Campaign","subtitle":"Boost the profit of …</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you can point at the status line, one header, and where the body starts.</div>
+  <div class="notes">Headers travel in both directions: the token went up in a header, the content type comes down in one. The browser hid all of this in Part 1. curl shows it when asked.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 13 of 19</p>
+  <h2>Download the dataset</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Run the command on the right, with your token.</li>
+        <li>Nothing is printed. The answer went into a file. It appears in the left column of the editor.</li>
+        <li>Mac: type <code>ls -l marketing_campaign.csv</code>. Windows: <code>dir marketing_campaign.csv</code>. The file is about 220 000 bytes.</li>
+      </ol>
+      <p class="small" style="margin-top:24px"><code>-L</code>: follow the 302 detour to where the file really is. <code>-o</code>: save the body under this file name.</p>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>curl -L -H "Authorization: Bearer TOKEN" -o marketing_campaign.csv "https://www.kaggle.com/api/v1/datasets/download/rodsaldanha/arketing-campaign/marketing_campaign.csv"</pre>
+      <div class="card" style="margin-top:24px">
+        <h3>Empty file?</h3>
+        <p>You forgot <code>-L</code>. Kaggle answers 302 and points to Google's storage. curl only goes there if you tell it to.</p>
+      </div>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>marketing_campaign.csv</code> shows in the left column of the editor and is around 220 KB.</div>
+  <div class="notes">The endpoint is download, then the dataset, then one file name inside it. Without the file name you get a zip with everything. The file lands in the api folder because that is where the Terminal is standing. Clicking it in the left column opens it as text, which is a nice moment: the API answered with this.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 14 of 19</p>
+  <h2>Open the file in a spreadsheet</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Go to <a href="https://sheets.new" target="_blank" rel="noopener">sheets.new</a>. Choose <b>File → Import → Upload</b> and pick <code>marketing_campaign.csv</code> from your <code>api</code> folder.</li>
+        <li>Under <b>Separator type</b> choose <b>Custom</b> and type a semicolon <code>;</code>. Click <b>Import data</b>.</li>
+        <li>Look at the columns. Row 1 is the header. The last column, <b>AC</b>, is called <code>Response</code>.</li>
+      </ol>
+      <p class="small" style="margin-top:20px">Excel: <b>Data → From Text/CSV</b>, delimiter Semicolon.</p>
+    </div>
+    <div class="card">
+      <h3>What the data is</h3>
+      <p>2 240 customers of a food retailer. For each: birth year, education, income, how much they spent on wine, meat, fish and so on, and whether they accepted each of six marketing campaigns.</p>
+      <p><code>Response</code> = 1 means the customer accepted the offer in the <b>last</b> campaign.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you see 2 241 rows (one header plus 2 240 customers), 29 columns, and the last column AC is called Response.</div>
+  <div class="notes">The separator is a semicolon, not a comma, which is common with European data. If everything lands in column A the separator was wrong: import again. The columns U to Y are AcceptedCmp3, 4, 5, 1, 2, in that order. That odd order matters in the next step.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 15 of 19</p>
+  <h2>Answer a question with the data</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click an empty cell, for example <b>AE1</b>. Type <code>=COUNTIF(AC:AC;1)</code> and press <kbd>Enter</kbd>. Comma instead of semicolon if your sheet is in English.</li>
+        <li>That is how many customers accepted the last campaign.</li>
+        <li>Now do the same for the columns <b>U</b> to <b>Y</b> (AcceptedCmp3, 4, 5, 1, 2). Which campaign got the most yes?</li>
+      </ol>
+    </div>
+    <div>
+      <table class="dense">
+        <tr><th>Column</th><th>Header</th><th>Formula</th></tr>
+        <tr><td>AC</td><td>Response (last campaign)</td><td><code>=COUNTIF(AC:AC;1)</code></td></tr>
+        <tr><td>X</td><td>AcceptedCmp1</td><td><code>=COUNTIF(X:X;1)</code></td></tr>
+        <tr><td>Y</td><td>AcceptedCmp2</td><td><code>=COUNTIF(Y:Y;1)</code></td></tr>
+        <tr><td>U</td><td>AcceptedCmp3</td><td><code>=COUNTIF(U:U;1)</code></td></tr>
+        <tr><td>V</td><td>AcceptedCmp4</td><td><code>=COUNTIF(V:V;1)</code></td></tr>
+        <tr><td>W</td><td>AcceptedCmp5</td><td><code>=COUNTIF(W:W;1)</code></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have a number for the last campaign and can name the campaign, 1 to 5, with the most accepted offers. The answers are on the answer sheet.</div>
+  <div class="notes">Answers: Response 334. Cmp1 144, Cmp2 30, Cmp3 163, Cmp4 167, Cmp5 163. So campaign 4, narrowly. This is the moment to say: you asked an API for data, saved the answer, and got a business number out of it. That is the whole job, in miniature.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 4 · IN CODE                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 4 of 4</p>
+  <h1>The same thing in code</h1>
+  <p>One short Node script that sends the request, reads the answer and counts. Then you change the question.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 16 of 19</p>
+  <h2>Check that Node works</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Stay in the same window: VS Code or Cursor with the <code>api</code> folder open and the Terminal at the bottom.</li>
+        <li>Type <code>node -v</code> and press <kbd>Enter</kbd>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>node -v
+<span class="out">v22.14.0</span></pre>
+      <div class="card" style="margin-top:24px">
+        <h3>No Node?</h3>
+        <p>Install it from <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/en/download</a>, close the editor, open it again. It is the same setup as in the scraping lecture.</p>
+      </div>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>node -v</code> answers with v18 or later.</div>
+  <div class="notes">Anyone without Node pairs up with a neighbour for this part. The core of the day is done; this part shows that the Terminal command and a program are the same request.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 17 of 19</p>
+  <h2>Create kaggle.js</h2>
+  <div class="body wide">
+    <div>
+      <ol>
+        <li><b>File → New File</b>. Save it as <code>kaggle.js</code> in the <code>api</code> folder.</li>
+        <li>Paste the code on the right. It is also on the <a href="facit/kaggle.js" target="_blank" rel="noopener">answer sheet</a>, ready to copy.</li>
+        <li>Replace <code>YOUR_TOKEN</code> with your token. Keep the quotes. Save.</li>
+      </ol>
+      <p class="small" style="margin-top:20px">Line 5 is the same Authorization header you typed after <code>-H</code> in curl.</p>
+    </div>
+    <div>
+      <pre style="font-size:17px;line-height:1.38"><span class="k">const</span> token = <span class="s">"YOUR_TOKEN"</span>;
+<span class="k">const</span> url = <span class="s">"https://www.kaggle.com/api/v1/datasets/download/rodsaldanha/arketing-campaign/marketing_campaign.csv"</span>;
+<span class="k">async function</span> main() {
+  <span class="k">const</span> response = <span class="k">await</span> fetch(url, {
+    headers: { Authorization: <span class="s">"Bearer "</span> + token }
+  });
+  console.log(<span class="s">"Status:"</span>, response.status);
+  <span class="k">const</span> text = <span class="k">await</span> response.text();
+  <span class="k">const</span> rows = text.trim().split(<span class="s">"\n"</span>).slice(1);
+  <span class="k">const</span> accepted = rows.filter(row => row.trim().split(<span class="s">";"</span>).at(-1) === <span class="s">"1"</span>).length;
+  console.log(<span class="s">"Customers:"</span>, rows.length);
+  console.log(<span class="s">"Accepted the last campaign:"</span>, accepted);
+}
+main();</pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>kaggle.js</code> is saved with your token on the first line.</div>
+  <div class="notes">Walk through it in four sentences: the address, the request with the header, the response as text, and a count of rows whose last field is 1. fetch follows the 302 on its own, so no -L needed here.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 18 of 19</p>
+  <h2>Run it</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the Terminal inside the editor, type <code>node kaggle.js</code> and press <kbd>Enter</kbd>.</li>
+        <li>Three lines come back. Compare the last one with the number you got in the spreadsheet.</li>
+        <li>Get an error? Read the first line of it. Customers 0 means the address is wrong. Compare it with the slide.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="term"><span class="prompt-char">$ </span>node kaggle.js
+<span class="out">Status: 200
+Customers: 2240
+Accepted the last campaign: 334</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the script prints Status 200 and the same count as your spreadsheet.</div>
+  <div class="notes">Same request as step 13, same answer as step 15, no spreadsheet in between. Note: this dataset is public, so the download works even with a wrong token; only the competitions list in step 10 shows a 401. If you want to prove the token is read, change the url to /api/v1/competitions/list and print response.status. If a student gets 200 but a wrong count, the file was probably saved with a stray character in the split; compare with facit/kaggle.js.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 4</span>Step 19 of 19</p>
+  <h2>Change the question</h2>
+  <div class="body">
+    <div class="prompt" id="p1" style="font-size:21px;padding-bottom:72px"><button class="copy" data-copy="p1">Copy</button>Here is a Node script that downloads a semicolon-separated CSV file from the Kaggle API and counts the rows with 1 in the last column. The header row is: ID;Year_Birth;Education;Marital_Status;Income;Kidhome;Teenhome;Dt_Customer;Recency;MntWines;MntFruits;MntMeatProducts;MntFishProducts;MntSweetProducts;MntGoldProds;NumDealsPurchases;NumWebPurchases;NumCatalogPurchases;NumStorePurchases;NumWebVisitsMonth;AcceptedCmp3;AcceptedCmp4;AcceptedCmp5;AcceptedCmp1;AcceptedCmp2;Complain;Z_CostContact;Z_Revenue;Response
+
+Change the script so that it also prints how many customers accepted each of the campaigns 1 to 5 (the columns AcceptedCmp1 to AcceptedCmp5), one line per campaign. Keep everything else the same. I am a beginner: give me the whole file back, and do not change the first two lines.
+
+<span class="ph">Paste your script here, but replace your real token with the word TOKEN first.</span></div>
+  </div>
+  <div class="outcome"><b>Done when</b> the script prints five extra lines and campaign 4 is the highest. Real token back in before you run it.</div>
+  <div class="notes">Same loop as the scraping lecture: copy the prompt, paste into ChatGPT, Claude or Cursor, paste the script under it with the token replaced by TOKEN. Expected: Cmp1 144, Cmp2 30, Cmp3 163, Cmp4 167, Cmp5 163. Students who finish early: count complaints (column Complain, answer 21), or print the average wine spend for responders versus the rest.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- CLOSING                                                                -->
+<!-- ====================================================================== -->
+
+<section class="slide tight">
+  <p class="step"><span class="part solo">Troubleshooting</span></p>
+  <h2 style="max-width:none">The most common problems</h2>
+  <p class="byline">Look here before you ask.</p>
+  <table class="dense">
+    <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+    <tr><td><code>{"code":401,"message":"Unauthenticated"}</code> with a token</td><td>Token copied incompletely, Bearer misspelled, or quotes missing.</td><td>Copy the whole line from kaggle-token.txt. It starts with KGAT_. Check the quotes.</td></tr>
+    <tr><td>Windows: strange output, or an error about a parameter</td><td>PowerShell ran its own curl.</td><td>Write <code>curl.exe</code> instead of <code>curl</code>.</td></tr>
+    <tr><td>The downloaded file is empty or tiny</td><td>You left out <code>-L</code>, so curl stopped at the 302.</td><td>Run again with <code>-L</code>.</td></tr>
+    <tr><td>Everything in column A in the spreadsheet</td><td>Wrong separator.</td><td>Import again with semicolon as separator.</td></tr>
+    <tr><td>COUNTIF gives an error</td><td>Your sheet wants a comma, not a semicolon, between the arguments.</td><td><code>=COUNTIF(AC:AC,1)</code></td></tr>
+    <tr><td>No API section in Kaggle settings</td><td>The account is not confirmed.</td><td>Open the email from Kaggle and click the link. Reload settings.</td></tr>
+    <tr><td><code>node: command not found</code></td><td>Node is not installed, or the editor was open during the install.</td><td>Install from nodejs.org, close the editor, open it again.</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Summary</span></p>
+  <h2 style="max-width:none">What you did today</h2>
+  <p class="byline" style="max-width:none">A request, a token, a response, and a number nobody copied by hand.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li>An <b>API</b> answers with data instead of a page. The address is the question: base URL, version, endpoint, parameters.</li>
+        <li>The answer is a <b>status code</b> and a <b>JSON</b> body. 200 is good, 401 means the key is missing or wrong.</li>
+        <li>An <b>API token</b> travels in a header, not in the address. curl sends it with <code>-H</code>. A script sends the same header.</li>
+        <li>Open endpoints work in the browser. Locked ones need curl or code.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Next</h3>
+      <ul>
+        <li>Pick another dataset from your search in step 2 and download one of its files the same way.</li>
+        <li>Find the API documentation for one tool you use at work. Find the endpoint that gives you the number you copy most often.</li>
+        <li>Ask the Google Analytics Data API for last week's sessions. Search for: <i>GA4 Data API quickstart</i>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Resources</span></p>
+  <h2 style="max-width:none">Read more</h2>
+  <p class="byline">Links and search terms</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><a href="https://github.com/Kaggle/kaggle-api/blob/main/docs/README.md" target="_blank" rel="noopener">Kaggle: API documentation</a> <span class="small">authentication and every endpoint</span></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" target="_blank" rel="noopener">MDN: HTTP status codes</a> <span class="small">all of them, explained</span></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/JSON" target="_blank" rel="noopener">MDN: Working with JSON</a></li>
+        <li><a href="https://everything.curl.dev/" target="_blank" rel="noopener">Everything curl</a> <span class="small">the free book about the tool you used today</span></li>
+        <li><a href="https://developers.google.com/analytics/devguides/reporting/data/v1" target="_blank" rel="noopener">Google Analytics Data API</a></li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><a href="facit/index.html" target="_blank" rel="noopener">Answer sheet</a> <span class="small">every command, every expected answer, the numbers from step 15</span></li>
+        <li><a href="facit/kaggle.js" target="_blank" rel="noopener">kaggle.js</a> <span class="small">the script from step 17, ready to copy</span></li>
+        <li><a href="../scraping/index.html" target="_blank" rel="noopener">Lecture: web scraping</a> <span class="small">what to do when there is no API</span></li>
+        <li class="small">Search for: <i>REST API for beginners</i>, <i>curl bearer token header</i>, <i>HTTP headers explained</i>, <i>Kaggle API datasets download</i>, <i>fetch API Node</i></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div id="progress"></div>
+<div id="deckname">apis · growth toolbox</div>
+<div id="counter"></div>
+<div id="nav"><button id="prev" type="button" aria-label="Previous slide" title="Previous (←)">&#8592;</button><button id="next" type="button" aria-label="Next slide" title="Next (→)">&#8594;</button></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var notes = document.getElementById('notes');
+  var notesBody = document.getElementById('notes-body');
+  var i = 0;
+
+  function fit(){
+    var w = window.innerWidth - (notes.classList.contains('on') ? notes.offsetWidth : 0);
+    var s = Math.min(w / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + s + ')';
+    document.getElementById('viewport').style.right = notes.classList.contains('on') ? notes.offsetWidth + 'px' : '0';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    var dark = slides[i].classList.contains('divider');
+    stage.classList.toggle('dark', dark);
+    counter.style.color = dark ? '#7E8CA5' : '';
+    document.getElementById('deckname').style.color = dark ? '#7E8CA5' : '';
+    progress.style.background = dark ? '#8EC5FF' : '';
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === slides.length - 1;
+    var n = slides[i].querySelector('.notes');
+    notesBody.textContent = n ? n.textContent : 'No notes for this slide.';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') { notes.classList.toggle('on'); fit(); }
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var box = document.getElementById(btn.getAttribute('data-copy')).cloneNode(true);
+      box.querySelector('.copy').remove();
+      var text = box.textContent.trim();
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1500);
+      }, function(){ btn.textContent = 'Select and copy'; });
+    });
+  });
+  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); this.blur(); });
+  document.getElementById('next').addEventListener('click', function(){ show(i + 1); this.blur(); });
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){ show(parseInt(location.hash.slice(1), 10) - 1 || 0); });
+  fit();
+  show(parseInt(location.hash.slice(1), 10) - 1 || 0);
+})();
+</script>
+</body>
+</html>
