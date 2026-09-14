@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer sheet – Product-led growth: loops, mechanics, tests</title>
+<meta name="description" content="The loop numbers, a worked viral mechanic for Fika & Co, every Tag Manager setting for the A/B test, and the significance answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--accent-wash:rgba(46,107,255,.16);--ok:#178A5E;--ok-wash:#E1F3EB;--warn:#B45309;--warn-wash:#FCEFDD;--panel:#0E1726;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.4rem;letter-spacing:-.02em;margin:0 0 .3em}
+h2{font-size:1.6rem;letter-spacing:-.015em;margin:2.4em 0 .6em;padding-top:.6em;border-top:2px solid var(--ink)}
+h3{font-size:1.05rem;font-family:var(--mono);color:var(--accent);margin:1.8em 0 .5em}
+p{margin:0 0 1em}
+.lede{color:var(--ink-2);font-size:1.15rem;max-width:60ch}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.92em;background:#fff;border:1px solid var(--rule);padding:.05em .35em;border-radius:5px}
+pre{background:var(--panel);color:#E8EEF8;font-family:var(--mono);font-size:.88rem;line-height:1.5;padding:16px 20px;border-radius:10px;overflow:auto;margin:0 0 1.2em;white-space:pre-wrap;word-break:break-word}
+table{border-collapse:collapse;width:100%;background:#fff;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:.95rem;margin:0 0 1.2em}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td,tr:last-child th{border-bottom:0}
+th{font-weight:500;color:var(--ink-2);background:#F2F5F9;font-size:.88rem;width:34%}
+td.mono,th.mono{font-family:var(--mono);font-size:.9rem}
+table.plain th{width:auto}
+.var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px;font-family:var(--mono)}
+.ok{background:var(--ok-wash);border-left:6px solid var(--ok);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.ok b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:6px solid var(--warn);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.muted{color:var(--ink-3)}
+ul,ol{padding-left:1.2em}
+li{margin-bottom:.35em}
+blockquote{margin:0 0 1em;padding:10px 18px;border-left:4px solid var(--rule);color:var(--ink-2);font-style:italic}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+
+<p class="muted"><a href="../index.html">← Back to the slides</a></p>
+<h1>Answer sheet</h1>
+<p class="lede">Everything from the lecture <b>Product-led growth: loops, mechanics, tests</b>: the loop numbers, one worked mechanic for Fika &amp; Co, every Tag Manager setting, and the test answers. Files: <a href="growth-loop.csv">growth-loop.csv</a>, <a href="ab-test.csv">ab-test.csv</a>, <a href="experiment-tag.html">experiment-tag.html</a>.</p>
+
+<h2>Part 1: the growth loop</h2>
+
+<h3>Steps 1 and 2: the sheet</h3>
+<table class="plain">
+<tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+<tr><td>1</td><td>Seed users</td><td class="mono">1000</td><td></td></tr>
+<tr><td>2</td><td>Activation rate</td><td class="mono">0.4</td><td></td></tr>
+<tr><td>3</td><td>Share of activated who invite</td><td class="mono">0.5</td><td></td></tr>
+<tr><td>4</td><td>Invites per inviter</td><td class="mono">3</td><td></td></tr>
+<tr><td>5</td><td>Invite conversion</td><td class="mono">0.25</td><td></td></tr>
+<tr><td>6</td><td>K</td><td class="mono">=B2*B3*B4*B5</td><td class="muted">→ 0.15</td></tr>
+<tr><td>7</td><td>Paid users per cycle</td><td class="mono">0</td><td></td></tr>
+<tr><td>8</td><td>Cycle</td><td>New users</td><td>Total</td></tr>
+<tr><td>9</td><td class="mono">0</td><td class="mono">=B1</td><td class="mono">=B9</td></tr>
+<tr><td>10</td><td class="mono">=A9+1</td><td class="mono">=B9*$B$6+$B$7</td><td class="mono">=C9+B10</td></tr>
+<tr><td>…</td><td colspan="3" class="muted">drag row 10 down to row 19</td></tr>
+</table>
+<p>Row 7 and the <code>+$B$7</code> are added in step 4; until then B10 is <code>=B9*$B$6</code>.</p>
+
+<h3>Steps 2 to 4: the totals</h3>
+<table class="plain">
+<tr><th>Setting</th><th>K</th><th>Total after 10 cycles</th><th>Limit</th></tr>
+<tr><td>Starting numbers</td><td class="mono">0.15</td><td class="mono">1 176</td><td>1000 ÷ (1 − 0.15) = 1 176</td></tr>
+<tr><td>Two levers changed, for example B3 = 0.5, B4 = 4, B5 = 0.5 with B2 = 0.5</td><td class="mono">0.50</td><td class="mono">1 999</td><td>2 000</td></tr>
+<tr><td>K 0.5 plus 200 paid users per cycle</td><td class="mono">0.50</td><td class="mono">5 599</td><td>none; settles at 400 new per cycle</td></tr>
+<tr><td>K 1.2, no paid users (for example 0.6 × 0.5 × 5 × 0.8)</td><td class="mono">1.20</td><td class="mono">32 150</td><td>none</td></tr>
+</table>
+<div class="ok"><b>The two lessons</b> Below 1, a loop multiplies whatever else you do by 1 ÷ (1 − K). Above 1 is exponential and does not last; plan for a K below 1 and a fast cycle.</div>
+
+<h2>Part 2: a worked mechanic for Fika &amp; Co</h2>
+<p>One possible answer. Students' answers will differ; check them against the rules, not against this text.</p>
+
+<h3>Step 5: smallest acceptable truth</h3>
+<blockquote>"The coffee arrives before you run out."</blockquote>
+<p>Seven words, no feature list, says something about the person: they are someone who never runs out.</p>
+
+<h3>Step 6: the mechanic</h3>
+<table>
+<tr><th>The C</th><td>Challenge, with a touch of Conformity.</td></tr>
+<tr><th>What the customer does</th><td>After the second delivery, picks <b>one</b> colleague "who always steals your coffee" and sends them a bag.</td></tr>
+<tr><th>What the friend receives</th><td>A personal message with the customer's name and a link to claim a 250 g bag for 1 kr, delivered with the customer's next box.</td></tr>
+<tr><th>Limit on people</th><td>One colleague per delivery.</td></tr>
+<tr><th>Limit on time</th><td>48 hours to claim, or the bag goes into the customer's own box.</td></tr>
+<tr><th>For whom</th><td>The 9's: it gives them status at the coffee machine.</td></tr>
+</table>
+
+<h3>Step 7: the two messages</h3>
+<p><b>To the customer:</b> "Your next box has one extra bag in it. Send it to the colleague who always steals your coffee. If they don't claim it in 48 hours, it stays with you."</p>
+<p><b>To the friend:</b> "Anna says you keep stealing her coffee. She is sending you your own bag: the coffee arrives before you run out. Claim it within 48 hours or it stays with Anna."</p>
+
+<h3>Step 8: the friend through the formula</h3>
+<table>
+<tr><th>M</th><td>They drink coffee at work every day and run out at home.</td></tr>
+<tr><th>V</th><td>A real bag of good coffee for 1 kr, and a joke to answer.</td></tr>
+<tr><th>I</th><td>48 hours, then Anna keeps it.</td></tr>
+<tr><th>F</th><td>Creating an account before seeing what they get. <b>Fix:</b> claim with an email address only; the account comes later.</td></tr>
+<tr><th>A</th><td>"Is this a subscription trap?" <b>Fix:</b> the trust artifact is Anna's name plus the line "no subscription, cancel nothing, it is one bag".</td></tr>
+</table>
+
+<h3>Step 9: the share card</h3>
+<p><b>ME:</b> "I never run out of coffee. Anna made sure. Your turn." A card that says something about the sender. A VS version, "light or dark? pick one and it is on its way", is the cheapest to build.</p>
+
+<h3>Step 10: back in the sheet</h3>
+<p>The mechanic sets invites per inviter to 1 per delivery (monthly), but raises the share who invite and the invite conversion, because the invitation is personal and free. A reasonable new set: 0.4 × 0.6 × 1 × 0.5 = <b>K 0.12 per month</b>, compounding every month for as long as the customer stays. Cycle time is one delivery.</p>
+
+<h2>Part 3: the A/B test in Tag Manager</h2>
+
+<h3>Tag: HTML - experiment hero_copy</h3>
+<table>
+<tr><th>Tag type</th><td>Custom HTML</td></tr>
+<tr><th>HTML</th><td>See <a href="experiment-tag.html">experiment-tag.html</a></td></tr>
+<tr><th>Triggering</th><td>DOM Ready - All Pages (trigger type: DOM Ready, all DOM Ready events)</td></tr>
+</table>
+<p>Check: <code>?ab=B</code> in the address shows "Get your first bag for 1 kr", <code>?ab=A</code> shows "Start your subscription". Without a parameter the cookie <code>ab_hero</code> decides.</p>
+
+<h3>Variables</h3>
+<table>
+<tr><th>dlv - experiment.name</th><td>Data Layer Variable, name <code>experiment.name</code></td></tr>
+<tr><th>dlv - experiment.variant</th><td>Data Layer Variable, name <code>experiment.variant</code></td></tr>
+</table>
+
+<h3>Trigger: CE - experiment_assigned</h3>
+<table>
+<tr><th>Trigger type</th><td>Custom Event</td></tr>
+<tr><th>Event name</th><td>experiment_assigned</td></tr>
+<tr><th>This trigger fires on</th><td>All Custom Events</td></tr>
+</table>
+
+<h3>Tag: GA4 - experiment_assigned</h3>
+<table>
+<tr><th>Tag type</th><td>Google Analytics: GA4 Event</td></tr>
+<tr><th>Measurement ID</th><td class="mono">G-XXXXXXXXXX</td></tr>
+<tr><th>Event Name</th><td class="mono">experiment_assigned</td></tr>
+<tr><th>Event Parameters</th><td class="mono">experiment_name = <span class="var">{{dlv - experiment.name}}</span><br>variant = <span class="var">{{dlv - experiment.variant}}</span></td></tr>
+<tr><th>Triggering</th><td>CE - experiment_assigned</td></tr>
+</table>
+
+<h3>Tags changed: GA4 - start_subscription, GA4 - generate_lead</h3>
+<p>One new row under Event Parameters in each: <code>variant</code> = <span class="var">{{dlv - experiment.variant}}</span>. Everything else unchanged.</p>
+
+<h3>Step 16: Google Analytics</h3>
+<p>Admin → Custom definitions → Create custom dimension: name <code>variant</code>, scope Event, event parameter <code>variant</code>. Explore → Free form: rows <code>Event name</code> and <code>variant</code>, value Event count, filter event name matches regex <code>experiment_assigned|start_subscription|generate_lead</code>.</p>
+
+<h2>Part 4: the test result</h2>
+
+<h3>Step 17: one week</h3>
+<table class="plain">
+<tr><th>Cell</th><th>Formula</th><th>Value</th></tr>
+<tr><td>D2, D3</td><td class="mono">=C2/B2, =C3/B3</td><td class="mono">0.050, 0.065</td></tr>
+<tr><td>B5 pooled rate</td><td class="mono">=(C2+C3)/(B2+B3)</td><td class="mono">0.0575</td></tr>
+<tr><td>B6 standard error</td><td class="mono">=SQRT(B5*(1-B5)*(1/B2+1/B3))</td><td class="mono">0.0104</td></tr>
+<tr><td>B7 z</td><td class="mono">=(D3-D2)/B6</td><td class="mono">1.44</td></tr>
+<tr><td>B8 p-value</td><td class="mono">=2*(1-NORMSDIST(ABS(B7)))</td><td class="mono">0.15</td></tr>
+</table>
+<p>Verdict after one week: keep running. A 30 % relative uplift with p 0.15 would be a false positive about one time in seven.</p>
+
+<h3>Step 18: four weeks</h3>
+<table class="plain">
+<tr><th>Visitors per variant</th><th>Signups A / B</th><th>z</th><th>p</th><th>Verdict</th></tr>
+<tr><td class="mono">1 000</td><td class="mono">50 / 65</td><td class="mono">1.44</td><td class="mono">0.15</td><td>Keep running</td></tr>
+<tr><td class="mono">2 000</td><td class="mono">100 / 130</td><td class="mono">2.04</td><td class="mono">0.04</td><td>Barely below 0.05</td></tr>
+<tr><td class="mono">3 000</td><td class="mono">150 / 195</td><td class="mono">2.50</td><td class="mono">0.013</td><td>Ship B</td></tr>
+<tr><td class="mono">4 000</td><td class="mono">200 / 260</td><td class="mono">2.88</td><td class="mono">0.004</td><td>Ship B</td></tr>
+</table>
+<p>Sample size to detect 5.0 % → 6.5 % at 5 % significance and 80 % power: about <b>3 800 visitors per variant</b>, 7 600 in total. The <a href="../ab-calculator.html">A/B calculator</a> says 3 780.</p>
+
+<h3>Step 19: the decision, filled in</h3>
+<pre>Hypothesis: If we change the hero button to "Get your first bag for 1 kr" for all home page visitors, the signup rate goes up because the incentive is concrete and the price anxiety drops.
+Result: A 5.0 % vs B 6.5 %, n = 4 000 per variant, p = 0.004.
+Decision: ship B, because p is below 0.05 and a 30 % relative uplift is worth a one-line copy change.
+Next test: the signup form itself, where 6.5 % becomes the new baseline.</pre>
+<p>In the Growth loop sheet, invite conversion goes from 0.25 to 0.325 (×1.3). K goes from 0.15 to <b>0.195</b>. Same uplift on the rate, same uplift on the loop.</p>
+
+</main>
+</body>
+</html>

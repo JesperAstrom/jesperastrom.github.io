@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth loop calculator – Growth Toolbox</title>
+<meta name="description" content="Move the four rates of an invite loop, see K and the total users over ten cycles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--accent-wash:rgba(46,107,255,.16);--ok:#178A5E;--ok-wash:#E1F3EB;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.2rem;letter-spacing:-.02em;margin:0 0 .2em}
+.lede{color:var(--ink-2);font-size:1.1rem;max-width:60ch;margin:0 0 1.6em}
+a{color:var(--accent)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.panel{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:20px 22px}
+label{display:block;margin:0 0 14px}
+label span{display:flex;justify-content:space-between;font-size:.95rem;color:var(--ink-2)}
+label span b{font-family:var(--mono);color:var(--ink);font-weight:400}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.k{margin-top:10px;padding:14px 18px;background:var(--ok-wash);border-left:6px solid var(--ok);border-radius:8px;font-size:1.05rem}
+.k b{font-family:var(--mono);font-size:1.5rem;color:var(--ok)}
+.k .muted{display:block;color:var(--ink-2);font-size:.92rem}
+h2{font-size:1.1rem;margin:0 0 10px}
+.chart{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;align-items:end;height:220px;border-bottom:1px solid var(--rule);padding:0 2px}
+.bar{background:var(--accent);border-radius:4px 4px 0 0;min-height:2px;position:relative}
+.bar:hover{background:#1F4FCC}
+.bar[title]::after{content:attr(data-v);position:absolute;top:-22px;left:50%;transform:translateX(-50%);font:400 .72rem var(--mono);color:var(--ink-2);white-space:nowrap;display:none}
+.bar:hover::after,.bar.last::after{display:block}
+.xaxis{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;font:400 .72rem var(--mono);color:var(--ink-3);text-align:center;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;margin-top:16px}
+th,td{text-align:right;padding:6px 10px;border-bottom:1px solid var(--rule);font-family:var(--mono);font-weight:400}
+th{color:var(--ink-2);font-family:var(--sans);font-weight:600}
+th:first-child,td:first-child{text-align:left}
+.muted{color:var(--ink-3)}
+p.note{font-size:.92rem;color:var(--ink-2);margin:16px 0 0}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+<p class="muted"><a href="index.html">← Back to the slides</a></p>
+<h1>Growth loop calculator</h1>
+<p class="lede">The same model as the sheet in Part 1. Four rates make K. Ten cycles show what K does to a seed of users, with or without a steady paid input.</p>
+<div class="grid">
+  <div class="panel">
+    <label><span>Seed users <b id="v-seed"></b></span><input type="range" id="seed" min="100" max="5000" step="100" value="1000"></label>
+    <label><span>Activation rate <b id="v-act"></b></span><input type="range" id="act" min="0" max="1" step="0.05" value="0.4"></label>
+    <label><span>Share of activated who invite <b id="v-share"></b></span><input type="range" id="share" min="0" max="1" step="0.05" value="0.5"></label>
+    <label><span>Invites per inviter <b id="v-inv"></b></span><input type="range" id="inv" min="0" max="10" step="0.5" value="3"></label>
+    <label><span>Invite conversion <b id="v-conv"></b></span><input type="range" id="conv" min="0" max="1" step="0.05" value="0.25"></label>
+    <label><span>Paid users per cycle <b id="v-paid"></b></span><input type="range" id="paid" min="0" max="1000" step="50" value="0"></label>
+    <div class="k">K = <b id="k"></b> <span id="ktext" class="muted"></span></div>
+  </div>
+  <div class="panel">
+    <h2>Total users per cycle</h2>
+    <div class="chart" id="chart" aria-hidden="true"></div>
+    <div class="xaxis" id="xaxis"></div>
+    <table id="table"><thead><tr><th>Cycle</th><th>New users</th><th>Total</th></tr></thead><tbody></tbody></table>
+    <p class="note" id="limit"></p>
+  </div>
+</div>
+<p class="note">Cycle time is not in the model. A loop with K 0.5 that turns in three days beats one with K 0.8 that turns in three months. Estimate it separately: how long from a user arriving to their invited friend arriving?</p>
+</main>
+<script>
+(function(){
+  var ids=['seed','act','share','inv','conv','paid'];
+  var el={}; ids.forEach(function(i){ el[i]=document.getElementById(i); });
+  function fmt(n){ return Math.round(n).toLocaleString('en-US').replace(/,/g,' '); }
+  function pct(x){ return Math.round(x*100)+' %'; }
+  function render(){
+    var seed=+el.seed.value, a=+el.act.value, s=+el.share.value, i=+el.inv.value, c=+el.conv.value, paid=+el.paid.value;
+    document.getElementById('v-seed').textContent=fmt(seed);
+    document.getElementById('v-act').textContent=pct(a);
+    document.getElementById('v-share').textContent=pct(s);
+    document.getElementById('v-inv').textContent=i;
+    document.getElementById('v-conv').textContent=pct(c);
+    document.getElementById('v-paid').textContent=fmt(paid);
+    var K=a*s*i*c;
+    document.getElementById('k').textContent=K.toFixed(2);
+    var kt = K>=1 ? 'Above 1: grows on its own. Rare, and never for long.' : 'Below 1: every user brought in is worth '+(1/(1-K)).toFixed(1)+' users in the end.';
+    document.getElementById('ktext').textContent=kt;
+    var rows=[], nu=seed, tot=0;
+    for(var cy=0;cy<=10;cy++){ tot+=nu; rows.push([cy,nu,tot]); nu=nu*K+paid; }
+    var max=rows[10][2];
+    var chart=document.getElementById('chart'), xa=document.getElementById('xaxis'), tb=document.querySelector('#table tbody');
+    chart.innerHTML=''; xa.innerHTML=''; tb.innerHTML='';
+    rows.forEach(function(r,idx){
+      var b=document.createElement('div'); b.className='bar'+(idx===10?' last':''); b.style.height=Math.max(2,r[2]/max*200)+'px';
+      b.title='Cycle '+r[0]+': '+fmt(r[2])+' users'; b.setAttribute('data-v',fmt(r[2])); chart.appendChild(b);
+      var x=document.createElement('div'); x.textContent=r[0]; xa.appendChild(x);
+      var tr=document.createElement('tr'); tr.innerHTML='<td>'+r[0]+'</td><td>'+fmt(r[1])+'</td><td>'+fmt(r[2])+'</td>'; tb.appendChild(tr);
+    });
+    document.getElementById('limit').textContent = K<1 && paid===0 ? 'Limit: seed ÷ (1 − K) = '+fmt(seed/(1-K))+' users. The loop stops adding after that.' : (K<1 ? 'With a steady input the loop never stops: each cycle settles towards '+fmt(paid/(1-K))+' new users.' : 'No limit. Each cycle is '+K.toFixed(2)+' times the previous one.');
+  }
+  ids.forEach(function(i){ el[i].addEventListener('input',render); });
+  render();
+})();
+</script>
+</body>
+</html>

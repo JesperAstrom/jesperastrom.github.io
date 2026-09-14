@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A/B test calculator – Growth Toolbox</title>
+<meta name="description" content="Two-proportion z-test for an A/B test, and the sample size needed to detect an uplift.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--ok:#178A5E;--ok-wash:#E1F3EB;--warn:#B45309;--warn-wash:#FCEFDD;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.2rem;letter-spacing:-.02em;margin:0 0 .2em}
+h2{font-size:1.15rem;margin:0 0 12px}
+.lede{color:var(--ink-2);font-size:1.1rem;max-width:60ch;margin:0 0 1.6em}
+a{color:var(--accent)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.panel{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:20px 22px;margin-bottom:28px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:center;margin-bottom:10px;font-size:.95rem}
+.row b{font-family:var(--mono);font-weight:400}
+input[type=number]{width:100%;font:400 1rem var(--mono);padding:8px 10px;border:1px solid var(--rule);border-radius:6px}
+.out{margin-top:14px;font-size:.98rem}
+.out div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--rule)}
+.out div b{font-family:var(--mono);font-weight:400}
+.verdict{margin-top:14px;padding:12px 16px;border-radius:8px;border-left:6px solid var(--ok);background:var(--ok-wash);font-size:1rem}
+.verdict.no{border-color:var(--warn);background:var(--warn-wash)}
+.muted{color:var(--ink-3)}
+p.note{font-size:.92rem;color:var(--ink-2);margin:14px 0 0}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+<p class="muted"><a href="index.html">← Back to the slides</a></p>
+<h1>A/B test calculator</h1>
+<p class="lede">Left: is the difference you see real? Right: how many visitors do you need before you start? Same maths as the sheet in Part 4.</p>
+<div class="grid">
+  <div class="panel">
+    <h2>Read a result</h2>
+    <div class="row"><span></span><span>Assigned</span><span>Converted</span></div>
+    <div class="row"><b>A</b><input type="number" id="an" value="1000" min="1"><input type="number" id="ac" value="50" min="0"></div>
+    <div class="row"><b>B</b><input type="number" id="bn" value="1000" min="1"><input type="number" id="bc" value="65" min="0"></div>
+    <div class="out">
+      <div><span>Rate A</span><b id="ra"></b></div>
+      <div><span>Rate B</span><b id="rb"></b></div>
+      <div><span>Relative uplift</span><b id="up"></b></div>
+      <div><span>z</span><b id="z"></b></div>
+      <div><span>p-value (two-sided)</span><b id="p"></b></div>
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <p class="note">p is the chance of a gap at least this big if A and B were really the same. The usual bar is 0.05.</p>
+  </div>
+  <div class="panel">
+    <h2>Plan a test</h2>
+    <div class="row"><span>Baseline rate</span><input type="number" id="p1" value="5" step="0.1" min="0.1" max="99"><span>%</span></div>
+    <div class="row"><span>Rate you want to detect</span><input type="number" id="p2" value="6.5" step="0.1" min="0.1" max="99"><span>%</span></div>
+    <div class="out">
+      <div><span>Relative uplift</span><b id="pu"></b></div>
+      <div><span>Visitors per variant</span><b id="n"></b></div>
+      <div><span>Visitors in total</span><b id="n2"></b></div>
+    </div>
+    <p class="note">Significance 5 %, power 80 %, two-sided. Divide by your daily visitors to get days, then round up to whole weeks.</p>
+  </div>
+</div>
+</main>
+<script>
+(function(){
+  function cdf(z){ // standard normal CDF, Abramowitz-Stegun
+    var t=1/(1+0.2316419*Math.abs(z)); var d=0.3989423*Math.exp(-z*z/2);
+    var p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+    return z>0?1-p:p;
+  }
+  function fmt(n){ return Math.round(n).toLocaleString('en-US').replace(/,/g,' '); }
+  function g(id){ return +document.getElementById(id).value; }
+  function s(id,v){ document.getElementById(id).textContent=v; }
+  function read(){
+    var an=g('an'),ac=g('ac'),bn=g('bn'),bc=g('bc');
+    if(!(an>0&&bn>0)) return;
+    var pa=ac/an,pb=bc/bn,pp=(ac+bc)/(an+bn);
+    var se=Math.sqrt(pp*(1-pp)*(1/an+1/bn)); var z=se?(pb-pa)/se:0; var p=2*(1-cdf(Math.abs(z)));
+    s('ra',(pa*100).toFixed(2)+' %'); s('rb',(pb*100).toFixed(2)+' %');
+    s('up',pa?((pb-pa)/pa*100).toFixed(1)+' %':'–'); s('z',z.toFixed(2)); s('p',p<0.0001?'< 0.0001':p.toFixed(4));
+    var v=document.getElementById('verdict');
+    if(p<0.05){ v.className='verdict'; v.textContent=(pb>pa?'B':'A')+' is better, p below 0.05. Ship it if the uplift is worth the change.'; }
+    else { v.className='verdict no'; v.textContent='Not enough evidence yet. Keep running to the planned sample size, do not peek and stop.'; }
+  }
+  function plan(){
+    var p1=g('p1')/100,p2=g('p2')/100; if(!(p1>0&&p2>0&&p1<1&&p2<1&&p1!==p2)) return;
+    var za=1.96,zb=0.8416,pbar=(p1+p2)/2;
+    var n=Math.pow(za*Math.sqrt(2*pbar*(1-pbar))+zb*Math.sqrt(p1*(1-p1)+p2*(1-p2)),2)/Math.pow(p2-p1,2);
+    s('pu',((p2-p1)/p1*100).toFixed(1)+' %'); s('n',fmt(Math.ceil(n))); s('n2',fmt(Math.ceil(n)*2));
+  }
+  ['an','ac','bn','bc'].forEach(function(i){ document.getElementById(i).addEventListener('input',read); });
+  ['p1','p2'].forEach(function(i){ document.getElementById(i).addEventListener('input',plan); });
+  read(); plan();
+})();
+</script>
+</body>
+</html>

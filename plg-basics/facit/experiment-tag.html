@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experiment tag – Custom HTML for Tag Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA;color:#0B1F3A;font-family:"Space Grotesk",Helvetica,Arial,sans-serif;line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:1.8rem;margin:0 0 .3em}
+p{color:#4A5B71;max-width:60ch}
+pre{background:#0E1726;color:#E8EEF8;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.92rem;line-height:1.5;padding:18px 22px;border-radius:10px;overflow:auto;white-space:pre}
+button{font:600 .95rem "Space Grotesk",sans-serif;color:#2E6BFF;background:#fff;border:2px solid #2E6BFF;border-radius:8px;padding:8px 16px;cursor:pointer;margin:0 0 12px}
+a{color:#2E6BFF}
+</style>
+</head>
+<body>
+<main>
+<p><a href="index.html">← Back to the answer sheet</a></p>
+<h1>Experiment tag: HTML - experiment hero_copy</h1>
+<p>Tag type <b>Custom HTML</b>, trigger <b>DOM Ready - All Pages</b>. Copy the whole block, including the script tags.</p>
+<button id="copy">Copy</button>
+<pre id="code">&lt;script&gt;
+(function () {
+  var forced = (location.search.match(/[?&amp;]ab=([AB])/) || [])[1];
+  var saved = (document.cookie.match(/(?:^|; )ab_hero=([AB])/) || [])[1];
+  var variant = forced || saved || (Math.random() &lt; 0.5 ? 'A' : 'B');
+  document.cookie = 'ab_hero=' + variant + '; path=/; max-age=2592000';
+  if (variant === 'B') {
+    var btn = document.querySelector('a[data-cta="hero"]');
+    if (btn) { btn.textContent = 'Get your first bag for 1 kr'; }
+  }
+  window.dataLayer.push({
+    event: 'experiment_assigned',
+    experiment: { name: 'hero_copy', variant: variant }
+  });
+})();
+&lt;/script&gt;</pre>
+<p>What it does, line by line: read a forced variant from <code>?ab=A</code> or <code>?ab=B</code> in the address; otherwise read the cookie; otherwise flip a coin. Remember the choice in a cookie for 30 days. If B, change the hero button text. Tell the dataLayer which variant this visitor is in, so every later event on the page can carry it.</p>
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var t=document.getElementById('code').textContent; var b=this;
+  navigator.clipboard.writeText(t).then(function(){ b.textContent='Copied'; setTimeout(function(){ b.textContent='Copy'; },1500); });
+});
+</script>
+</main>
+</body>
+</html>

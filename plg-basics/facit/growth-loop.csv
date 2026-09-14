@@ -1,0 +1,19 @@
+Seed users,1000
+Activation rate,0.4
+Share of activated who invite,0.5
+Invites per inviter,3
+Invite conversion,0.25
+K,=B2*B3*B4*B5
+Paid users per cycle,0
+Cycle,New users,Total
+0,=B1,=B9
+=A9+1,=B9*$B$6+$B$7,=C9+B10
+=A10+1,=B10*$B$6+$B$7,=C10+B11
+=A11+1,=B11*$B$6+$B$7,=C11+B12
+=A12+1,=B12*$B$6+$B$7,=C12+B13
+=A13+1,=B13*$B$6+$B$7,=C13+B14
+=A14+1,=B14*$B$6+$B$7,=C14+B15
+=A15+1,=B15*$B$6+$B$7,=C15+B16
+=A16+1,=B16*$B$6+$B$7,=C16+B17
+=A17+1,=B17*$B$6+$B$7,=C17+B18
+=A18+1,=B18*$B$6+$B$7,=C18+B19
