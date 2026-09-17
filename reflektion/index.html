@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vad tog vi med oss? – Growth Toolbox</title>
+<meta name="description" content="Självreflektion i grupp, world café-stil. Vi samlar allt vi minns från kursen, sorterar det under läromålen och jämför med vad vi själva lärt oss.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Vad tog vi med oss? – workshop-deck
+   Concept: "the sticky note". Everything in this workshop is a keyword on a
+   note that moves between people. The one bold element is the yellow note,
+   slightly tilted. Everything else is quiet paper, same as the other decks.
+   ========================================================================== */
+:root {
+  --ground: #E9EDF2;
+  --stage:  #F7F8FA;
+  --panel:  #0E1726;
+  --panel-ink: #E8EEF8;
+  --ink:    #0B1F3A;
+  --ink-2:  #4A5B71;
+  --ink-3:  #7C8A9E;
+  --rule:   #CBD4DF;
+  --accent: #2E6BFF;
+  --accent-wash: rgba(46,107,255,.16);
+  --ok:     #178A5E;
+  --ok-wash:#E1F3EB;
+  --warn:   #B45309;
+  --warn-wash:#FCEFDD;
+  --note:   #FFE45C;
+  --note-2: #FFD23F;
+  --sans: "Space Grotesk", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;background:var(--stage);box-shadow:0 30px 80px rgba(11,31,58,.18);overflow:hidden}
+.slide{position:absolute;inset:0;padding:96px 120px 120px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide:focus{outline:none}
+
+h1{font-size:76px;line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 28px;max-width:22ch}
+h2{font-size:66px;line-height:1.06;letter-spacing:-.025em;font-weight:700;margin:0 0 32px;max-width:none}
+.byline{font-size:34px;line-height:1.3;color:var(--ink-2);margin:-10px 0 40px;max-width:44ch}
+p,li{font-size:32px;line-height:1.4;margin:0}
+p+p{margin-top:18px}
+.lede{font-size:38px;color:var(--ink-2);max-width:32ch}
+.small{font-size:24px;color:var(--ink-2)}
+.muted{color:var(--ink-3)}
+ul,ol{margin:0;padding-left:1.1em}
+li+li{margin-top:16px}
+li::marker{color:var(--accent);font-weight:600}
+code{font-family:var(--mono);font-size:.86em;background:#FFFFFF;border:1px solid var(--rule);padding:.05em .35em;border-radius:6px;white-space:nowrap}
+a{color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent-wash)}
+b{font-weight:600}
+
+.step{font-family:var(--mono);font-size:24px;color:var(--ink-3);margin:0 0 22px;display:flex;align-items:center;gap:18px}
+.step .part{color:var(--accent);font-weight:700}
+.step .part.solo::after{display:none}
+.step .part::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rule);margin:0 0 4px 18px;vertical-align:middle}
+.body{flex:1;display:grid;grid-template-columns:1fr;gap:40px;align-content:start;margin-bottom:24px}
+.body.two{grid-template-columns:1fr 1fr}
+.body.split{grid-template-columns:1.1fr .9fr}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.cols5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.cols5.compact .card{padding:18px 20px}
+.cols5.compact .card h3{font-size:22px;margin-bottom:6px;line-height:1.15}
+.slide .cols5.compact .card p{font-size:18px;line-height:1.3}
+.cols5.compact .card .k{margin-bottom:4px;font-size:17px;display:block;font-family:var(--mono);color:var(--accent)}
+.cols4.compact{gap:20px}
+.cols4.compact .card{padding:20px 24px}
+.cols4.compact .card h3{font-size:26px;margin-bottom:6px}
+.slide .cols4.compact .card p{font-size:21px;line-height:1.3}
+.cols4.compact .card .k{margin-bottom:4px;font-size:18px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.card h3{font-size:30px;margin:0 0 12px}
+.card p,.card li{font-size:26px;line-height:1.38}
+.card .k{font-family:var(--mono);font-size:20px;color:var(--accent);display:block;margin-bottom:10px}
+.outcome{margin-top:auto;background:var(--ok-wash);border-left:8px solid var(--ok);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.outcome b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:8px solid var(--warn);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.warn b{color:var(--warn)}
+.slide:has(.byline) .body li,.slide:has(.byline) .body>div>p:not(.small):not(.lede){font-size:28px;line-height:1.38}
+.slide:has(.byline) .body li+li{margin-top:12px}
+.slide:has(.byline) .card li,.slide:has(.byline) .card p{font-size:25px}
+
+/* The sticky note (the one bold element) -------------------------------- */
+.sticky{display:inline-block;background:var(--note);color:var(--ink);font-weight:600;font-size:28px;line-height:1.2;padding:22px 26px;min-width:190px;box-shadow:0 8px 18px rgba(11,31,58,.18);transform:rotate(-2deg);border-radius:2px}
+.sticky.b{transform:rotate(1.5deg);background:var(--note-2)}
+.sticky.c{transform:rotate(-.5deg)}
+.sticky.sm{font-size:22px;padding:14px 18px;min-width:0}
+.notes-cloud{display:flex;flex-wrap:wrap;gap:26px 22px;align-content:flex-start}
+
+/* Big number for the rounds --------------------------------------------- */
+.bignum{font-size:360px;line-height:.9;font-weight:700;letter-spacing:-.06em;color:var(--accent);margin:0 0 20px}
+
+/* Team diagram ---------------------------------------------------------- */
+.team{display:flex;gap:14px;align-items:center}
+.pers{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:600 26px var(--sans);color:#fff;background:var(--ink-2)}
+.pers.a{background:var(--accent)}
+.pers.b{background:var(--ok)}
+.pers.c{background:var(--warn)}
+.pers.ghost{background:transparent;border:3px dashed var(--rule);color:var(--ink-3)}
+.arrow{font-size:34px;color:var(--ink-3)}
+
+/* Outcomes list on cluster slides --------------------------------------- */
+.goals{list-style:none;padding:0;margin:0}
+.goals li{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start;padding:20px 0;border-bottom:1px solid var(--rule);font-size:28px;line-height:1.35}
+.goals li:first-child{border-top:1px solid var(--rule)}
+.goals .type{font-family:var(--mono);font-size:20px;color:var(--ink-3);padding-top:6px}
+.goals .type.kunskap{color:var(--accent)}
+.goals .type.fardighet{color:var(--ok)}
+.goals .type.kompetens{color:var(--warn)}
+
+/* Title slide ----------------------------------------------------------- */
+.title{justify-content:center;padding-left:140px}
+.title .tag{font-family:var(--mono);font-size:44px;color:var(--ink-3);font-weight:400;display:block;line-height:1.1}
+.title h1{font-size:130px;margin:6px 0 6px;max-width:none;letter-spacing:-.04em}
+.title .meta{margin-top:56px;font-size:28px;color:var(--ink-2)}
+.title .meta span{display:inline-block;margin-right:48px}
+.title .sticky{position:absolute;right:140px;top:150px;font-size:34px;padding:34px 40px;transform:rotate(4deg)}
+
+/* Section divider ------------------------------------------------------- */
+.divider{justify-content:center;background:var(--panel);color:#fff}
+.divider .step{color:#8EC5FF}
+.divider h1{color:#fff;font-size:110px;max-width:none;letter-spacing:-.035em}
+.divider p{color:#B8C4D6;font-size:36px;max-width:34ch}
+
+table{border-collapse:collapse;width:100%;font-size:25px;line-height:1.35}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:22px}
+td.t{font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+table.dense{font-size:22px}
+table.dense td,table.dense th{padding:10px 16px}
+table.xdense{font-size:20px}
+table.xdense td,table.xdense th{padding:7px 14px}
+.tight .byline{margin-bottom:18px}
+
+#progress{position:absolute;left:0;bottom:0;height:8px;background:var(--accent);width:0;transition:width .25s}
+#counter{position:absolute;right:196px;bottom:38px;font:400 20px var(--mono);color:var(--ink-3)}
+#deckname{position:absolute;left:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+#nav{position:absolute;right:48px;bottom:22px;display:flex;gap:10px}
+#nav button{width:56px;height:56px;border-radius:50%;border:2px solid var(--rule);background:#fff;color:var(--ink);font:400 26px var(--sans);cursor:pointer;display:grid;place-items:center;transition:background .12s,border-color .12s}
+#nav button:hover,#nav button:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#nav button:disabled{opacity:.3;cursor:default;border-color:var(--rule);color:var(--ink)}
+#stage.dark #nav button{background:transparent;color:#fff;border-color:#3B4A63}
+#stage.dark #nav button:hover{border-color:#8EC5FF;color:#8EC5FF}
+#help{position:fixed;left:16px;top:16px;font:400 13px var(--mono);color:var(--ink-3);background:rgba(255,255,255,.7);padding:6px 10px;border-radius:6px;opacity:.9}
+#notes{position:fixed;right:0;top:0;bottom:0;width:min(420px,40vw);background:#fff;border-left:1px solid var(--rule);padding:24px;overflow:auto;font-size:16px;line-height:1.5;display:none}
+#notes.on{display:block}
+#notes h4{margin:0 0 12px;font-size:13px;color:var(--ink-3);font-weight:600}
+.notes{display:none}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;box-shadow:none;page-break-after:always;margin:0 auto}
+  .slide{position:relative;display:flex!important;height:900px;page-break-after:always}
+  #help,#notes,#progress,#counter,#deckname,#nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){#progress{transition:none}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="help">← → byter slide · N visar anteckningar · F helskärm</div>
+<aside id="notes"><h4>Anteckningar till läraren</h4><div id="notes-body"></div></aside>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- ====================================================================== -->
+<!-- INTRO                                                                  -->
+<!-- ====================================================================== -->
+
+<section class="slide title">
+  <span class="tag">sista passet</span>
+  <h1>Vad tog vi<br>med oss?</h1>
+  <span class="tag">självreflektion i grupp</span>
+  <p class="meta"><span>Growth Toolbox</span><span>World café</span><span>Jesper Åström</span></p>
+  <div class="sticky">ett ord<br>per lapp</div>
+  <div class="notes">Öppna Miro-boarden på andra skärmen innan du börjar. Den som är på distans jobbar bara i Miro; en i varje team har Miro öppet så att distansstudenten hamnar i ett team.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Varför</span></p>
+  <h2>Titta inåt, sedan utåt</h2>
+  <p class="byline">Syftet är att se vad du faktiskt lärt dig, och vad andra lärde sig som du kan lära dig av dem</p>
+  <div class="body two">
+    <div class="card">
+      <h3>Inåt</h3>
+      <p>Vad minns jag? Vilka ord, verktyg och idéer sitter kvar? Vad kan jag göra nu som jag inte kunde för några veckor sedan?</p>
+    </div>
+    <div class="card">
+      <h3>Utåt</h3>
+      <p>Vad minns de andra? Vad har de fastnat för som gick mig förbi? Vem i klassen kan jag fråga under resten av skoltiden?</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Målet med förmiddagen:</b> gå härifrån stolt över det du kan, och med en kort lista på vad du vill förstärka och vem du kan lära dig det av.</div>
+  <div class="notes">Säg det rakt: det är ingen examination. Ingen bedöms på vad som hamnar på lapparna. Tomma ytor är lika intressanta som fulla.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part solo">Upplägg</span></p>
+  <h2>Så här ser förmiddagen ut</h2>
+  <p class="byline">Sex steg. Vi håller tiderna hårt så att alla hinner varje steg.</p>
+  <div class="body">
+    <table class="dense xdense">
+      <tr><th style="width:150px">Tid</th><th style="width:360px">Steg</th><th>Vad vi gör</th></tr>
+      <tr><td class="t">09:00</td><td><b>Intro</b></td><td>Syfte, halvor, team och regler. 5 minuter.</td></tr>
+      <tr><td class="t">09:05</td><td><b>1. Minnesrundan</b></td><td>Hela klassen. Jag visar varje pass, ni skriver lappar med allt ni minns. 20 minuter.</td></tr>
+      <tr><td class="t">09:25</td><td><b>2. Sortera</b></td><td>8 team om 3. Teamet får ett kluster av läromål och sorterar in lapparna. 12 minuter.</td></tr>
+      <tr><td class="t">09:37</td><td><b>3. Rotera</b></td><td>Tre rundor inom din halva. En person flyttar per runda. 3 × 7 minuter.</td></tr>
+      <tr><td class="t">09:58</td><td><b>4. Summera</b></td><td>Teamet är samlat vid ett nytt kluster och skriver en text. 8 minuter.</td></tr>
+      <tr><td class="t">10:06</td><td><b>5. Slå ihop</b></td><td>4 grupper om 6. Två team med samma kluster slår ihop sina texter med "Ja, och". 10 minuter.</td></tr>
+      <tr><td class="t">10:16</td><td><b>6. Titta inåt</b></td><td>Var och en jämför sitt eget lärande med gruppens. 9 minuter.</td></tr>
+      <tr><td class="t">10:25</td><td><b>Paus</b></td><td>Sedan andra halvan av passet.</td></tr>
+    </table>
+  </div>
+  <div class="notes">Tiderna är satta för 90 minuter och 24 studenter. Behöver ni mer tid är rotationen den som tål att växa, inte minnesrundan.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Regler</span></p>
+  <h2>Två halvor, åtta team, ett rum och Miro</h2>
+  <p class="byline" style="max-width:none">Allt som skrivs skrivs på lappar. Ett ord eller ett tema per lapp.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>Två halvor, Röd och Blå,</b> med fyra team om tre i varje. Numrera er 1, 2 och 3 i teamet direkt.</li>
+        <li><b>Rummet och Miro samtidigt.</b> Den på distans jobbar i Miro. En i det teamet har Miro öppet och skriver in det som sägs.</li>
+        <li><b>Inga fel svar.</b> Minns du ordet men inte betydelsen, skriv ordet ändå.</li>
+        <li><b>Mängd före kvalitet</b> i steg 1. Vi sorterar i steg 2.</li>
+      </ul>
+    </div>
+    <div class="notes-cloud">
+      <span class="sticky">dataLayer</span>
+      <span class="sticky b">growth loop</span>
+      <span class="sticky c">GET-anrop</span>
+      <span class="sticky b">cheerio</span>
+      <span class="sticky">A/B-test</span>
+      <span class="sticky c">Bearer token</span>
+      <span class="sticky b">K-faktor</span>
+    </div>
+  </div>
+  <div class="warn"><b>Miro-boarden:</b> länken ligger i klassens chatt. Öppna den nu så att den hinner ladda.</div>
+  <div class="notes">Lapparna på sliden är bara exempel på hur korta de ska vara. Klistra in Miro-länken i chatten innan passet börjar, och lägg gärna in den i den här sliden också. Dela in halvorna innan du visar sliden: Röd och Blå, 12 i varje, sedan fyra team om tre i varje halva. Distansstudenten hamnar i ett team som har Miro öppet.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- STEG 1 · MINNESRUNDAN                                                  -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step"><span class="part solo">Steg 1</span></p>
+  <h1>Minnesrundan</h1>
+  <p>Jag bläddrar igenom varje föreläsning. Ni skriver allt ni minns.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Minnesrundan</p>
+  <h2>Så här gör ni</h2>
+  <p class="byline">Två minuter per pass, tio pass. Skriv medan jag bläddrar, prata inte förrän efteråt.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>Titta</b> på sliderna jag visar. Låt bilderna trigga minnet.</li>
+        <li><b>Skriv en lapp per sak</b> du minns: ett verktyg, ett begrepp, en övning, en känsla.</li>
+        <li><b>Sätt lappen</b> i kolumnen för det passet, på väggen eller i Miro.</li>
+        <li><b>Fortsätt tills tiden är slut.</b> Fem lappar är bra. Femton är bättre.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Frågor som hjälper minnet</h3>
+      <ul>
+        <li>Vilka verktyg öppnade vi?</li>
+        <li>Vilka ord skrev jag ned?</li>
+        <li>Vad gjorde vi praktiskt, med händerna?</li>
+        <li>Vad var svårt? Vad var en aha-upplevelse?</li>
+        <li>Vad googlade jag efteråt?</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Bläddra i lagom takt, cirka 2 minuter per pass. Läs inte upp sliderna, bildminnet räcker. Miro-board 1 har en kolumn per föreläsning.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part">Steg 1</span>Minnesrundan</p>
+  <h2>Passen vi gått igenom</h2>
+  <p class="byline">Tio pass, en kolumn per pass, på väggen och i Miro. Två pass på samma ämne räknas som ett.</p>
+  <div class="body">
+    <div class="cols5 compact">
+      <div class="card"><span class="k">1</span><h3>Introduktion</h3><p>Growth @ profitable cost, produkt, analytics, content.</p></div>
+      <div class="card"><span class="k">2</span><h3>Sätt upp din egen testmiljö</h3><p>Terminalen, git, GitHub Pages, egen testsajt.</p></div>
+      <div class="card"><span class="k">3</span><h3>GA och GTM</h3><p>Taggar, triggers, variabler, dataLayer, GA4. Två pass.</p></div>
+      <div class="card"><span class="k">4</span><h3>Event tracking, requests och datadriven tillväxt</h3><p>Händelser, requests, mäta för att växa.</p></div>
+      <div class="card"><span class="k">5</span><h3>Virala koncept</h3><p>Hur saker sprids, K-faktor, de fem C:na.</p></div>
+      <div class="card"><span class="k">6</span><h3>AI och innehåll</h3><p>Peter. Innehållsformat och AI som verktyg.</p></div>
+      <div class="card"><span class="k">7</span><h3>Data scraping och visualisering</h3><p>Node, cheerio, hämta–hitta–spara, visualisera.</p></div>
+      <div class="card"><span class="k">8</span><h3>Product-led growth och API:er</h3><p>Loopar, formeln, A/B-test, Kaggle-API:et. Två pass.</p></div>
+      <div class="card"><span class="k">9</span><h3>Innehåll och growth, del 1</h3><p>Peter. Data som bygger en story.</p></div>
+      <div class="card"><span class="k">10</span><h3>Innehåll och growth, del 2</h3><p>Peter. Format som lanserar storyn.</p></div>
+    </div>
+  </div>
+  <div class="notes">Listan följer schemat för HT 2026. GA/GTM var två pass (2 och 4 september) och PLG/API två pass (14 september), de har en kolumn var. Peters tre pass har egna kolumner.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 1 av 10</p>
+  <h2>Introduktion</h2>
+  <p class="byline">Growth @ profitable cost. Produkt, analytics och content.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 1.</p></div>
+  </div>
+  <div class="notes">Öppna Keynote-filen 00-Introduktion och bläddra. Byt tillbaka hit när tiden är slut.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 2 av 10</p>
+  <h2>Sätt upp din egen testmiljö</h2>
+  <p class="byline">Terminalen, git, GitHub Pages och din egen testsajt.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 2.</p></div>
+  </div>
+  <div class="notes">Öppna Keynote-filen 01-Command-Line och bläddra.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 3 av 10</p>
+  <h2>GA och GTM</h2>
+  <p class="byline">Taggar, triggers, variabler, dataLayer, GA4 och Fika-shoppen. Två pass.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 3.</p><p class="small"><a href="/gtm-basics/" target="_blank" rel="noopener">Öppna föreläsningen</a> · <a href="/gtm-full-test/" target="_blank" rel="noopener">sluttestet</a></p></div>
+  </div>
+  <div class="notes">Öppna /gtm-basics/ och bläddra. Visa gärna sluttestsidan också, den brukar väcka minnen.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 4 av 10</p>
+  <h2>Event tracking, requests och datadriven tillväxt</h2>
+  <p class="byline">Händelser i dataLayer, requests i Network-fliken, mäta för att växa.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 4.</p><p class="small"><a href="/datalayer/" target="_blank" rel="noopener">dataLayer-exempel</a> · <a href="/web-analytics-demo/" target="_blank" rel="noopener">övningssidan</a></p></div>
+  </div>
+  <div class="notes">Öppna /datalayer/ och /web-analytics-demo/ och bläddra bland exemplen.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 5 av 10</p>
+  <h2>Virala koncept</h2>
+  <p class="byline">Hur saker sprids, och varför vissa saker inte gör det.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 5.</p></div>
+  </div>
+  <div class="notes">Öppna Keynote-filen 02 - Viralmekanik och bläddra.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 6 av 10</p>
+  <h2>AI och innehåll</h2>
+  <p class="byline">Peter Rosdahl. Innehållsformat, och AI som verktyg för att skapa dem.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 6.</p></div>
+  </div>
+  <div class="notes">Peters första pass, 9 september. Har du hans slides, visa dem. Annars: be klassen beskriva passet högt i en minut innan de skriver.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 7 av 10</p>
+  <h2>Data scraping och visualisering</h2>
+  <p class="byline">Hämta, hitta, spara. Node, cheerio och att visa datan.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 7.</p><p class="small"><a href="/scraping/" target="_blank" rel="noopener">Öppna föreläsningen</a></p></div>
+  </div>
+  <div class="notes">Öppna /scraping/ i en ny flik och bläddra.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 8 av 10</p>
+  <h2>Product-led growth och API:er</h2>
+  <p class="byline">Loopar, konverteringsformeln, A/B-test och Kaggle-API:et. Två pass.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 8.</p><p class="small"><a href="/plg-basics/" target="_blank" rel="noopener">PLG-föreläsningen</a> · <a href="/api-basics/" target="_blank" rel="noopener">API-föreläsningen</a></p></div>
+  </div>
+  <div class="notes">Öppna /plg-basics/ och /api-basics/ och bläddra.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 9 av 10</p>
+  <h2>Innehåll och growth, del 1</h2>
+  <p class="byline">Peter Rosdahl. Använda data för att bygga en story.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 9.</p></div>
+  </div>
+  <div class="notes">Peters andra pass, 15 september. Samma upplägg som pass 6.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 1</span>Pass 10 av 10</p>
+  <h2>Innehåll och growth, del 2</h2>
+  <p class="byline">Peter Rosdahl. Skapa innehållsformat för att lansera din story.</p>
+  <div class="body two">
+    <div class="notes-cloud"><span class="sticky sm">?</span><span class="sticky sm b">?</span><span class="sticky sm c">?</span></div>
+    <div><p class="lede">2 minuter. Skriv allt ni minns i kolumn 10.</p></div>
+  </div>
+  <div class="notes">Peters tredje pass, 16 september. Samma upplägg som pass 6.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- STEG 2 · SORTERA                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step"><span class="part solo">Steg 2</span></p>
+  <h1>Sortera</h1>
+  <p>Varje team får ett kluster av läromål. Flytta lapparna dit de hör hemma.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 2</span>Sortera</p>
+  <h2>Så här gör ni</h2>
+  <p class="byline">12 minuter. Ni jobbar bara med ert eget kluster, i er egen halva.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>Läs läromålen</b> högt, ett i taget. Säg vad varje mål betyder med egna ord.</li>
+        <li><b>Hämta lappar</b> från minnesrundan som passar under ett mål och flytta dem dit. Kopiera om en lapp passar på flera.</li>
+        <li><b>Skriv nya lappar</b> när ni kommer på mer.</li>
+        <li><b>Markera tomma mål</b> med en röd lapp. Det är ett fynd, inte ett misslyckande.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Tre sorters mål</h3>
+      <ul>
+        <li><b>Kunskaper</b>: saker ni vet och kan förklara.</li>
+        <li><b>Färdigheter</b>: saker ni kan göra med händerna.</li>
+        <li><b>Kompetenser</b>: saker ni kan avgöra själva utan hjälp.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Varje halva har en egen Läromål-board i Miro (Röd och Blå) och egna ytor i rummet: åtta bord eller väggar, fyra per halva. Röd halva och Blå halva jobbar med samma kluster parallellt utan att se varandras arbete förrän steg 5.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part">Steg 2</span>Sortera</p>
+  <h2>Fyra kluster, tretton läromål</h2>
+  <p class="byline">Ett kluster per team, i varje halva. Kursens läromål, bara omgrupperade.</p>
+  <div class="body">
+    <div class="cols4 compact">
+      <div class="card"><span class="k">Kluster A</span><h3>Datadrivet arbetssätt</h3><p>Principerna, varför vi mäter och att fatta beslut på data.</p><p class="small">3 mål</p></div>
+      <div class="card"><span class="k">Kluster B</span><h3>Mäta och samla in</h3><p>Verktyg och metoder för spårning, uppföljning och val av datakällor.</p><p class="small">3 mål</p></div>
+      <div class="card"><span class="k">Kluster C</span><h3>Analysera och bearbeta</h3><p>Analysverktyg, kalkylprogram, användarbeteenden och AI-stöd.</p><p class="small">4 mål</p></div>
+      <div class="card"><span class="k">Kluster D</span><h3>Hitta tillväxt och rekommendera</h3><p>Optimering, förbättringar och att presentera resultat.</p><p class="small">3 mål</p></div>
+    </div>
+  </div>
+  <div class="outcome"><b>Röd 1 tar A, Röd 2 tar B, Röd 3 tar C, Röd 4 tar D.</b> Samma sak i Blå halva. Två team per kluster, men på var sin board.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Kluster A</span>Datadrivet arbetssätt</p>
+  <h2>Kluster A</h2>
+  <div class="body">
+    <ul class="goals">
+      <li><span class="type kunskap">Kunskap</span><span>Grundläggande principer för datadrivet arbete inom growth marketing och digital marknadsföring.</span></li>
+      <li><span class="type kunskap">Kunskap</span><span>Betydelsen av mätning, spårning och analys som underlag för digitala marknadsföringsbeslut.</span></li>
+      <li><span class="type kompetens">Kompetens</span><span>Självständigt använda ett datadrivet arbetssätt som stöd för beslut inom digital marknadsföring.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Kluster B</span>Mäta och samla in</p>
+  <h2>Kluster B</h2>
+  <div class="body">
+    <ul class="goals">
+      <li><span class="type kunskap">Kunskap</span><span>Vanligt förekommande metoder, verktyg och arbetssätt för att samla in och visualisera digital data.</span></li>
+      <li><span class="type fardighet">Färdighet</span><span>Tillämpa grundläggande metoder för mätning och uppföljning av digitala aktiviteter.</span></li>
+      <li><span class="type kompetens">Kompetens</span><span>Värdera vilken information och vilka datakällor som är relevanta för att följa upp och utveckla digitala aktiviteter.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Kluster C</span>Analysera och bearbeta</p>
+  <h2>Kluster C</h2>
+  <div class="body">
+    <ul class="goals">
+      <li><span class="type fardighet">Färdighet</span><span>Använda grundläggande analys- och visualiseringsverktyg för att undersöka digitala marknadsföringsinsatser.</span></li>
+      <li><span class="type fardighet">Färdighet</span><span>Strukturera, bearbeta och sammanställa data i kalkylprogram för att identifiera relevanta insikter.</span></li>
+      <li><span class="type fardighet">Färdighet</span><span>Genomföra enklare analyser av digitala användarbeteenden och marknadsföringsresultat.</span></li>
+      <li><span class="type kunskap">Kunskap</span><span>Hur AI-stödda verktyg kan användas för att effektivisera analysarbete och stödja datadrivna beslut.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Kluster D</span>Hitta tillväxt och rekommendera</p>
+  <h2>Kluster D</h2>
+  <div class="body">
+    <ul class="goals">
+      <li><span class="type kunskap">Kunskap</span><span>Hur analys av data kan användas för att identifiera möjligheter till optimering och tillväxt.</span></li>
+      <li><span class="type fardighet">Färdighet</span><span>Presentera analysresultat och formulera rekommendationer baserat på insamlad data.</span></li>
+      <li><span class="type kompetens">Kompetens</span><span>Identifiera behov av analys, optimering och förbättringsåtgärder i growth-relaterade arbetsprocesser.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- STEG 3 · ROTERA                                                        -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step"><span class="part solo">Steg 3</span></p>
+  <h1>Rotera</h1>
+  <p>Tre rundor. En person flyttar i taget. De som är kvar förklarar, den som kommer fyller på.</p>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part">Steg 3</span>Rotera</p>
+  <h2>Så här fungerar rotationen</h2>
+  <p class="byline" style="max-width:none">Inom din halva flyttar alla ett kluster framåt: A till B, B till C, C till D, D till A. Efter tre rundor är teamet samlat igen.</p>
+  <div class="body">
+    <table class="dense">
+      <tr><th style="width:170px">Runda</th><th style="width:300px">Vem flyttar</th><th>Vad de som är kvar gör</th><th>Vad den som kommer gör</th></tr>
+      <tr><td class="t">1 · 7 min</td><td><b>Person 1</b></td><td>Förklarar vad som ligger under varje mål och varför.</td><td>Lyssnar, frågar, lägger till lappar som saknas.</td></tr>
+      <tr><td class="t">2 · 7 min</td><td><b>Person 2</b></td><td>Person 3 från hemteamet och person 1 som kom i runda 1 förklarar tillsammans.</td><td>Samma sak: lyssna, fråga, fyll på.</td></tr>
+      <tr><td class="t">3 · 7 min</td><td><b>Person 3</b></td><td>Person 1 och 2, som nu är på plats, förklarar. Ingen från hemteamet är kvar.</td><td>Fyller på. Nu är hela teamet samlat vid det nya klustret.</td></tr>
+    </table>
+  </div>
+  <div class="warn"><b>Den som förklarar tar aldrig bort lappar.</b> Bara den som kommer får lägga till, och det som redan ligger där får ligga kvar.</div>
+  <div class="notes">Röd roterar bara bland Röds bord, Blå bland Blås. Poängen med att en person flyttar i taget: kunskapen om klustret förs vidare i tre led, och det sista ledet förklaras av folk som själva bara hört det. Det är där man upptäcker vad som egentligen fastnat.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 3</span>Rotera</p>
+  <h2>Så här ser det ut för ett team</h2>
+  <p class="byline">Ett team i Röd halva som börjar vid kluster A och slutar vid kluster B. Blå halva gör samma sak vid sina bord.</p>
+  <div class="body">
+    <table>
+      <tr><th style="width:220px"></th><th>Vid kluster A</th><th>Vid kluster B</th></tr>
+      <tr><td class="t">Start</td><td><div class="team"><span class="pers a">1</span><span class="pers b">2</span><span class="pers c">3</span></div></td><td><div class="team"><span class="pers ghost">·</span><span class="pers ghost">·</span><span class="pers ghost">·</span><span class="small" style="margin-left:14px">ett annat team</span></div></td></tr>
+      <tr><td class="t">Runda 1</td><td><div class="team"><span class="pers b">2</span><span class="pers c">3</span><span class="pers ghost">+1</span></div></td><td><div class="team"><span class="pers a">1</span><span class="pers ghost">·</span><span class="pers ghost">·</span></div></td></tr>
+      <tr><td class="t">Runda 2</td><td><div class="team"><span class="pers c">3</span><span class="pers ghost">+1</span><span class="pers ghost">+1</span></div></td><td><div class="team"><span class="pers a">1</span><span class="pers b">2</span><span class="pers ghost">·</span></div></td></tr>
+      <tr><td class="t">Runda 3</td><td><div class="team"><span class="pers ghost">+1</span><span class="pers ghost">+1</span><span class="pers ghost">+1</span></div></td><td><div class="team"><span class="pers a">1</span><span class="pers b">2</span><span class="pers c">3</span><span class="small" style="margin-left:14px">samlade igen</span></div></td></tr>
+    </table>
+  </div>
+  <div class="notes">De streckade cirklarna är personer från teamet som började vid kluster D och nu vandrar in i A. Rita gärna samma sak på tavlan om det blir frågor.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 3</span>Runda 1 av 3 · 7 minuter</p>
+  <div class="body two">
+    <div><p class="bignum">1</p></div>
+    <div>
+      <p class="lede" style="margin-top:60px"><b>Person 1</b> flyttar ett kluster framåt.</p>
+      <p>A → B, B → C, C → D, D → A, inom din halva.</p>
+      <p class="small" style="margin-top:28px">Person 2 och 3 stannar och förklarar. Person 1 lyssnar, frågar och fyller på.</p>
+    </div>
+  </div>
+  <div class="notes">Sätt en timer på 7 minuter som syns. Säg till vid 2 minuter kvar så att de hinner lägga sina lappar.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 3</span>Runda 2 av 3 · 7 minuter</p>
+  <div class="body two">
+    <div><p class="bignum">2</p></div>
+    <div>
+      <p class="lede" style="margin-top:60px"><b>Person 2</b> flyttar ett kluster framåt.</p>
+      <p>Samma riktning som person 1.</p>
+      <p class="small" style="margin-top:28px">Person 3 och den person 1 som kom förra rundan förklarar tillsammans. Person 2 fyller på.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 3</span>Runda 3 av 3 · 7 minuter</p>
+  <div class="body two">
+    <div><p class="bignum">3</p></div>
+    <div>
+      <p class="lede" style="margin-top:60px"><b>Person 3</b> flyttar ett kluster framåt.</p>
+      <p>Nu är hela teamet samlat igen, vid nästa kluster.</p>
+      <p class="small" style="margin-top:28px">Person 1 och 2 förklarar vad de fått lära sig om klustret. Person 3 fyller på det sista.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- STEG 4 · SUMMERA                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step"><span class="part solo">Steg 4</span></p>
+  <h1>Summera</h1>
+  <p>Teamet är samlat vid ett nytt kluster. Skriv vad klassen kan.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 4</span>Summera</p>
+  <h2>Skriv en text om klustret ni står vid</h2>
+  <p class="byline">8 minuter. Texten bygger på allt som samlats där, inte bara på det ni själva kan.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>Läs igenom</b> alla lappar under varje mål.</li>
+        <li><b>Skriv en text</b> som börjar med <i>"Det här kan vi om …"</i>. Ett stycke per mål, tre till fem meningar.</li>
+        <li><b>Nämn verktyg och begrepp</b> vid namn. Det är dem ni ska googla senare.</li>
+        <li><b>Avsluta med</b> <i>"Det här behöver klassen förstärka: …"</i></li>
+        <li><b>Lägg texten</b> som en stor lapp under klustret på er halvas Läromål-board.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Exempel på ett stycke</h3>
+      <p class="small">Det här kan vi om mätning och spårning: vi kan sätta upp en tagg i Google Tag Manager, koppla den till en trigger och skicka en händelse till GA4. Vi vet vad dataLayer är och kan lägga in ett eget event.</p>
+      <p class="small muted">Det här behöver klassen förstärka: egna variabler i GTM.</p>
+    </div>
+  </div>
+  <div class="notes">En person skriver, två läser lappar och dikterar. Det finns nu två texter per kluster, en från Röd och en från Blå. De slås ihop i steg 5.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- STEG 5 · SLÅ IHOP                                                      -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step"><span class="part solo">Steg 5</span></p>
+  <h1>Slå ihop</h1>
+  <p>Röd och Blå med samma kluster blir en grupp om sex. Två texter ska bli en bättre.</p>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part">Steg 5</span>Slå ihop</p>
+  <h2>Bygg en text av två, med "Ja, och"</h2>
+  <p class="byline" style="max-width:none">10 minuter. Sätt er ihop med teamet i den andra halvan som har samma kluster. Resultat: en text per kluster som hela klassen äger.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>Läs båda texterna högt,</b> en i taget. Ingen kommenterar under läsningen.</li>
+        <li><b>Bygg vidare.</b> Varje förslag börjar med <i>"Ja, och …"</i>. Inte "nej", inte "men". Det som sagts står kvar, du lägger till.</li>
+        <li><b>Behåll det bästa från båda:</b> verktyg, begrepp, exempel. Stryk bara dubbletter.</li>
+        <li><b>En person skriver</b> den nya texten, med en gemensam förstärka-rad, i rutan för klustret på Miro-board 3.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Så låter "Ja, och"</h3>
+      <p><b>Röd:</b> "Vi kan sätta upp en tagg i GTM och koppla den till en trigger."</p>
+      <p><b>Blå:</b> "Ja, och vi kan se att den fungerar i förhandsgranskningen innan vi publicerar."</p>
+      <p><b>Röd:</b> "Ja, och händelsen syns sedan i GA4."</p>
+      <p class="small muted">Ingen mening ströks. Texten blev dubbelt så bra.</p>
+    </div>
+  </div>
+  <div class="notes">Gå runt och lyssna efter "men". Det är det vanligaste sättet att bryta regeln. Grupperna tävlar inte mot varandra utan med varandra: texten som vinner är den som har flest konkreta verktyg och begrepp kvar.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- STEG 6 · TITTA INÅT                                                    -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step"><span class="part solo">Steg 6</span></p>
+  <h1>Titta inåt</h1>
+  <p>Jämför ditt eget lärande med det klassen samlat ihop.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Steg 6</span>Titta inåt</p>
+  <h2>Tre frågor till dig själv</h2>
+  <p class="byline">9 minuter, tyst och ensam. Läs de fyra ihopslagna texterna på Miro-board 3 först.</p>
+  <div class="body">
+    <div class="cols3">
+      <div class="card">
+        <span class="k">1</span>
+        <h3>Vad är jag stolt över?</h3>
+        <p>Vilka saker i texterna kan jag redan? Vilka lappar var mina? Skriv minst tre saker.</p>
+      </div>
+      <div class="card">
+        <span class="k">2</span>
+        <h3>Vad kan andra som jag inte kan?</h3>
+        <p>Vad i texterna hade jag inte kunnat skriva själv? Vem i klassen satte den lappen?</p>
+      </div>
+      <div class="card">
+        <span class="k">3</span>
+        <h3>Vad förstärker jag, och hur?</h3>
+        <p>Välj en eller två saker. Skriv vad du gör nästa vecka och vem du frågar.</p>
+      </div>
+    </div>
+  </div>
+  <div class="outcome"><b>Skriv svaren på tre lappar</b> i din egen ruta på Miro-board 3. De är dina, ingen annan behöver läsa dem.</div>
+  <div class="notes">Det här är hela poängen med passet. Ge dem tystnad. Om du vill: be var och en säga en sak från fråga 1 högt innan pausen, det brukar bli en bra avslutning.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Avslut</span></p>
+  <h2>Var stolt</h2>
+  <p class="byline">Titta på väggen. Allt det där kunde ni inte för några veckor sedan.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>Texterna finns kvar</b> på Miro-boarden. Använd dem som checklista under resten av utbildningen.</li>
+        <li><b>Fråga varandra.</b> Ni vet nu vem som kan vad.</li>
+        <li><b>Paus.</b> Vi ses igen om 15 minuter för andra halvan.</li>
+      </ul>
+    </div>
+    <div class="notes-cloud">
+      <span class="sticky" style="font-size:36px;padding:30px 34px">Det här<br>kan jag.</span>
+    </div>
+  </div>
+</section>
+
+<div id="progress"></div>
+<div id="deckname">vad tog vi med oss · growth toolbox</div>
+<div id="counter"></div>
+<div id="nav"><button id="prev" type="button" aria-label="Föregående slide" title="Föregående (←)">&#8592;</button><button id="next" type="button" aria-label="Nästa slide" title="Nästa (→)">&#8594;</button></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var notes = document.getElementById('notes');
+  var notesBody = document.getElementById('notes-body');
+  var i = 0;
+
+  function fit(){
+    var w = window.innerWidth - (notes.classList.contains('on') ? notes.offsetWidth : 0);
+    var s = Math.min(w / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + s + ')';
+    document.getElementById('viewport').style.right = notes.classList.contains('on') ? notes.offsetWidth + 'px' : '0';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    var dark = slides[i].classList.contains('divider');
+    stage.classList.toggle('dark', dark);
+    counter.style.color = dark ? '#7E8CA5' : '';
+    document.getElementById('deckname').style.color = dark ? '#7E8CA5' : '';
+    progress.style.background = dark ? '#8EC5FF' : '';
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === slides.length - 1;
+    var n = slides[i].querySelector('.notes');
+    notesBody.textContent = n ? n.textContent : 'Inga anteckningar för den här sliden.';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') { notes.classList.toggle('on'); fit(); }
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); this.blur(); });
+  document.getElementById('next').addEventListener('click', function(){ show(i + 1); this.blur(); });
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){ show(parseInt(location.hash.slice(1), 10) - 1 || 0); });
+  fit();
+  show(parseInt(location.hash.slice(1), 10) - 1 || 0);
+})();
+</script>
+</body>
+</html>
