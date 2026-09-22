@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code in VS Code: install it and organise your projects – Growth Toolbox</title>
+<meta name="description" content="Lecture and exercises: install Claude Code, use it inside VS Code, keep every AI project in its own folder under one parent folder, and switch between projects. One step per slide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Claude Code in VS Code – slide deck
+   Same stage as the GTM deck. The bold element here is the terminal
+   panel: the exact command a student types and what comes back. The
+   second is the folder tree: where a project lives. Everything else is quiet.
+   ========================================================================== */
+:root {
+  --ground: #E9EDF2;
+  --stage:  #F7F8FA;
+  --panel:  #0E1726;
+  --panel-ink: #E8EEF8;
+  --ink:    #0B1F3A;
+  --ink-2:  #4A5B71;
+  --ink-3:  #7C8A9E;
+  --rule:   #CBD4DF;
+  --accent: #2E6BFF;
+  --accent-wash: rgba(46,107,255,.16);
+  --ok:     #178A5E;
+  --ok-wash:#E1F3EB;
+  --warn:   #B45309;
+  --warn-wash:#FCEFDD;
+  --sans: "Space Grotesk", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+/* Stage: a 1600×900 canvas scaled to fit the viewport ------------------- */
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;background:var(--stage);box-shadow:0 30px 80px rgba(11,31,58,.18);overflow:hidden}
+.slide{position:absolute;inset:0;padding:96px 120px 120px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide:focus{outline:none}
+
+/* Typography ------------------------------------------------------------ */
+h1{font-size:76px;line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 28px;max-width:22ch}
+h2{font-size:66px;line-height:1.06;letter-spacing:-.025em;font-weight:700;margin:0 0 32px;max-width:24ch}
+.byline{font-size:34px;line-height:1.3;color:var(--ink-2);margin:-10px 0 40px;max-width:44ch}
+p,li{font-size:32px;line-height:1.4;margin:0}
+p+p{margin-top:18px}
+.lede{font-size:38px;color:var(--ink-2);max-width:32ch}
+.small{font-size:24px;color:var(--ink-2)}
+.muted{color:var(--ink-3)}
+ul,ol{margin:0;padding-left:1.1em}
+li+li{margin-top:16px}
+li::marker{color:var(--accent);font-weight:600}
+code{font-family:var(--mono);font-size:.86em;background:#FFFFFF;border:1px solid var(--rule);padding:.05em .35em;border-radius:6px;white-space:nowrap}
+a{color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent-wash)}
+kbd{font-family:var(--mono);font-size:.8em;background:#fff;border:1px solid var(--rule);border-bottom-width:3px;border-radius:6px;padding:.05em .4em}
+b{font-weight:600}
+
+/* Structural pieces ----------------------------------------------------- */
+.step{font-family:var(--mono);font-size:24px;color:var(--ink-3);margin:0 0 22px;display:flex;align-items:center;gap:18px}
+.step .part{color:var(--accent);font-weight:700}
+.step .part.solo::after{display:none}
+.step .part::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rule);margin:0 0 4px 18px;vertical-align:middle}
+.body{flex:1;display:grid;grid-template-columns:1fr;gap:40px;align-content:start;margin-bottom:24px}
+.body.two{grid-template-columns:1fr 1fr}
+.body.split{grid-template-columns:1.1fr .9fr}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.card h3{font-size:30px;margin:0 0 12px}
+.card code{white-space:normal;word-break:break-all}
+.card p,.card li{font-size:26px;line-height:1.38}
+.outcome{margin-top:auto;background:var(--ok-wash);border-left:8px solid var(--ok);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.outcome b{color:var(--ok)}
+.warn{background:var(--warn-wash);border-left:8px solid var(--warn);border-radius:8px;padding:22px 30px;font-size:28px;line-height:1.4}
+.warn b{color:var(--warn)}
+
+/* Code panel ------------------------------------------------------------ */
+pre{margin:0;background:var(--panel);color:var(--panel-ink);font-family:var(--mono);font-size:26px;line-height:1.5;padding:28px 34px;border-radius:12px;white-space:pre-wrap;word-break:break-word;overflow:hidden}
+pre .c{color:#7E8CA5}
+pre .k{color:#8EC5FF}
+pre .s{color:#B9E39C}
+pre .hl{background:rgba(142,197,255,.18);outline:1px solid #8EC5FF;border-radius:4px;padding:0 .2em}
+
+/* Settings table: the fields to fill in inside Tag Manager (the bold element) */
+.settings{width:100%;border-collapse:collapse;background:#fff;border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:24px;line-height:1.35}
+.settings th,.settings td{text-align:left;padding:13px 22px;border-bottom:1px solid var(--rule);vertical-align:top}
+.settings tr:last-child td{border-bottom:0}
+.settings th{width:38%;font-weight:500;color:var(--ink-2);font-size:22px;background:#F2F5F9}
+.settings td{font-family:var(--mono);font-size:22px}
+.settings td.sans{font-family:var(--sans);font-size:23px}
+.settings caption{caption-side:top;text-align:left;font:600 22px var(--mono);color:var(--accent);padding:0 0 12px}
+.settings .var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px}
+
+/* The inspect highlight ------------------------------------------------- */
+.inspect{position:relative;display:inline-block;background:var(--accent-wash);outline:2px solid var(--accent);border-radius:2px;padding:.05em .2em}
+.inspect .tip{position:absolute;left:0;top:calc(100% + 12px);white-space:nowrap;background:var(--panel);color:#fff;font:400 20px var(--mono);padding:8px 14px;border-radius:6px}
+.inspect .tip b{color:#8EC5FF;font-weight:400}
+.inspect .tip i{color:#9AA6B8;font-style:normal;margin-left:10px}
+
+/* A fake site button, to show what the student is looking for ----------- */
+.fakebtn{display:inline-block;background:#5B3A29;color:#fff;font:600 26px var(--sans);padding:16px 30px;border-radius:8px}
+.fakebtn.ghost{background:transparent;color:#5B3A29;border:2px solid #A98A78}
+
+/* Title slide ----------------------------------------------------------- */
+.title{justify-content:center;padding-left:140px}
+.title .tag{font-family:var(--mono);font-size:44px;color:var(--ink-3);font-weight:400;display:block;line-height:1.1}
+.title h1{font-size:130px;margin:6px 0 6px;max-width:none;letter-spacing:-.04em}
+.title .meta{margin-top:56px;font-size:28px;color:var(--ink-2)}
+.title .meta span{display:inline-block;margin-right:48px}
+
+/* Section divider ------------------------------------------------------- */
+.divider{justify-content:center;background:var(--panel);color:#fff}
+.divider .step{color:#8EC5FF}
+.divider h1{color:#fff;font-size:110px;max-width:none;letter-spacing:-.035em}
+.divider p{color:#B8C4D6;font-size:36px;max-width:34ch}
+
+/* Table ----------------------------------------------------------------- */
+table{border-collapse:collapse;width:100%;font-size:25px;line-height:1.35}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:22px}
+table.dense{font-size:22px}
+table.dense td,table.dense th{padding:11px 16px}
+.slide:has(.byline) .body li,.slide:has(.byline) .body>div>p:not(.small):not(.lede){font-size:28px;line-height:1.38}
+.slide:has(.byline) .body li+li{margin-top:12px}
+.slide:has(.byline) .card li,.slide:has(.byline) .card p{font-size:25px}
+.tight .byline{margin-bottom:18px}
+.tight table.dense{font-size:20px}
+.tight table.dense td,.tight table.dense th{padding:8px 14px}
+td code{font-size:.82em}
+.slide:has(.outcome) .body li,.slide:has(.warn) .body li{font-size:28px;line-height:1.38}
+.slide:has(.outcome) .body li+li,.slide:has(.warn) .body li+li{margin-top:12px}
+.slide:has(.outcome) h2,.slide:has(.warn) h2{margin-bottom:26px}
+.outcome,.warn{font-size:26px;padding:18px 28px}
+
+
+/* Folder tree: where a project lives ------------------------------------ */
+.tree{font-family:var(--mono);font-size:26px;line-height:1.55;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:26px 34px;white-space:pre;margin:0}
+.tree .d{color:var(--accent);font-weight:700}
+.tree .f{color:var(--ink-2)}
+.tree .hl{background:var(--accent-wash);border-radius:4px;padding:0 .2em}
+.tree .c{color:var(--ink-3)}
+pre .p{color:#8EC5FF;user-select:none}
+pre .o{color:#B8C4D6}
+.slide:has(.outcome) .tree,.slide:has(.warn) .tree{font-size:23px}
+.slide:has(.outcome) pre,.slide:has(.warn) pre{font-size:23px}
+
+/* Chrome: counter, progress, help --------------------------------------- */
+#progress{position:absolute;left:0;bottom:0;height:8px;background:var(--accent);width:0;transition:width .25s}
+#counter{position:absolute;right:196px;bottom:38px;font:400 20px var(--mono);color:var(--ink-3)}
+#deckname{position:absolute;left:48px;bottom:34px;font:400 20px var(--mono);color:var(--ink-3)}
+.divider #counter,.divider #deckname{color:#7E8CA5}
+#nav{position:absolute;right:48px;bottom:22px;display:flex;gap:10px}
+#nav button{width:56px;height:56px;border-radius:50%;border:2px solid var(--rule);background:#fff;color:var(--ink);font:400 26px var(--sans);cursor:pointer;display:grid;place-items:center;transition:background .12s,border-color .12s}
+#nav button:hover,#nav button:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#nav button:disabled{opacity:.3;cursor:default;border-color:var(--rule);color:var(--ink)}
+#stage.dark #nav button{background:transparent;color:#fff;border-color:#3B4A63}
+#stage.dark #nav button:hover{border-color:#8EC5FF;color:#8EC5FF}
+#help{position:fixed;left:16px;top:16px;font:400 13px var(--mono);color:var(--ink-3);background:rgba(255,255,255,.7);padding:6px 10px;border-radius:6px;opacity:.9}
+#notes{position:fixed;right:0;top:0;bottom:0;width:min(420px,40vw);background:#fff;border-left:1px solid var(--rule);padding:24px;overflow:auto;font-size:16px;line-height:1.5;display:none}
+#notes.on{display:block}
+#notes h4{margin:0 0 12px;font-size:13px;color:var(--ink-3);font-weight:600}
+.notes{display:none}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;box-shadow:none;page-break-after:always;margin:0 auto}
+  .slide{position:relative;display:flex!important;height:900px;page-break-after:always}
+  #help,#notes,#progress,#counter,#deckname,#nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){#progress{transition:none}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="help">← → next slide · N notes · F fullscreen</div>
+<aside id="notes"><h4>Teacher notes</h4><div id="notes-body"></div></aside>
+
+<div id="viewport">
+<div id="stage">
+
+<!-- ====================================================================== -->
+<!-- PART 0 · INTRO                                                         -->
+<!-- ====================================================================== -->
+
+<section class="slide title">
+  <span class="tag">$ cd ~/AI-projects</span>
+  <h1>Claude Code in VS Code</h1>
+  <span class="tag">$ claude</span>
+  <p class="meta"><span>Growth Toolbox</span><span>Install it and organise your projects</span><span>Jesper Åström</span></p>
+  <div class="notes">Two lines of terminal frame the title on purpose. The whole lecture is those two lines: go to a folder, start Claude Code there. Today: install it, put it inside VS Code, build a folder structure, and switch between projects without mixing them up.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What is Claude Code?</h2>
+  <p class="byline">An AI assistant that runs in a terminal and works on the files in one folder.</p>
+  <div class="body two">
+    <div class="card">
+      <h3>The chat on claude.ai</h3>
+      <ul>
+        <li>You paste text in. You copy text out.</li>
+        <li>It cannot see your files.</li>
+        <li>It cannot create or change files on your computer.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Claude Code</h3>
+      <ul>
+        <li>You start it inside a folder on your computer.</li>
+        <li>It reads the files in that folder, creates new ones and edits them, after asking you.</li>
+        <li>Inside VS Code you see every change as a diff before you accept it.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">Ask: who has copied code from a chat window into a file and got it wrong? Claude Code removes the copying. It works directly in the folder. The price is that you have to be careful about which folder you start it in. That is the whole of Part 2 and 3.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">The one idea to remember</h2>
+  <p class="byline">A folder is a project. Claude Code sees the folder you start it in, and nothing else.</p>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>You open a folder in VS Code.</li>
+        <li>You open a terminal in VS Code. The terminal starts <b>in that folder</b>.</li>
+        <li>You type <code>claude</code>. Claude Code starts <b>in that folder</b>.</li>
+        <li>Everything it reads and writes stays inside that folder. Your conversation is saved for that folder too.</li>
+      </ol>
+    </div>
+    <div>
+      <pre><span class="c"># the folder you start in = the project</span>
+<span class="p">$</span> cd ~/AI-projects/hello-page
+<span class="p">$</span> claude
+
+<span class="o">╭──────────────────────────────╮
+│ Welcome to Claude Code        │
+│ cwd: ~/AI-projects/hello-page │
+╰──────────────────────────────╯</span></pre>
+    </div>
+  </div>
+  <div class="notes">cwd means current working directory. Say it in plain words: the folder you are standing in. If students start Claude Code on the Desktop, it will treat the whole Desktop as one project. That is the mistake we prevent with the parent folder.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">Our folder structure</h2>
+  <p class="byline">One parent folder for all AI projects. One subfolder per project. Nothing else inside.</p>
+  <div class="body two">
+    <div>
+      <pre class="tree"><span class="d">Home folder</span>  <span class="c">(Users/yourname)</span>
+└── <span class="d hl">AI-projects</span>       <span class="c">← the parent folder</span>
+    ├── <span class="d">hello-page</span>    <span class="c">← project 1</span>
+    │   ├── <span class="f">index.html</span>
+    │   └── <span class="f">CLAUDE.md</span>
+    ├── <span class="d">recipe-list</span>   <span class="c">← project 2</span>
+    │   └── <span class="f">CLAUDE.md</span>
+    └── <span class="d">…</span>             <span class="c">← every new idea</span></pre>
+    </div>
+    <div>
+      <ul>
+        <li><b>You always know where things are.</b> Every project is one folder in one place.</li>
+        <li><b>Projects cannot mix.</b> Claude Code in <code>recipe-list</code> never touches <code>hello-page</code>.</li>
+        <li><b>Easy to back up, share or delete.</b> Zip one folder, or drag it to the bin.</li>
+        <li><b>Easy to open.</b> In VS Code you open the project folder, not the parent.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">We build exactly this tree today. Name of the parent folder is a suggestion; the rule is that it exists, that it is in the home folder, and that every project is a direct subfolder of it. Lowercase names with dashes, no spaces: spaces cause trouble in terminals.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Intro</span></p>
+  <h2 style="max-width:none">What you need before we start</h2>
+  <p class="byline">Three things. Check them now. The slides show macOS first and add the Windows command where it differs.</p>
+  <div class="cols3">
+    <div class="card">
+      <h3>A computer you can install on</h3>
+      <p>macOS or Windows 10/11. You need to be allowed to install programs.</p>
+    </div>
+    <div class="card">
+      <h3>A Claude account</h3>
+      <p>Claude Code needs a paid plan: <b>Claude Pro</b> or <b>Max</b> at <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>, or an API account at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>.</p>
+    </div>
+    <div class="card">
+      <h3>Internet</h3>
+      <p>The installer downloads Claude Code. Logging in opens a browser window.</p>
+    </div>
+  </div>
+  <div class="outcome" style="margin-top:28px"><b>Done when</b> you can log in at claude.ai and see a Pro or Max plan, or you have an API account with credits.</div>
+  <div class="notes">Do this check before the install slides, not after. Students on the free plan get stuck at the login step. If the school pays for a Team plan, that works too.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 1 · INSTALL                                                       -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 1 of 3</p>
+  <h1>Install</h1>
+  <p>VS Code, then Claude Code, then the extension that joins them. Log in once.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 1 of 20</p>
+  <h2>Install VS Code</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Go to <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>.</li>
+        <li>Click the big blue <b>Download</b> button. It picks the right version for your computer.</li>
+        <li><b>macOS:</b> open the downloaded zip, drag <b>Visual Studio Code</b> into the <b>Applications</b> folder.<br><b>Windows:</b> run the downloaded installer and click <b>Next</b> until it finishes.</li>
+        <li>Open VS Code.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Already have VS Code?</h3>
+      <p>Open it and choose <b>Help → About</b> (on macOS: <b>Code → About Visual Studio Code</b>).</p>
+      <p>The version must be <b>1.94</b> or newer for the Claude Code extension. If it is older, choose <b>Help → Check for Updates</b>.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> VS Code is open and shows its Welcome page.</div>
+  <div class="notes">Most students have VS Code already. Use the time to check versions. On macOS the first launch asks whether to open a downloaded app: click Open.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 2 of 20</p>
+  <h2>Open the terminal inside VS Code</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the top menu, choose <b>Terminal → New Terminal</b>.</li>
+        <li>A panel opens at the bottom of the window. This is the terminal.</li>
+        <li>The last line ends with a prompt. On macOS it looks like <code>yourname@MacBook ~ %</code>. On Windows it looks like <code>PS C:\Users\yourname&gt;</code>.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">Keyboard shortcut: <kbd>Ctrl</kbd> + <kbd>`</kbd> (the key under Escape) on both macOS and Windows.</p>
+    </div>
+    <div>
+      <pre><span class="c"># macOS: the terminal is zsh</span>
+<span class="p">yourname@MacBook ~ %</span> █
+
+<span class="c"># Windows: the terminal is PowerShell</span>
+<span class="p">PS C:\Users\yourname&gt;</span> █</pre>
+      <p class="small" style="margin-top:16px">The <code>~</code> and <code>C:\Users\yourname</code> both mean your <b>home folder</b>. That is where the terminal starts when no folder is open.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you see the prompt and a blinking cursor. Type <code>pwd</code> and press <kbd>Enter</kbd>: it prints your home folder.</div>
+  <div class="notes">pwd = print working directory. It works in both zsh and PowerShell. Get every student to run it now; the answer tells them where they are, which is the skill this lecture is about.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 3 of 20</p>
+  <h2>Install Claude Code</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click in the terminal panel.</li>
+        <li>Copy the command for your computer from the right and paste it into the terminal.</li>
+        <li>Press <kbd>Enter</kbd>. Text scrolls by for a minute. Wait for the prompt to come back.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">This is the installer from Anthropic's own instructions at <a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener">code.claude.com/docs</a>. It keeps itself updated afterwards.</p>
+    </div>
+    <div>
+      <pre><span class="c"># macOS</span>
+<span class="p">%</span> curl -fsSL https://claude.ai/install.sh | bash
+
+<span class="c"># Windows (PowerShell)</span>
+<span class="p">PS&gt;</span> irm https://claude.ai/install.ps1 | iex</pre>
+      <div class="warn" style="margin-top:20px"><b>Windows only</b> If the terminal says <code>bash</code> instead of <code>PS</code>, you are in Git Bash. Use the macOS command there instead.</div>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the last lines say that Claude Code was installed and the prompt is back.</div>
+  <div class="notes">The macOS installer may ask for the computer password. Windows may show a SmartScreen or execution policy question; answer Yes / Run. If the school blocks curl, the fallback is Homebrew (brew install --cask claude-code) or winget install Anthropic.ClaudeCode.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 4 of 20</p>
+  <h2>Check that it works</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Close the terminal panel: click the <b>bin icon</b> at its top right. Then open a new one with <b>Terminal → New Terminal</b>. A fresh terminal knows about the new program.</li>
+        <li>Type <code>claude --version</code> and press <kbd>Enter</kbd>.</li>
+        <li>Read the answer. It is a version number followed by <b>(Claude Code)</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre><span class="p">%</span> claude --version
+<span class="o">2.1.278 (Claude Code)</span>
+
+<span class="c"># if instead you see this:</span>
+<span class="o">zsh: command not found: claude</span>
+<span class="c"># → quit VS Code completely and open it again</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>claude --version</code> prints a version number. Your number will be newer than the one on the slide.</div>
+  <div class="notes">"command not found" is almost always an old terminal. Quit VS Code fully (Cmd+Q on Mac), reopen, try again. If it still fails, run: claude doctor. It prints where the install went wrong.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 5 of 20</p>
+  <h2>Install the VS Code extension</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Click the <b>Extensions</b> icon in the left bar of VS Code (four small squares), or press <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on macOS, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> on Windows.</li>
+        <li>In the search box, type <b>Claude Code</b>.</li>
+        <li>Pick the one whose publisher is <b>Anthropic</b>. Click <b>Install</b>.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>What the extension adds</h3>
+      <ul>
+        <li>A <b>Claude</b> button at the top right of VS Code that opens Claude Code in a side panel.</li>
+        <li>Every file change shows as a <b>diff</b> in the editor before you accept it.</li>
+        <li>Select some lines in a file and Claude Code sees your selection.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the extension page shows <b>Uninstall</b> instead of Install, and a Claude icon appears at the top right of the VS Code window.</div>
+  <div class="notes">The extension id is anthropic.claude-code. Running claude in the terminal does not install it; it must come from the Marketplace. We still use the terminal in this lecture because the terminal shows the folder. The panel does the same thing; students may use either.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 6 of 20</p>
+  <h2>Log in</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the terminal, type <code>claude</code> and press <kbd>Enter</kbd>.</li>
+        <li>The first time, it asks a few questions. Use the <b>arrow keys</b> and <kbd>Enter</kbd> to answer. Pick any colour theme.</li>
+        <li>When it asks how to log in, choose <b>Claude account with subscription</b> if you have Pro or Max. Choose the <b>Console</b> option if you have an API account.</li>
+        <li>A browser window opens. Log in and click <b>Authorize</b>. Go back to VS Code.</li>
+      </ol>
+    </div>
+    <div>
+      <pre><span class="p">%</span> claude
+
+<span class="o">Select login method:
+❯ 1. Claude account with subscription
+  2. Anthropic Console account</span>
+
+<span class="c"># after the browser step:</span>
+<span class="o">Login successful. Press Enter to continue…</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you are back in the terminal and see the Claude Code welcome box with a text field at the bottom. Type <code>/status</code> and press <kbd>Enter</kbd>: it shows your account email.</div>
+  <div class="notes">If the browser did not open, the terminal prints a link; press c to copy it and paste it in a browser. Wrong account? Type /logout, then /login. The login is saved on the computer; they do this once.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 1</span>Step 7 of 20</p>
+  <h2>Say hello, then leave</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the text field at the bottom, type: <b>Which folder are you working in?</b> Press <kbd>Enter</kbd>.</li>
+        <li>Read the answer. It names your home folder, because that is where the terminal started.</li>
+        <li>Type <code>/exit</code> and press <kbd>Enter</kbd>. You are back at the normal prompt.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">Anything starting with <code>/</code> is a command to Claude Code itself. <code>/help</code> lists them all. Anything else is a message to Claude.</p>
+    </div>
+    <div>
+      <pre><span class="p">&gt;</span> Which folder are you working in?
+
+<span class="o">I'm working in /Users/yourname, which is
+your home folder.</span>
+
+<span class="p">&gt;</span> /exit
+<span class="o">Goodbye!</span>
+<span class="p">yourname@MacBook ~ %</span> █</pre>
+    </div>
+  </div>
+  <div class="warn"><b>Do not build anything here.</b> Your home folder holds everything on the computer. Claude Code would treat all of it as one project. Part 2 gives it a proper home.</div>
+  <div class="notes">This is the deliberate wrong example. Let them see Claude Code answer "home folder", then exit. Next part fixes it. Ctrl+D twice also exits.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 2 · THE PARENT FOLDER                                             -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 2 of 3</p>
+  <h1>One folder per project</h1>
+  <p>Create the parent folder, create your first project inside it, and start Claude Code there.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 8 of 20</p>
+  <h2>Create the parent folder</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the terminal, type the command on the right and press <kbd>Enter</kbd>. It creates a folder called <b>AI-projects</b> in your home folder.</li>
+        <li>Nothing is printed. That means it worked.</li>
+        <li>Check: open <b>Finder</b> (macOS) or <b>File Explorer</b> (Windows) and look in your home folder. The new folder is there.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">You can also create it with right-click → New Folder in Finder or Explorer. The terminal way is the same on every computer, so the slides use it.</p>
+    </div>
+    <div>
+      <pre><span class="c"># macOS and Windows, same command</span>
+<span class="p">%</span> mkdir ~/AI-projects
+
+<span class="c"># check where it went</span>
+<span class="p">%</span> ls ~
+<span class="o">AI-projects  Desktop  Documents  Downloads …</span></pre>
+      <p class="small" style="margin-top:16px"><code>mkdir</code> = make directory. <code>~</code> = your home folder. <code>ls</code> = list what is in a folder.</p>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>ls ~</code> lists <b>AI-projects</b> next to Desktop and Documents.</div>
+  <div class="notes">On Windows PowerShell, mkdir and ls both work, and ~ means the home folder. Finder on macOS hides the home folder by default: press Cmd+Shift+H to open it. Do not let students put the parent folder on the Desktop or in iCloud Drive; syncing folders while Claude Code writes files causes odd errors.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 9 of 20</p>
+  <h2>Create your first project folder</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the terminal, type the command on the right and press <kbd>Enter</kbd>. It creates a folder called <b>hello-page</b> inside <b>AI-projects</b>.</li>
+        <li>Type <code>ls ~/AI-projects</code> and press <kbd>Enter</kbd>. It lists <b>hello-page</b>.</li>
+      </ol>
+      <div class="card" style="margin-top:28px">
+        <h3>Naming rule</h3>
+        <p>Lowercase letters, numbers and dashes only. <code>hello-page</code>, not <code>Hello Page</code>. Spaces and capital letters cause trouble in terminals later.</p>
+      </div>
+    </div>
+    <div>
+      <pre><span class="p">%</span> mkdir ~/AI-projects/hello-page
+<span class="p">%</span> ls ~/AI-projects
+<span class="o">hello-page</span></pre>
+      <pre class="tree" style="margin-top:20px"><span class="d">AI-projects</span>
+└── <span class="d hl">hello-page</span>   <span class="c">← empty, for now</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>ls ~/AI-projects</code> prints <b>hello-page</b>.</div>
+  <div class="notes">Every future project is this one command with a new name. Say that out loud: "new idea, new mkdir inside AI-projects".</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 10 of 20</p>
+  <h2>Open the project folder in VS Code</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the top menu choose <b>File → Open Folder…</b> (on macOS the item is called <b>File → Open…</b>).</li>
+        <li>Go to your home folder, open <b>AI-projects</b>, select <b>hello-page</b> and click <b>Open</b>.</li>
+        <li>VS Code asks <i>Do you trust the authors of the files in this folder?</i> Click <b>Yes, I trust the authors</b>. It is your own folder.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>What changed</h3>
+      <ul>
+        <li>The <b>Explorer</b> on the left now says <b>HELLO-PAGE</b> at the top. It is empty.</li>
+        <li>The window title says <b>hello-page</b>.</li>
+        <li>Every new terminal you open from now on starts <b>inside hello-page</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the Explorer heading reads <b>HELLO-PAGE</b>. Open a new terminal (<b>Terminal → New Terminal</b>), type <code>pwd</code>: it ends with <code>/AI-projects/hello-page</code>.</div>
+  <div class="notes">This is the key slide. VS Code window = one folder = one project. The terminal follows the window. Claude Code follows the terminal. If a student's pwd still says the home folder, they opened a file instead of the folder, or they are using an old terminal panel; close it and open a new one.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 11 of 20</p>
+  <h2>Start Claude Code in the project</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the terminal, which is now inside <b>hello-page</b>, type <code>claude</code> and press <kbd>Enter</kbd>.</li>
+        <li>Read the welcome box. The line <b>cwd</b> shows the folder Claude Code is working in.</li>
+        <li>Ask again: <b>Which folder are you working in?</b> This time the answer ends with <b>hello-page</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <pre><span class="p">%</span> claude
+
+<span class="o">╭─ Welcome to Claude Code
+│  cwd: ~/AI-projects/<span class="hl">hello-page</span>
+╰─</span>
+
+<span class="p">&gt;</span> Which folder are you working in?
+<span class="o">/Users/yourname/AI-projects/hello-page.
+It is currently empty.</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the cwd line and Claude's answer both end with <b>hello-page</b>.</div>
+  <div class="notes">Compare with step 7. Same command, different folder, different project. Claude may also ask "Do you trust the files in this folder?" the first time; answer Yes.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 12 of 20</p>
+  <h2>Let Claude Code build something</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Type this message and press <kbd>Enter</kbd>:<br><b>Create a file called index.html with a simple web page that says "Hello from hello-page".</b></li>
+        <li>Claude Code shows what it wants to write and asks for permission. Press <kbd>Enter</kbd> on <b>Yes</b>.</li>
+        <li>Look at the Explorer on the left. <b>index.html</b> has appeared.</li>
+        <li>Right-click <b>index.html</b> in the Explorer → <b>Reveal in Finder</b> (Windows: <b>Reveal in File Explorer</b>) and double-click it. It opens in your browser.</li>
+      </ol>
+    </div>
+    <div>
+      <pre class="tree"><span class="d">AI-projects</span>
+└── <span class="d">hello-page</span>
+    └── <span class="f hl">index.html</span>   <span class="c">← new</span></pre>
+      <div class="card" style="margin-top:24px">
+        <h3>Why it asked first</h3>
+        <p><b>Yes</b> allows this one change. <b>Yes, and don't ask again</b> allows the same kind of change for the rest of the conversation.</p>
+      </div>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> the browser shows the text <b>Hello from hello-page</b> and the file sits inside the hello-page folder.</div>
+  <div class="notes">This is the payoff: no copy-paste. The file exists on disk, in the right folder, and the browser shows it. With the extension installed, VS Code also opens the file as a diff; students accept it there or in the terminal, both work.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 2</span>Step 13 of 20</p>
+  <h2>Give the project a memory: CLAUDE.md</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Type <code>/init</code> and press <kbd>Enter</kbd>. Claude Code reads the folder and writes a file called <b>CLAUDE.md</b>. Allow it.</li>
+        <li>Open <b>CLAUDE.md</b> from the Explorer. It is a plain text note about the project.</li>
+        <li>Add one line at the end, in your own words, for example: <b>Always write the page text in Swedish.</b> Save with <kbd>Cmd</kbd>+<kbd>S</kbd> / <kbd>Ctrl</kbd>+<kbd>S</kbd>.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>What CLAUDE.md is</h3>
+      <ul>
+        <li>A note that Claude Code reads <b>every time it starts in this folder</b>.</li>
+        <li>Write what the project is, and rules you are tired of repeating.</li>
+        <li>It belongs to <b>this</b> project only. The next project gets its own.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>CLAUDE.md</code> is in the hello-page folder next to <code>index.html</code>, with your line at the end.</div>
+  <div class="notes">CLAUDE.md is the project's instruction sheet. /memory opens it from inside Claude Code. There is also ~/.claude/CLAUDE.md for rules that apply to every project; mention it, do not make them edit it today.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- PART 3 · MANY PROJECTS                                                 -->
+<!-- ====================================================================== -->
+
+<section class="slide divider">
+  <p class="step">Part 3 of 3</p>
+  <h1>Switching between projects</h1>
+  <p>A second project, a second window, and how to come back to a conversation.</p>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 14 of 20</p>
+  <h2>Create a second project</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the terminal, type <code>/exit</code> and press <kbd>Enter</kbd> to leave Claude Code.</li>
+        <li>Type the command on the right and press <kbd>Enter</kbd>. It creates <b>recipe-list</b> next to <b>hello-page</b>.</li>
+        <li>Type <code>ls ~/AI-projects</code>. It now lists both.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">The command uses the full path from <code>~</code>, so it works no matter which folder the terminal is standing in.</p>
+    </div>
+    <div>
+      <pre><span class="p">&gt;</span> /exit
+<span class="p">%</span> mkdir ~/AI-projects/recipe-list
+<span class="p">%</span> ls ~/AI-projects
+<span class="o">hello-page   recipe-list</span></pre>
+      <pre class="tree" style="margin-top:20px"><span class="d">AI-projects</span>
+├── <span class="d">hello-page</span>
+│   ├── <span class="f">CLAUDE.md</span>
+│   └── <span class="f">index.html</span>
+└── <span class="d hl">recipe-list</span>   <span class="c">← new, empty</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>ls ~/AI-projects</code> prints both <b>hello-page</b> and <b>recipe-list</b>.</div>
+  <div class="notes">Same move as step 9. Point at the tree: two siblings under one parent. Nothing inside hello-page changed.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 15 of 20</p>
+  <h2>Open it in a new VS Code window</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Choose <b>File → New Window</b>. An empty VS Code window opens. Your hello-page window stays open behind it.</li>
+        <li>In the new window choose <b>File → Open Folder…</b> (macOS: <b>File → Open…</b>), go to <b>AI-projects</b>, select <b>recipe-list</b>, click <b>Open</b>. Trust the folder.</li>
+        <li>Open a terminal in this window: <b>Terminal → New Terminal</b>. Type <code>pwd</code>. It ends with <b>recipe-list</b>.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>One window per project</h3>
+      <ul>
+        <li>Each VS Code window is one folder.</li>
+        <li>Each window has its own terminal, standing in its own folder.</li>
+        <li>Switch projects by switching windows: <b>Window</b> menu, or <kbd>Cmd</kbd>+<kbd>`</kbd> on macOS.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have two VS Code windows, titled <b>hello-page</b> and <b>recipe-list</b>, and <code>pwd</code> in the new window ends with <b>recipe-list</b>.</div>
+  <div class="notes">Alternative if two windows confuse someone: File → Open Folder in the same window replaces the project. That also works; the terminal restarts in the new folder. Two windows is better for showing that projects are separate.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 16 of 20</p>
+  <h2>Prove the projects are separate</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>In the <b>recipe-list</b> window's terminal, type <code>claude</code> and press <kbd>Enter</kbd>.</li>
+        <li>Ask: <b>Is there a file called index.html here?</b></li>
+        <li>Read the answer: no. Claude Code in recipe-list cannot see hello-page. It does not know it exists.</li>
+        <li>Ask it to build something for this project: <b>Create recipes.md with a list of three breakfast recipes.</b> Allow it.</li>
+      </ol>
+    </div>
+    <div>
+      <pre><span class="o">cwd: /Users/yourname/AI-projects/<span class="hl">recipe-list</span></span>
+
+<span class="p">&gt;</span> Is there a file called index.html here?
+<span class="o">No. This folder is empty.</span>
+
+<span class="p">&gt;</span> Create recipes.md with a list of three
+  breakfast recipes.
+<span class="o">Created recipes.md</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> <code>recipes.md</code> is in recipe-list, and hello-page still has only <code>index.html</code> and <code>CLAUDE.md</code>.</div>
+  <div class="notes">Check the hello-page window's Explorer together: unchanged. This is what the folder structure buys you. Also run /init here so recipe-list gets its own CLAUDE.md, if there is time.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 17 of 20</p>
+  <h2>Continue where you left off</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Switch to the <b>hello-page</b> window.</li>
+        <li>In its terminal, type <code>claude --continue</code> and press <kbd>Enter</kbd>.</li>
+        <li>Your earlier conversation comes back on screen. Ask: <b>What did we build here?</b> It remembers the hello page.</li>
+      </ol>
+      <p class="small" style="margin-top:24px">Conversations are saved <b>per folder</b>. <code>claude --continue</code> reopens the latest one for the folder you are standing in. It will never bring up a recipe-list conversation inside hello-page.</p>
+    </div>
+    <div>
+      <pre><span class="c"># in the hello-page window</span>
+<span class="p">%</span> claude --continue
+
+<span class="o">… Which folder are you working in?
+… Create a file called index.html …
+… /init</span>
+
+<span class="p">&gt;</span> What did we build here?
+<span class="o">A one-page site, index.html, that says
+"Hello from hello-page", plus a CLAUDE.md.</span></pre>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> Claude Code describes index.html without you telling it anything.</div>
+  <div class="notes">Plain claude starts a fresh conversation, which is fine most days. --continue is for "I was in the middle of something". Both are typed at the normal prompt, not inside Claude Code.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 18 of 20</p>
+  <h2>Pick an older conversation</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li>Type <code>/exit</code>. Then type <code>claude --resume</code> and press <kbd>Enter</kbd>.</li>
+        <li>A list of every conversation in <b>this folder</b> appears, newest first. Use the arrow keys and <kbd>Enter</kbd> to open one.</li>
+        <li>To make a conversation easy to find later, name it: inside Claude Code type <code>/rename hello-page-setup</code>.</li>
+      </ol>
+    </div>
+    <div>
+      <table class="dense">
+        <tr><th>Type at the prompt</th><th>What happens</th></tr>
+        <tr><td><code>claude</code></td><td>New conversation in this folder.</td></tr>
+        <tr><td><code>claude --continue</code></td><td>Reopens the latest conversation in this folder.</td></tr>
+        <tr><td><code>claude --resume</code></td><td>Lets you pick any conversation in this folder.</td></tr>
+        <tr><td><code>claude --resume hello-page-setup</code></td><td>Opens the conversation with that name.</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have opened the list, picked a conversation, and given it a name.</div>
+  <div class="notes">Conversations are kept for 30 days by default. Names are optional; the picker shows the first message of each conversation, which is usually enough.</div>
+</section>
+
+<section class="slide tight">
+  <p class="step"><span class="part">Part 3</span>Step 19 of 20</p>
+  <h2>Know where everything lives</h2>
+  <div class="body">
+    <table class="dense">
+      <tr><th>Place</th><th>What is there</th><th>Who it belongs to</th></tr>
+      <tr><td><code>~/AI-projects/</code></td><td>All your projects, one folder each.</td><td class="sans">You. Back this up.</td></tr>
+      <tr><td><code>~/AI-projects/hello-page/CLAUDE.md</code></td><td>Instructions Claude Code reads when it starts in that project.</td><td class="sans">That project.</td></tr>
+      <tr><td><code>~/AI-projects/hello-page/.claude/</code></td><td>Settings for that project, for example what Claude Code may do without asking.</td><td class="sans">That project.</td></tr>
+      <tr><td><code>~/.claude/</code></td><td>Your login, your settings for all projects, and every saved conversation, sorted by project folder.</td><td class="sans">You. Do not edit by hand.</td></tr>
+      <tr><td><code>~/.claude/CLAUDE.md</code></td><td>Instructions for every project, for example "answer in Swedish".</td><td class="sans">You.</td></tr>
+    </table>
+  </div>
+  <div class="outcome"><b>Done when</b> you can answer: where do I put a new project, and where do I write a rule that applies to that project only?</div>
+  <div class="notes">Folders starting with a dot are hidden in Finder and Explorer. Cmd+Shift+. shows them on macOS. Students do not need to open ~/.claude today; they need to know it exists so they do not delete it.</div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part">Part 3</span>Step 20 of 20</p>
+  <h2>Four rules for every new project</h2>
+  <div class="body two">
+    <div>
+      <ol>
+        <li><b>New idea, new folder.</b> <code>mkdir ~/AI-projects/new-idea</code>. Lowercase, dashes.</li>
+        <li><b>Open the project folder in VS Code,</b> never the parent and never the home folder.</li>
+        <li><b>Start Claude Code from a terminal in that window.</b> Check the cwd line.</li>
+        <li><b>Write a CLAUDE.md early.</b> One paragraph: what this is, what it is for, what to avoid.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="warn"><b>Never start <code>claude</code> in your home folder, on the Desktop or in AI-projects itself.</b> It would read everything in there and treat it as one project.</div>
+      <div class="card" style="margin-top:20px">
+        <h3>Need two folders at once?</h3>
+        <p>Inside Claude Code, type <code>/add-dir ~/AI-projects/recipe-list</code>. It can then read that folder too, for this conversation only.</p>
+      </div>
+    </div>
+  </div>
+  <div class="outcome"><b>Done when</b> you have written the four rules at the top of your own <code>~/.claude/CLAUDE.md</code>, or on a sticky note.</div>
+  <div class="notes">Close the loop: the mistake from step 7 is now impossible if they follow rule 2 and 3. /add-dir is the escape hatch for the rare case where one project needs to read another.</div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- SUMMARY                                                                -->
+<!-- ====================================================================== -->
+
+<section class="slide">
+  <p class="step"><span class="part solo">Summary</span></p>
+  <h2 style="max-width:none">What you did today</h2>
+  <p class="byline">Installed one tool. Built one folder structure. Learned one habit.</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><b>Installed</b> VS Code, Claude Code and the extension that joins them, and logged in once.</li>
+        <li><b>Created</b> <code>~/AI-projects</code> with two projects inside, each with its own files and its own CLAUDE.md.</li>
+        <li><b>Started Claude Code</b> from a terminal inside the project window, and checked the cwd line every time.</li>
+        <li><b>Switched</b> between projects with windows, and came back to a conversation with <code>claude --continue</code>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Next</h3>
+      <ul>
+        <li>Make a third project for something you actually want: a landing page, a data cleanup script, a scraper from the <a href="../scraping/index.html" target="_blank" rel="noopener">scraping lecture</a>.</li>
+        <li>Try the Claude panel in VS Code (the icon at the top right) instead of the terminal. Same tool, same folder.</li>
+        <li>Put your project on GitHub Pages the way you did in <a href="../gtm-real-site/index.html" target="_blank" rel="noopener">Tag Manager on a real site</a>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="step"><span class="part solo">Resources</span></p>
+  <h2 style="max-width:none">Read more</h2>
+  <p class="byline">Links and search terms</p>
+  <div class="body two">
+    <div>
+      <ul>
+        <li><a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener">Anthropic: Claude Code quickstart</a></li>
+        <li><a href="https://code.claude.com/docs/en/vs-code" target="_blank" rel="noopener">Anthropic: Claude Code in VS Code</a></li>
+        <li><a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">Anthropic: CLAUDE.md and memory</a></li>
+        <li><a href="https://code.claude.com/docs/en/sessions" target="_blank" rel="noopener">Anthropic: continue and resume sessions</a></li>
+        <li><a href="https://code.visualstudio.com/docs/terminal/basics" target="_blank" rel="noopener">VS Code: the integrated terminal</a></li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><a href="facit/index.html" target="_blank" rel="noopener">Answer sheet</a> <span class="small">every command from today, the finished folder tree, and what to do when something fails</span></li>
+        <li><a href="https://code.claude.com/docs/en/commands" target="_blank" rel="noopener">Anthropic: all slash commands</a> <span class="small">/help inside Claude Code shows the same list</span></li>
+        <li class="small">Search for: <i>claude code install</i>, <i>claude code vs code extension</i>, <i>CLAUDE.md best practices</i>, <i>claude --continue vs --resume</i>, <i>vs code open folder terminal cwd</i></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div id="progress"></div>
+<div id="deckname">claude code in vs code · growth toolbox</div>
+<div id="counter"></div>
+<div id="nav"><button id="prev" type="button" aria-label="Previous slide" title="Previous (←)">&#8592;</button><button id="next" type="button" aria-label="Next slide" title="Next (→)">&#8594;</button></div>
+</div>
+</div>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+  var notes = document.getElementById('notes');
+  var notesBody = document.getElementById('notes-body');
+  var i = 0;
+
+  function fit(){
+    var w = window.innerWidth - (notes.classList.contains('on') ? notes.offsetWidth : 0);
+    var s = Math.min(w / 1600, window.innerHeight / 900);
+    stage.style.transform = 'scale(' + s + ')';
+    document.getElementById('viewport').style.right = notes.classList.contains('on') ? notes.offsetWidth + 'px' : '0';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    var dark = slides[i].classList.contains('divider');
+    stage.classList.toggle('dark', dark);
+    counter.style.color = dark ? '#7E8CA5' : '';
+    document.getElementById('deckname').style.color = dark ? '#7E8CA5' : '';
+    progress.style.background = dark ? '#8EC5FF' : '';
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === slides.length - 1;
+    var n = slides[i].querySelector('.notes');
+    notesBody.textContent = n ? n.textContent : 'No notes for this slide.';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') { notes.classList.toggle('on'); fit(); }
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); this.blur(); });
+  document.getElementById('next').addEventListener('click', function(){ show(i + 1); this.blur(); });
+  window.addEventListener('resize', fit);
+  window.addEventListener('hashchange', function(){ show(parseInt(location.hash.slice(1), 10) - 1 || 0); });
+  fit();
+  show(parseInt(location.hash.slice(1), 10) - 1 || 0);
+})();
+</script>
+</body>
+</html>

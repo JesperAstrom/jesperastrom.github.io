@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer sheet – Claude Code in VS Code</title>
+<meta name="description" content="Every command from the Claude Code lecture, the finished folder tree, and what to do when a step fails.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1F3A;--ink-2:#4A5B71;--ink-3:#7C8A9E;--rule:#CBD4DF;--accent:#2E6BFF;--accent-wash:rgba(46,107,255,.16);--ok:#178A5E;--ok-wash:#E1F3EB;--sans:"Space Grotesk",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FA;color:var(--ink);font-family:var(--sans);line-height:1.5;padding:32px 16px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:2.4rem;letter-spacing:-.02em;margin:0 0 .3em}
+h2{font-size:1.6rem;letter-spacing:-.015em;margin:2.4em 0 .6em;padding-top:.6em;border-top:2px solid var(--ink)}
+h3{font-size:1.05rem;font-family:var(--mono);color:var(--accent);margin:1.8em 0 .5em}
+p{margin:0 0 1em}
+.lede{color:var(--ink-2);font-size:1.15rem;max-width:60ch}
+a{color:var(--accent)}
+code{font-family:var(--mono);font-size:.92em;background:#fff;border:1px solid var(--rule);padding:.05em .35em;border-radius:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:.95rem;margin:0 0 1.2em}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td,tr:last-child th{border-bottom:0}
+th{width:34%;font-weight:500;color:var(--ink-2);background:#F2F5F9;font-size:.88rem}
+td{font-family:var(--mono);font-size:.9rem}
+td.sans{font-family:var(--sans);font-size:.95rem}
+.var{background:var(--accent-wash);color:var(--accent);padding:0 .3em;border-radius:4px}
+.ok{background:var(--ok-wash);border-left:6px solid var(--ok);border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.ok b{color:var(--ok)}
+.muted{color:var(--ink-3)}
+ul{padding-left:1.2em}
+li{margin-bottom:.35em}
+@media (max-width:600px){th{width:40%}}
+pre{font-family:var(--mono);font-size:.9rem;line-height:1.5;background:#0E1726;color:#E8EEF8;padding:14px 18px;border-radius:10px;overflow:auto;margin:0 0 1.2em}
+pre.tree{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+pre .c{color:#7E8CA5}pre.tree .c{color:var(--ink-3)}
+pre .d{color:var(--accent);font-weight:700}
+.warn{background:#FCEFDD;border-left:6px solid #B45309;border-radius:6px;padding:12px 18px;margin:0 0 1.2em}
+.warn b{color:#B45309}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<main>
+
+<p class="muted"><a href="../index.html">← Back to the slides</a></p>
+<h1>Answer sheet</h1>
+<p class="lede">Every command from the lecture <b>Claude Code in VS Code: install it and organise your projects</b>, what each one should print, the folder tree you end up with, and what to do when a step fails. Commands are the same on macOS and Windows unless the sheet says otherwise.</p>
+
+<div class="ok"><b>What your computer has at the end of the day</b> VS Code with the Claude Code extension, Claude Code installed and logged in, a folder <code>~/AI-projects</code> in your home folder, and two projects inside it: <code>hello-page</code> (with <code>index.html</code> and <code>CLAUDE.md</code>) and <code>recipe-list</code> (with <code>recipes.md</code>).</div>
+
+<h2>The finished folder tree</h2>
+<pre class="tree"><span class="d">Home folder</span>              <span class="c">macOS: /Users/yourname   Windows: C:\Users\yourname</span>
+├── <span class="d">AI-projects</span>          <span class="c">the parent folder (step 8)</span>
+│   ├── <span class="d">hello-page</span>       <span class="c">project 1 (step 9)</span>
+│   │   ├── index.html   <span class="c">step 12</span>
+│   │   └── CLAUDE.md    <span class="c">step 13</span>
+│   └── <span class="d">recipe-list</span>      <span class="c">project 2 (step 14)</span>
+│       └── recipes.md   <span class="c">step 16</span>
+└── <span class="d">.claude</span>              <span class="c">hidden. Login, settings, saved conversations. Made by Claude Code, not by you.</span></pre>
+
+<h2>Part 1 · Install</h2>
+
+<h3>Step 2 · Open the terminal in VS Code</h3>
+<table>
+<tr><th>Menu</th><td class="sans">Terminal → New Terminal</td></tr>
+<tr><th>Shortcut</th><td>Ctrl + ` &nbsp;<span class="muted">(the key under Escape, on both macOS and Windows)</span></td></tr>
+<tr><th>Check</th><td>pwd &nbsp;→&nbsp; /Users/yourname &nbsp;<span class="muted">or</span>&nbsp; C:\Users\yourname</td></tr>
+</table>
+
+<h3>Step 3 · Install Claude Code</h3>
+<table>
+<tr><th>macOS (zsh)</th><td>curl -fsSL https://claude.ai/install.sh | bash</td></tr>
+<tr><th>Windows (PowerShell)</th><td>irm https://claude.ai/install.ps1 | iex</td></tr>
+<tr><th>Windows (Git Bash)</th><td>curl -fsSL https://claude.ai/install.sh | bash</td></tr>
+<tr><th>If curl is blocked</th><td>brew install --cask claude-code &nbsp;<span class="muted">(macOS)</span><br>winget install Anthropic.ClaudeCode &nbsp;<span class="muted">(Windows)</span></td></tr>
+</table>
+<p class="muted">Source: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">code.claude.com/docs/en/setup</a>. The installer updates itself in the background afterwards. Nothing else needs to be installed first.</p>
+
+<h3>Step 4 · Check the install</h3>
+<table>
+<tr><th>Command</th><td>claude --version</td></tr>
+<tr><th>Expected</th><td>2.1.278 (Claude Code) &nbsp;<span class="muted">your number will be higher</span></td></tr>
+<tr><th>If "command not found"</th><td class="sans">Quit VS Code completely (macOS: Cmd+Q) and open it again. Then run <code>claude doctor</code>; it tells you what is wrong.</td></tr>
+</table>
+
+<h3>Step 5 · The VS Code extension</h3>
+<table>
+<tr><th>Where</th><td class="sans">Extensions view (Cmd+Shift+X on macOS, Ctrl+Shift+X on Windows)</td></tr>
+<tr><th>Search for</th><td>Claude Code</td></tr>
+<tr><th>Publisher</th><td class="sans">Anthropic &nbsp;<span class="muted">(id: anthropic.claude-code)</span></td></tr>
+<tr><th>Needs</th><td class="sans">VS Code 1.94 or newer</td></tr>
+<tr><th>Check</th><td class="sans">A Claude icon at the top right of the VS Code window.</td></tr>
+</table>
+<p class="muted">Running <code>claude</code> in the terminal does not install the extension. It must come from the Marketplace. If you started Claude Code in a terminal before installing the extension, type <code>/ide</code> inside Claude Code to connect it to the open VS Code window.</p>
+
+<h3>Step 6 · Log in</h3>
+<table>
+<tr><th>Command</th><td>claude</td></tr>
+<tr><th>Choose</th><td class="sans"><b>Claude account with subscription</b> for Pro, Max or Team. <b>Anthropic Console account</b> for an API account.</td></tr>
+<tr><th>Then</th><td class="sans">A browser window opens. Log in, click <b>Authorize</b>, return to VS Code.</td></tr>
+<tr><th>Check</th><td>/status &nbsp;<span class="muted">shows the email you logged in with</span></td></tr>
+<tr><th>Wrong account</th><td>/logout &nbsp;<span class="muted">then</span>&nbsp; /login</td></tr>
+<tr><th>Browser did not open</th><td class="sans">Press <code>c</code> in the terminal to copy the login link, paste it into any browser.</td></tr>
+</table>
+
+<h3>Step 7 · Leave Claude Code</h3>
+<table>
+<tr><th>Command</th><td>/exit &nbsp;<span class="muted">or press Ctrl+D twice</span></td></tr>
+<tr><th>Other commands</th><td>/help &nbsp;<span class="muted">list all commands</span>&nbsp;·&nbsp; /status &nbsp;<span class="muted">account and folder</span></td></tr>
+</table>
+
+<h2>Part 2 · One folder per project</h2>
+
+<h3>Steps 8 and 9 · Create the folders</h3>
+<pre><span class="c"># the parent folder</span>
+mkdir ~/AI-projects
+
+<span class="c"># the first project</span>
+mkdir ~/AI-projects/hello-page
+
+<span class="c"># check</span>
+ls ~/AI-projects
+<span class="c"># → hello-page</span></pre>
+<p class="muted"><code>mkdir</code> makes a folder, <code>ls</code> lists a folder, <code>~</code> is your home folder. All three work in zsh on macOS and in PowerShell on Windows. Folder names: lowercase letters, numbers and dashes. No spaces.</p>
+
+<h3>Step 10 · Open the project folder in VS Code</h3>
+<table>
+<tr><th>Menu</th><td class="sans">File → Open Folder… &nbsp;<span class="muted">(macOS: File → Open…)</span></td></tr>
+<tr><th>Pick</th><td class="sans">Home folder → AI-projects → hello-page → Open</td></tr>
+<tr><th>Trust dialog</th><td class="sans">Yes, I trust the authors</td></tr>
+<tr><th>Check</th><td class="sans">Explorer heading says <b>HELLO-PAGE</b>. A new terminal (Terminal → New Terminal) answers <code>pwd</code> with a path ending in <code>/AI-projects/hello-page</code>.</td></tr>
+</table>
+
+<h3>Steps 11 and 12 · Start Claude Code and build</h3>
+<pre>claude
+<span class="c"># welcome box shows: cwd: /Users/yourname/AI-projects/hello-page</span>
+
+&gt; Which folder are you working in?
+&gt; Create a file called index.html with a simple web page that says "Hello from hello-page".
+<span class="c"># answer Yes to the permission question</span></pre>
+<table>
+<tr><th>Check</th><td class="sans"><code>index.html</code> appears in the Explorer. Right-click → Reveal in Finder / File Explorer, double-click it, the browser shows "Hello from hello-page".</td></tr>
+<tr><th>Permission answers</th><td class="sans"><b>Yes</b> = this change only. <b>Yes, and don't ask again</b> = this kind of change for the rest of the conversation. <b>No</b> = skip it and tell Claude what to do instead.</td></tr>
+</table>
+
+<h3>Step 13 · CLAUDE.md</h3>
+<table>
+<tr><th>Command</th><td>/init</td></tr>
+<tr><th>Result</th><td class="sans">A file <code>CLAUDE.md</code> in the project folder. Claude Code reads it every time it starts in this folder.</td></tr>
+<tr><th>Edit it</th><td class="sans">Open it from the Explorer, or type <code>/memory</code> inside Claude Code.</td></tr>
+<tr><th>Write in it</th><td class="sans">What the project is, who it is for, and rules you do not want to repeat. Plain sentences.</td></tr>
+</table>
+<p>A good first CLAUDE.md for hello-page:</p>
+<pre># hello-page
+
+A single static web page used to learn Claude Code.
+Keep everything in one file, index.html. No frameworks, no build step.
+Write all visible text in Swedish.</pre>
+
+<h2>Part 3 · Switching between projects</h2>
+
+<h3>Steps 14 to 16 · Second project</h3>
+<pre>/exit
+mkdir ~/AI-projects/recipe-list
+ls ~/AI-projects
+<span class="c"># → hello-page   recipe-list</span></pre>
+<table>
+<tr><th>New window</th><td class="sans">File → New Window, then File → Open Folder… → AI-projects → recipe-list</td></tr>
+<tr><th>Terminal</th><td class="sans">Terminal → New Terminal in the new window. <code>pwd</code> ends with <code>recipe-list</code>.</td></tr>
+<tr><th>Start</th><td>claude</td></tr>
+<tr><th>Ask</th><td class="sans">"Is there a file called index.html here?" → No. Claude Code only sees recipe-list.</td></tr>
+<tr><th>Build</th><td class="sans">"Create recipes.md with a list of three breakfast recipes." → <code>recipes.md</code> appears in recipe-list only.</td></tr>
+<tr><th>Switch windows</th><td class="sans">Window menu, or Cmd+` on macOS, Alt+Tab on Windows</td></tr>
+</table>
+
+<h3>Steps 17 and 18 · Come back to a conversation</h3>
+<table>
+<tr><th>claude</th><td class="sans">Starts a new conversation in the folder you are standing in.</td></tr>
+<tr><th>claude --continue</th><td class="sans">Reopens the latest conversation in this folder.</td></tr>
+<tr><th>claude --resume</th><td class="sans">Shows a list of all conversations in this folder. Arrow keys and Enter to pick one.</td></tr>
+<tr><th>claude --resume NAME</th><td class="sans">Opens the conversation you named.</td></tr>
+<tr><th>/rename NAME</th><td class="sans">Inside Claude Code: gives the current conversation a name.</td></tr>
+</table>
+<p class="muted">Conversations are saved per folder, in <code>~/.claude/projects/</code>. A conversation from recipe-list never shows up in hello-page. Saved conversations are kept for 30 days by default.</p>
+
+<h3>Step 19 · Where things live</h3>
+<table>
+<tr><th>~/AI-projects/</th><td class="sans">All your projects. Back this folder up.</td></tr>
+<tr><th>~/AI-projects/NAME/CLAUDE.md</th><td class="sans">Instructions for that one project.</td></tr>
+<tr><th>~/AI-projects/NAME/.claude/settings.json</th><td class="sans">Settings for that one project, for example what Claude Code may do without asking.</td></tr>
+<tr><th>~/.claude/CLAUDE.md</th><td class="sans">Instructions for every project you have.</td></tr>
+<tr><th>~/.claude/settings.json</th><td class="sans">Your settings for every project.</td></tr>
+<tr><th>~/.claude/projects/</th><td class="sans">Saved conversations, one subfolder per project folder. Do not edit by hand.</td></tr>
+</table>
+
+<h3>Step 20 · The four rules</h3>
+<ul>
+<li><b>New idea, new folder.</b> <code>mkdir ~/AI-projects/new-idea</code></li>
+<li><b>Open the project folder in VS Code.</b> Not the parent folder, not the home folder.</li>
+<li><b>Start Claude Code from a terminal in that window.</b> Read the cwd line in the welcome box.</li>
+<li><b>Write a CLAUDE.md early.</b> One paragraph is enough.</li>
+</ul>
+<div class="warn"><b>Never start <code>claude</code> in your home folder, on the Desktop or directly in AI-projects.</b> It would read everything in there and treat it as one project. If one project needs to read another, type <code>/add-dir ~/AI-projects/other-project</code> inside Claude Code instead.</div>
+
+<h2>When something fails</h2>
+<table>
+<tr><th>command not found: claude</th><td class="sans">Old terminal. Quit VS Code fully and reopen. Then <code>claude doctor</code>.</td></tr>
+<tr><th>Login loops or says free plan</th><td class="sans">Claude Code needs Pro, Max, Team or an API account. Check at claude.ai. Then <code>/logout</code>, <code>/login</code>.</td></tr>
+<tr><th>Claude says the folder is empty but it is not</th><td class="sans">It is standing in the wrong folder. Type <code>/exit</code>, check <code>pwd</code>, open the right folder with File → Open Folder, open a new terminal, start again.</td></tr>
+<tr><th>Files land in the wrong folder</th><td class="sans">Same cause. The cwd line in the welcome box tells you where files will go.</td></tr>
+<tr><th>pwd still shows the home folder after Open Folder</th><td class="sans">The terminal panel is older than the folder. Close it (bin icon) and open a new one.</td></tr>
+<tr><th>Windows: install command errors in the terminal</th><td class="sans">Check the prompt. <code>PS</code> = PowerShell, use the irm command. <code>bash</code> = Git Bash, use the curl command.</td></tr>
+<tr><th>Claude Code is out of date</th><td class="sans"><code>claude update</code> in the terminal.</td></tr>
+</table>
+
+</main>
+</body>
+</html>
